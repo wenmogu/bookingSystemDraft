@@ -1,0 +1,40 @@
+<%= JSON.stringify(profile) %>
+<br/>
+gid: <%= groupid%>
+<br/>
+booking: <%= booking%>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>	
+		<meta charset="utf-8">
+		<title>Hello, <%= profile.displayName %></title>
+	</head>
+	<body>
+		<h1>Your Group ID: <%= groupid %></h1>
+		<h1>Welcome to View Booking page, <%= profile.displayName %></h1>
+
+		<a href="/logout">Logout</a>
+
+		<% for (var d=booking.length - 1; d > -1; d--) { %>
+			<h3> DATE: <%=dates[d] %></h3>
+			
+			<% if (booking[d].length == 0) { %>
+				<p>No booking slot</p>
+			<% } else { %>
+				<% for (var i = 0; i < booking[d].length; i++) { %>
+					<p>GROUP ID: <%=booking[d][i].groupid%></p>
+					<p>ROOMNUMBER: <%=booking[d][i].roomid%></p>
+					<p>TIMESLOT STARTS AT: <%=booking[d][i].start%></p>
+					<p>TIMESLOT ENDS AT: <%=booking[d][i].end%></p>
+					<p>
+						<a href="/cancelBooking?groupid=<%=booking[d][i].groupid%>&room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>">Cancel Booking</a>
+					</p>
+					<br/><br/>
+				<% } %>
+			<% } %>
+		<% } %>
+
+		<a href="/info">View General Info</a>
+	</body>
+</html>
