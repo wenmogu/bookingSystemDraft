@@ -46,18 +46,39 @@ class BookRecord extends Model {
 		return BookRecord.query().delete().where({roomid:rid, groupid:gid, date: d, start:start, end:end});
 	}
 
-	static numberOfBookingByAGroupOnDay(rid, gid, d) {//101, 1, '2017-7-8'
-		return Promise.resolve(BookRecord.query().count('groupid').where({roomid:rid, date:d, groupid:gid}))
+	static numberOfBookingByAGroupOnDay(gid, d) {//101, 1, '2017-7-8'
+		return Promise.resolve(BookRecord.query().count('groupid').where({date:d, groupid:gid}))
 		.then(resul=> {
-			console.log(resul);
 			return Promise.resolve(resul[0]['count(`groupid`)']);
 		}, err=> {
 			console.error(err);
 		})
 	}
 
+	static numberOfBookingByAGroupInNextNDays(gid, n) {
+		var emptyarr = [];
+		var datearr = newDate.datesHyphenString(n);
+		function helper(count) {
+			if (count < datearr.length) {
+				return BookRecord.numberOfBookingByAGroupOnDay(gid, datearr[count])
+				.then(num => {
+					emptyarr.push({dateString:datearr[count], numberOfBooking:num});
+					return helper(count + 1);
+				})
+			} else {
+				return Promise.resolve(emptyarr);
+			}
+		}
+		return helper(0);
+		// [ { dateString: '2017-8-15', numberOfBooking: 0 },
+		//   { dateString: '2017-8-14', numberOfBooking: 0 },
+		//   { dateString: '2017-8-13', numberOfBooking: 2 },
+		//   { dateString: '2017-8-12', numberOfBooking: 0 },
+		//   { dateString: '2017-8-11', numberOfBooking: 2 },
+		//   { dateString: '2017-8-10', numberOfBooking: 2 } ]
+	}
+
 	static BookingByAGroupOnDay(gid, d) {
-		console.log(d);
 		return BookRecord.query().where({groupid:gid, date:d});
 	}
 
@@ -111,32 +132,6 @@ class BookRecord extends Model {
 		})
 	}
 
-	// static BookingByAllGroupsOnDayOnSlot(d, start) {
-	// 	var emptyarr = [];
-	// 	var allRooms;
-	// 	return Room.allRoomNumber()
-	// 	.then(resul=> {
-	// 		allRooms = resul;
-	// 	})
-	// 	.then(()=> {
-	// 		function helper(count) {
-	// 			if (count < allRooms.length) {
-	// 				return BookRecord.BookingByAllGroupsOnDayOnSlotOnRoom(d, start, allRooms[count].rid)
-	// 				.then(resul => {
-	// 					emptyarr.push(resul);
-	// 				})
-	// 				.then(()=> {
-	// 					return helper(count + 1);
-	// 				})
-	// 			} else {
-	// 				return Promise.resolve(emptyarr);
-	// 			}
-	// 		}
-	// 		return helper(0);
-	// 	})
-
-	// }
-
 	static BookingByAllGroupsOnDayOnRoom(d, roomid, startarr) {
 		var emptyarr = [];
 		function helper(count) {
@@ -179,24 +174,6 @@ class BookRecord extends Model {
 			return helper(0);
 		})
 	}
-
-	// static BookingByAllGroupsOnDay(d, startarr) {
-	// 	var emptyarr = [];
-	// 	function helper(count) {
-	// 		if (count < startarr.length - 1) {
-	// 			return BookRecord.BookingByAllGroupsOnDayOnSlot(d, startarr[count])
-	// 			.then(resul=> {
-	// 				emptyarr.push(resul);
-	// 			})
-	// 			.then(()=> {
-	// 				return helper(count + 1);
-	// 			})
-	// 		} else {
-	// 			return Promise.resolve(emptyarr);
-	// 		}
-	// 	}
-	// 	return helper(0);
-	// }
 
 	static BookingByAllGroupsInNextNDays(n, nslots) {
 		var emptyarr = [];

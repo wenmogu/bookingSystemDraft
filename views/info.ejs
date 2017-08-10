@@ -17,6 +17,7 @@ dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringA
 <%=JSON.stringify(dateAndTimeString)%>
 <br/>
 
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -63,21 +64,41 @@ dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringA
 	    					<% for (var n = 0; n < numberOfTimeslots - 1; n++) { %>
 	    						<% if (booking[d][u][n].length == 1) { %>
 	    							<!-- the room on this day at this timeslot is booked by someone -->
-	    							<td></td>
+	    							<td><button onclick="location.href='/report?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> REPORT </button></td>
 	    						<% } else if (booking[d][u][n].length == 0) { %>
-	    							
-
-	    							<% if (dates[d] == dateAndTimeString.dateString) { %>
-	    								<% if (timeStringArray[n] > dateAndTimeString.timeString) { %>
-	    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
-	    								<% } else { %>
-	    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> BOOK </button></td>
-	    								<% } %>
+	    							<% if (profile == undefined || profile.groupid == undefined || profile.groupid == 1) { %>
+	    							<!-- repetition -->
+		    							<% if (dates[d] == dateAndTimeString.dateString) { %>
+		    								<% if (timeStringArray[n] > dateAndTimeString.timeString) { %>
+		    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+		    								<% } else { %>
+		    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> BOOK </button></td>
+		    								<% } %>
+		    							<% } else { %>
+		    								<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+		    							<% } %>
+	    							<!-- repetition -->
 	    							<% } else { %>
-	    								<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+	    								<% if (dateAndNumber[d].dateString == dates[d]) { %>
+	    									<% if (dateAndNumber[d].numberOfBooking >= bookingLimit) { %>
+	    										<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> BOOK </button></td>
+	    									<% } else { %>
+	    										<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+	    									<% } %>
+	    								<% } else { %>
+	    								<!-- repetition -->
+			    							<% if (dates[d] == dateAndTimeString.dateString) { %>
+			    								<% if (timeStringArray[n] > dateAndTimeString.timeString) { %>
+			    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+			    								<% } else { %>
+			    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> BOOK </button></td>
+			    								<% } %>
+			    							<% } else { %>
+			    								<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+			    							<% } %>
+		    							<!-- repetition -->
+	    								<% } %>
 	    							<% } %>
-
-	    							
 	    						<% } %>
 	    					<% } %>
 	    					

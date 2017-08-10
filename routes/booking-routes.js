@@ -7,6 +7,7 @@ var newDate = require('../api/date-methods');
 
 var checkNDays = 4;
 var nslots = 9;
+var bookingLimit = 2;
 
 
 isLoggedIn = function(req, res, next) {
@@ -61,11 +62,31 @@ module.exports = function(app, passport) {
     app.get('/info',function(req, res) {
     	BookRecord.BookingByAllGroupsInNextNDays(checkNDays, nslots)
     	.then(resul=>{
-    		console.log(resul);
     		Room.allRoomNumber()
     		.then(roomnumbers => {
-    			res.render('info.ejs', {profile:req.user, booking:resul, allRoomNumber:roomnumbers, dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringArray(6, 0, 0, nslots), numberOfTimeslots: nslots, dateAndTimeString:new newDate().toDateAndTimeString()});
-    		})
+    			if (req.user == undefined) {
+    				res.render('info.ejs', {profile:req.user, booking:resul, allRoomNumber:roomnumbers, dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringArray(6, 0, 0, nslots), numberOfTimeslots: nslots, dateAndTimeString:new newDate().toDateAndTimeString()});
+    				throw("render info page");
+    			} else {
+    				User.getUserInfo(req.user.NusNetsID)
+    				.then(userinfo=> {
+    					if (userinfo.groupid == null) {
+    						res.render('info.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid}, booking:resul, allRoomNumber:roomnumbers, dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringArray(6, 0, 0, nslots), numberOfTimeslots: nslots, dateAndTimeString:new newDate().toDateAndTimeString()});
+    						throw("render info page");
+    					} else {
+    						BookRecord.numberOfBookingByAGroupInNextNDays(userinfo.groupid, checkNDays)
+    						.then(dateAndNumber=> {
+    							res.render('info.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, booking:resul, allRoomNumber:roomnumbers, dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringArray(6, 0, 0, nslots), numberOfTimeslots: nslots, dateAndTimeString:new newDate().toDateAndTimeString(), dateAndNumber:dateAndNumber, bookingLimit:bookingLimit});
+    							throw("render info page");
+    						},null)
+    					}
+    				}, null)
+    			}
+    		}, null)
+    	}).catch(err => {
+	        console.log("OMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
+	        console.error(err);
+	        console.log("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
     	})
     });
 

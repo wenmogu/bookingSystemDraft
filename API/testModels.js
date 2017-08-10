@@ -86,14 +86,14 @@ Model.knex(knex);
 // 		console.log('lolol', id);
 // 	})
 
-var lala = new newDate().addDays(0);
+// var lala = new newDate().addDays(0);
 
-BookRecord.makeBooking(102, 1, lala.toHyphenString(), '14:00:00', '16:00:00').then(resul=>{
-	console.log(resul);
-})
-BookRecord.makeBooking(101, 1, lala.toHyphenString(), '12:00:00', '14:00:00').then(resul=>{
-	console.log(resul);
-})
+// BookRecord.makeBooking(102, 1, lala.toHyphenString(), '14:00:00', '16:00:00').then(resul=>{
+// 	console.log(resul);
+// })
+// BookRecord.makeBooking(101, 1, lala.toHyphenString(), '12:00:00', '14:00:00').then(resul=>{
+// 	console.log(resul);
+// })
 
 
 
@@ -256,3 +256,7 @@ BookRecord.makeBooking(101, 1, lala.toHyphenString(), '12:00:00', '14:00:00').th
 // 	console.log(JSON.stringify(resul));
 // })
 //[[],[{"roomid":101,"groupid":1,"date":"2017-08-12T16:00:00.000Z","start":"12:00:00","end":"14:00:00"}],[],[],[],[]]
+
+BookRecord.numberOfBookingByAGroupInNextNDays(1, 5).then(resul=> {
+	console.log(resul);
+})
