@@ -33,6 +33,14 @@ class Room extends Model {
 			}
 		};
 	}
+
+	static allRoomNumber() {
+		return Room.query()
+		.then(roomnumbers=> {
+			return Promise.resolve(roomnumbers);
+			//[{"rid":100},{"rid":101},{"rid":102},{"rid":103},{"rid":104},{"rid":105}]
+		})
+	}
 }
 
 module.exports = Room

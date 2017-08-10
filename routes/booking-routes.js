@@ -1,10 +1,13 @@
 const User = require('../models/user');
 const Zu = require('../models/zu');
+const Room = require('../models/room');
 const BookRecord = require('../models/bookrecord');
 var control = require('./control');
 var newDate = require('../api/date-methods');
 
 var checkNDays = 4;
+var nslots = 9;
+
 
 isLoggedIn = function(req, res, next) {
     if(req.isAuthenticated()) {
@@ -44,7 +47,7 @@ module.exports = function(app, passport) {
                 	BookRecord.BookingByAGroupInNextNDays(gid, checkNDays, [])
                 	.then(resul=> {
                 		res.render('viewBooking.ejs', 
-                			{profile:req.user, groupid: gid, booking:resul, dates:newDate.datesHyphenString(checkNDays)});
+                			{profile:req.user, groupid: gid, booking:resul, dates:newDate.datesHyphenString(checkNDays), dateAndTimeString:new newDate().toDateAndTimeString()});
                 	}, err=> {
                 		console.error(err);
                 	})
@@ -55,8 +58,15 @@ module.exports = function(app, passport) {
                 )
     })
 
-    app.get('/info', function(req, res) {
-    	res.render('info.ejs')
+    app.get('/info',function(req, res) {
+    	BookRecord.BookingByAllGroupsInNextNDays(checkNDays, nslots)
+    	.then(resul=>{
+    		console.log(resul);
+    		Room.allRoomNumber()
+    		.then(roomnumbers => {
+    			res.render('info.ejs', {profile:req.user, booking:resul, allRoomNumber:roomnumbers, dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringArray(6, 0, 0, nslots), numberOfTimeslots: nslots, dateAndTimeString:new newDate().toDateAndTimeString()});
+    		})
+    	})
     });
 
     app.get('/booking');
