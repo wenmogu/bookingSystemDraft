@@ -11,7 +11,7 @@ function control(req, res, ifGroupFull, ifGroupNotFull, ifNotInGroup, ifNotRegis
         } else {
             //user hasnt registered
             ifNotRegistered();
-            throw("user hasnt registered");s
+            throw("user hasnt registered");
         }
     })
     .then(boo => {

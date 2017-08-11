@@ -1,0 +1,25 @@
+
+{profile:req.user, groupid:gid, roomid:rid, date:d, start:start, end:end}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <a href="/info">View General Info</a>
+    <a href="/viewBooking">View Booking Info</a>
+    <a href="/logout">logout</a>
+    <h3>Group <%= groupid %>, your booking is cancelled. Details below: </h3>
+    <h4>Cancellation info: </h4>
+	<p>Name: <%= profile.displayName %></p>
+	<p>Group ID: <%= groupid %></p>
+	<p>Room Number: <%= roomid %></p>
+	<p>Date: <%= date %></p>
+	<p>Time start: <%= start %></p>
+	<p>Time end: <%= end %></p>
+  </body>
+</html>
+
+				

@@ -29,23 +29,18 @@ dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringA
 		<% } %>
 	</head> 
 	<body>
-		<p>
-			<a href="/logout">Logout</a>
-		</p>
-		<p>
-          	<a href="/viewBooking">View My Booking Info</a>
-        </p>
-	    <div>
-	      	<% if (profile == undefined) { %>
-	        	<form id="myform" action="/auth/openid" method="post">
-	            	<div>
-	                	<input type="text" name="openid_identifier" value='https://openid.nus.edu.sg' hidden/><br/>
-	                	<a class="btn btn-warning" href="#" onclick="document.getElementById('myform').submit()">Login With Your NUSID</a>
-	            	</div>
-	        	</form>
-	      	<% } else{ %>
-	      	<% } %>
-	    </div>
+		<% if(profile == undefined) { %>
+			<form id="myform" action="/auth/openid" method="post">
+            	<div>
+                	<input type="text" name="openid_identifier" value='https://openid.nus.edu.sg' hidden/><br/>
+                	<a class="btn btn-warning" href="#" onclick="document.getElementById('myform').submit()">Login With Your NUSID</a>
+            	</div>
+        	</form>
+		<% } else { %>
+			<p><a href="/logout">Logout</a></p>
+		<% } %>
+		
+		<p><a href="/viewBooking">View My Booking Info</a></p>
 
 	    <% for (var d = dates.length - 1; d > -1; d--) { %>
 	    	<div>

@@ -5,6 +5,7 @@ const BookRecord = require('../models/bookrecord');
 const newDate = require('./date-methods');
 const Room = require('../models/room');
 
+const mailer = require('./mailer');
 
 const {Model} = require('objection');
 const Knex = require('knex');
@@ -257,6 +258,11 @@ Model.knex(knex);
 // })
 //[[],[{"roomid":101,"groupid":1,"date":"2017-08-12T16:00:00.000Z","start":"12:00:00","end":"14:00:00"}],[],[],[],[]]
 
-BookRecord.numberOfBookingByAGroupInNextNDays(1, 5).then(resul=> {
-	console.log(resul);
-})
+// BookRecord.numberOfBookingByAGroupInNextNDays(1, 5).then(resul=> {
+// 	console.log(resul);
+// })
+
+
+// User.getMembersEmail(1).then(resul=> {console.log(resul)});
+
+mailer.sendEmailTo('text', 'subject', ['e0052753@u.nus.edu']).then(resul=> {console.log(resul)});

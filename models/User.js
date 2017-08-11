@@ -90,7 +90,7 @@ class User extends Model {
 
 	static getUserGroupId(id) {
 		return User.query().where('uid', id).then(person => {
-			return person[0].groupid;
+			return Promise.resolve(person[0].groupid);
 		});
 	}
 
@@ -101,6 +101,27 @@ class User extends Model {
 			} else {
 				return Promise.resolve(null);
 			}
+		})
+	}
+
+	//precondition:gid exist
+	static getMembersEmail(gid) {
+		var info;
+		var emptyarr = [];
+		return User.getMembersInfo(gid)
+		.then(resul=> {
+			info = resul;
+		})
+		.then(()=> {
+			function helper(count) {
+				if (count < info.length) {
+					emptyarr.push(info[count].email);
+					return helper(count + 1);
+				} else {
+					return Promise.resolve(emptyarr);
+				}
+			}
+			return helper(0);
 		})
 	}
 

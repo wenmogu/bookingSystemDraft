@@ -1,0 +1,34 @@
+{profile:req.user, groupid:gid, roomid:rid, date:d, start:start, end:end}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Group <%= groupid %></h3>
+    <a href="/info">View General Info</a>
+    <form action="/manageCancel" method="post">
+        <fieldset>
+          <legend>Cancellation Form</legend>
+            <label>User</label>
+              <input id="username" name='username' value='<%=profile.displayName%>' type="text" disabled>
+            <label>Group ID</label>
+              <input id="groupid" name='groupid' value='<%=groupid%>' type="text" disabled>
+            <label>Room Number</label>
+              <input id="roomid" name='roomid' value='<%=roomid%>' type="text" disabled>
+            <label>Date</label>
+              <input id="date" name='date' value='<%=date%>' type="text" disabled>
+            <label>Time Start</label>
+              <input id="start" name='start' value='<%=start%>' type="text" disabled>
+            <label>Time End</label>
+              <input id="end" name='end' value='<%=end%>' type="text" disabled>
+            <label>Reason</label>
+              <input id="reason" name='reason' type="text">
+
+            <button type="submit">Submit</button>
+        </fieldset>
+    </form>
+  </body>
+</html>

@@ -1,7 +1,10 @@
 const {Model} = require('objection');
+const User = require('./user');
 const Zu = require('./zu');
 const Token = require('./token');
 const Room = require('./room');
+
+const mailer = require('../api/mailer');
 
 const newDate = require('../api/date-methods');
 /*
@@ -16,6 +19,7 @@ const newDate = require('../api/date-methods');
 > d.toTimeString();
 '16:57:06 GMT+0800 (Malay Peninsula Standard Time)'
 */
+
 
 class BookRecord extends Model {
 /*--------------------------------schema checked against when creating instances of User--------------------------------------*/
@@ -38,12 +42,44 @@ class BookRecord extends Model {
 		};
 	}
 
-	static makeBooking(rid, gid, d, start, end) {//101, 1, '2017-7-8', '2:00:00', '4:00:00'
-		return BookRecord.query().insert({roomid:rid, groupid:gid, date: d, start:start, end:end});
+	static makeBooking(user, rid, gid, d, start, end) {//101, 1, '2017-7-8', '2:00:00', '4:00:00'
+		var text = user + " has helped Group " + gid + " booked Room " + rid + ". Details below: Room: " + rid +", date: " + d + " , start: " + start + ", end: " + end + ".";
+		var subject = "Group " + gid + " has made a booking." ;
+		var recipients;
+		return BookRecord.query().insert({roomid:rid, groupid:gid, date: d, start:start, end:end})
+		.then(resul=> {
+			User.getMembersEmail(gid)
+			.then(arr=> {
+				recipients = arr;
+				return Promise.resolve(true);
+			})
+			.then(bool=> {
+				mailer.sendEmailTo(text, subject, recipients)
+				.then(()=> {
+					console.log("mails sent 👌 " );
+				})
+			})
+		})
 	}
 
-	static cancelBooking(rid, gid, d, start, end) {//101, 1, '2017-7-8', '2:00:00', '4:00:00'
-		return BookRecord.query().delete().where({roomid:rid, groupid:gid, date: d, start:start, end:end});
+	static cancelBooking(user, rid, gid, d, start, end) {//101, 1, '2017-7-8', '2:00:00', '4:00:00'
+		var text = user + " has helped Group " + gid + " cancelled the booking of Room" + rid + ". Details below: Room: " + rid +", date: " + d + " , start: " + start + ", end: " + end + ".";
+		var subject = "Group " + gid + " has made a booking." ;
+		var recipients;
+		return BookRecord.query().delete().where({roomid:rid, groupid:gid, date: d, start:start, end:end})
+		.then(resul=> {
+			User.getMembersEmail(gid)
+			.then(arr=> {
+				recipients = arr;
+				return Promise.resolve(true);
+			})
+			.then(bool=> {
+				mailer.sendEmailTo(text, subject, recipients)
+				.then(()=> {
+					console.log("mails sent 👌 ");
+				})
+			})
+		})	
 	}
 
 	static numberOfBookingByAGroupOnDay(gid, d) {//101, 1, '2017-7-8'
@@ -76,6 +112,23 @@ class BookRecord extends Model {
 		//   { dateString: '2017-8-12', numberOfBooking: 0 },
 		//   { dateString: '2017-8-11', numberOfBooking: 2 },
 		//   { dateString: '2017-8-10', numberOfBooking: 2 } ]
+	}
+
+	static totalNumberOfBookingByAGroupInNextNDays(gid, n) {
+		var zero = 0;
+		var datearr = newDate.datesHyphenString(n);
+		function helper(count) {
+			if (count < datearr.length) {
+				return BookRecord.numberOfBookingByAGroupOnDay(gid, datearr[count])
+				.then(num=> {
+					zero = zero + num;
+					return helper(count + 1);
+				})
+			} else {
+				return Promise.resolve(zero);
+			}
+		}
+		return helper(0);
 	}
 
 	static BookingByAGroupOnDay(gid, d) {
@@ -208,6 +261,17 @@ class BookRecord extends Model {
 	 		console.error(err);
 	 		console.log("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
 	 	})
+	}
+
+	static isTimeSlotBookedBy(rid, d, start, end, gid) {
+		return BookRecord.query().where({roomid:rid, date:d, start:start, end:end, groupid:gid})
+		.then(resul=> {
+			if (resul.length > 0) {
+				return Promise.resolve(true);
+			} else {
+				return Promise.resolve(false);
+			}
+		})
 	}
 }
 

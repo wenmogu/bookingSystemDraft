@@ -3,6 +3,7 @@ const Zu = require('../models/zu');
 const Room = require('../models/room');
 const BookRecord = require('../models/bookrecord');
 var control = require('./control');
+var bookorcancel = require('./book-cancel');
 var newDate = require('../api/date-methods');
 
 var checkNDays = 4;
@@ -53,10 +54,28 @@ module.exports = function(app, passport) {
                 		console.error(err);
                 	})
                 }, 
-                function(gid){res.redirect('/manageRegister')},
-                function(){res.redirect('/manageRegister')},
-                function(){res.redirect('/register')}
-                )
+                function(gid){
+                    BookRecord.totalNumberOfBookingByAGroupInNextNDays(gid, checkNDays)
+                    .then(num=> {
+                        if (num == 0) {
+                            res.redirect('/manageRegisiter');
+                        } else {
+                            BookRecord.BookingByAGroupInNextNDays(gid, checkNDays, [])
+                            .then(resul=> {
+                                res.render('viewBooking.ejs', 
+                                    {profile:req.user, groupid: gid, booking:resul, dates:newDate.datesHyphenString(checkNDays), dateAndTimeString:new newDate().toDateAndTimeString()});
+                            }, err=> {
+                                console.error(err);
+                            })        
+                        }
+                    })
+                },
+                function(){
+                    res.redirect('/manageRegister')
+                },
+                function(){
+                    res.redirect('/register')
+                })
     })
 
     app.get('/info',function(req, res) {
@@ -90,13 +109,93 @@ module.exports = function(app, passport) {
     	})
     });
 
-    app.get('/booking');
+    app.get('/booking', isLoggedIn, function(req, res) {
+        // console.log(req.url);
+        // /booking?room=105&start=20:00:00&end=22:00:00&date=2017-8-11
+        if (req.url == '/booking') {
+            res.redirect('/info');
+        } else {
+            const rid = parseInt(req.url.split('=')[1].split('&')[0]);
+            const d = req.url.split('=')[4];
+            const start = req.url.split('=')[2].split('&')[0];
+            const end = req.url.split('=')[3].split('&')[0];
+            control(req, res, 
+                    function(gid) {
+                        bookorcancel.bookForm(req, res, rid, d, start, end, gid);
+                    }, 
+                    function(gid) {
+                        res.redirect('/manageRegister')
+                    }, 
+                    function() {
+                        res.redirect('/manageRegister')
+                    }, 
+                    function() {
+                        res.redirect('/register')
+                    })   
+        }
+    });
 
-    app.get('/manageBooking');
+    app.post('/manageBooking', isLoggedIn, function(req, res) {
+        // console.log(req.headers.referer);
+        // http://localhost:3000/cancelBooking?room=102&start=14:00:00&end=16:00:00&date=2017-8-13
+        const rid = parseInt(req.headers.referer.split('=')[1].split('&')[0]);
+        const d = req.headers.referer.split('=')[4];
+        const start = req.headers.referer.split('=')[2].split('&')[0];
+        const end = req.headers.referer.split('=')[3].split('&')[0];
+        const timeStringArray = newDate.timeStringArray(6, 0, 0, nslots);
 
-    app.get('/cancelBooking');
+        if (timeStringArray.includes(start) && timeStringArray.includes(end)) {
+             User.getUserGroupId(req.user.NusNetsID)
+            .then(gid=> {
+                bookorcancel.manageBooking(req, res, rid, d, start, end, gid);
+            })   
+        } else {
+            res.redirect('/info');
+        } 
+    });
 
-    app.get('/manageCancel');
+    app.get('/cancelBooking', isLoggedIn, function(req, res) {
+        if (req.url == '/cancelBooking') {
+            res.redirect('/viewBooking')
+        } else {
+            const rid = parseInt(req.url.split('=')[1].split('&')[0]);
+            const d = req.url.split('=')[4];
+            const start = req.url.split('=')[2].split('&')[0];
+            const end = req.url.split('=')[3].split('&')[0];
+            control(req, res, 
+                    function(gid) {
+                        bookorcancel.cancelForm(req, res, rid, d, start, end, gid);
+                    }, 
+                    function(gid) {
+                        bookorcancel.cancelForm(req, res, rid, d, start, end, gid);
+                    }, 
+                    function() {
+                        res.redirect('/manageRegister')
+                    }, 
+                    function() {
+                        res.redirect('/register')
+                    })
+        }
+    });
+
+    app.post('/manageCancel', isLoggedIn, function(req, res) {
+        // console.log(req.headers.referer);
+        // http://localhost:3000/cancelBooking?room=102&start=14:00:00&end=16:00:00&date=2017-8-13
+        const rid = parseInt(req.headers.referer.split('=')[1].split('&')[0]);
+        const d = req.headers.referer.split('=')[4];
+        const start = req.headers.referer.split('=')[2].split('&')[0];
+        const end = req.headers.referer.split('=')[3].split('&')[0];
+        const timeStringArray = newDate.timeStringArray(6, 0, 0, nslots);
+        
+        if (timeStringArray.includes(start) && timeStringArray.includes(end)) {
+             User.getUserGroupId(req.user.NusNetsID)
+            .then(gid=> {
+                bookorcancel.manageCancel(req, res, rid, d, start, end, gid);
+            })   
+        } else {
+            res.redirect('/info');
+        } 
+    });
 
     //for testing purpose: 
     app.get('/register', isLoggedIn, function(req, res) {
