@@ -52,6 +52,19 @@ class Zu extends Model {
 		return Zu.query().delete().where('gid', gid);
 	}
 
+	static numberOfWarning(gid) {
+		return Zu.query().where({gid:gid})
+		.then(resul=> {
+			console.log("at group, ", JSON.stringify(resul));
+			console.log("at group, number of warning: ", resul[0].warning);
+			if (resul.length == 0) {
+				return Promise.resolve(0);
+			} else {
+				return Promise.resolve(resul[0].warning);
+			}
+		})
+	}
+
 }
 
 module.exports = Zu

@@ -125,6 +125,16 @@ class User extends Model {
 		})
 	}
 
+	static getGroupWarning(uid) {
+		return User.getUserGroupId(uid)
+		.then(gid=> {
+			return Zu.numberOfWarning(gid)
+			.then(num=> {
+				console.log("user, numberOfWarning: ", num);
+				return Promise.resolve(num);
+			})
+		})
+	}
 
 /*----------------AddOrRemove---------------------*/
 //if patch resul is 0, that means nothing is modified. 

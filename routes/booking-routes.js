@@ -6,41 +6,11 @@ var control = require('./control');
 var bookorcancel = require('./book-cancel');
 var newDate = require('../api/date-methods');
 
+const isLoggedIn = require('./isLoggedIn');
+
 var checkNDays = 4;
 var nslots = 9;
 var bookingLimit = 2;
-
-
-isLoggedIn = function(req, res, next) {
-    if(req.isAuthenticated()) {
-        User.isUserInDB(req.user.NusNetsID)
-        .then(boo => {
-            if (boo == true) {
-                return next();
-            } else {
-            res.redirect('/');
-            }
-        })
-    } else {
-        res.redirect('/');
-    }
-}
-/*
-> d.toString();
-'Sat Aug 05 2017 16:57:06 GMT+0800 (Malay Peninsula Standard Time)'
-> d.toLocaleDateString();
-'8/5/2017'
-> d.toLocaleString();
-'8/5/2017, 4:57:06 PM'
-> d.toDateString();
-'Sat Aug 05 2017'
-> d.toTimeString();
-'16:57:06 GMT+0800 (Malay Peninsula Standard Time)'
-*/
-
-
-
-
 
 module.exports = function(app, passport) {
 	app.get('/viewBooking', isLoggedIn, function(req, res) {
@@ -143,8 +113,14 @@ module.exports = function(app, passport) {
         const start = req.headers.referer.split('=')[2].split('&')[0];
         const end = req.headers.referer.split('=')[3].split('&')[0];
         const timeStringArray = newDate.timeStringArray(6, 0, 0, nslots);
+        const datesHyphenString = newDate.datesHyphenString(checkNDays);
+        const dateAndTimeString = new newDate().toDateAndTimeString();
 
-        if (timeStringArray.includes(start) && timeStringArray.includes(end)) {
+        if (timeStringArray.includes(start) && 
+            timeStringArray.includes(end) && 
+            datesHyphenString.includes(d) && 
+            d >= dateAndTimeString.dateString && 
+            start > dateAndTimeString.timeString) {
              User.getUserGroupId(req.user.NusNetsID)
             .then(gid=> {
                 bookorcancel.manageBooking(req, res, rid, d, start, end, gid);
@@ -186,8 +162,14 @@ module.exports = function(app, passport) {
         const start = req.headers.referer.split('=')[2].split('&')[0];
         const end = req.headers.referer.split('=')[3].split('&')[0];
         const timeStringArray = newDate.timeStringArray(6, 0, 0, nslots);
-        
-        if (timeStringArray.includes(start) && timeStringArray.includes(end)) {
+        const datesHyphenString = newDate.datesHyphenString(checkNDays);
+        const dateAndTimeString = new newDate().toDateAndTimeString();
+
+        if (timeStringArray.includes(start) && 
+            timeStringArray.includes(end) && 
+            datesHyphenString.includes(d) && 
+            d >= dateAndTimeString.dateString && 
+            start > dateAndTimeString.timeString) {
              User.getUserGroupId(req.user.NusNetsID)
             .then(gid=> {
                 bookorcancel.manageCancel(req, res, rid, d, start, end, gid);

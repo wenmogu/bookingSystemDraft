@@ -15,38 +15,14 @@ var bookingRoutes = require('./booking-routes');
 */
 const {Model} = require('objection');
 const Knex = require('knex');
-const knexConfig = require('../knexfile');
-
-const knex = Knex(knexConfig.development);
+const config = require('../knexfile');
+var env         = 'development';  
+var knex        = require('knex')(config[env]);
 
 Model.knex(knex);
 
-isLoggedIn = function(req, res, next) {
-    if(req.isAuthenticated()) {
-        User.isUserInDB(req.user.NusNetsID)
-        .then(boo => {
-            if (boo == true) {
-                return next();
-            } else {
-            res.redirect('/');
-            }
-        })
-    } else {
-        res.redirect('/');
-    }
-}
+const isLoggedIn = require('./isLoggedIn');
 
-Date.prototype.addDays = function(days) {
-    var dat = new Date(this.valueOf());
-    dat.setDate(dat.getDate() + days);
-    return dat;
-}
-
-var today = new Date();
-var tmr = today.addDays(1);
-var twoDaysLater = today.addDays(2);
-var threeDaysLater = today.addDays(3);
-var fourDaysLater = today.addDays(4);
 
 module.exports = function (app,passport) {
     app.get('/',function (req,res) {
