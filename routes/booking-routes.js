@@ -178,14 +178,6 @@ module.exports = function(app, passport) {
             res.redirect('/info');
         } 
     });
-
-    //for testing purpose: 
-    app.get('/register', isLoggedIn, function(req, res) {
-        res.send("hello register pls")
-    })
-    app.get('/manageRegister', isLoggedIn, function(req, res) {
-        res.send('manage register');
-    })
 }
 
 

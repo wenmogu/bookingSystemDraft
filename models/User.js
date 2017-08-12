@@ -160,7 +160,7 @@ class User extends Model {
 	}
 
 /*------------TrueOrFalse-------------------------*/
-	 static isUserInDB(id) {
+	static isUserInDB(id) {
 	 	return User.query().where('uid', id)
 	 	.then(resul=> {
 	 		if (resul.length > 0) {
@@ -173,7 +173,19 @@ class User extends Model {
 	 		console.error(err);
 	 		console.log("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
 	 	})
-	 }
+	}
+
+	//precondition: user is in DB
+	static hasUserRegistered(id) {
+		return User.query().where('uid', id)
+		.then(resul=> {
+			if(resul[0].name == null) {
+				return Promise.resolve(false);
+			} else {
+				return Promise.resolve(true);
+			}
+		})
+	}
 /*-------------Auto-update------------------------*/
 	static updateUserEmail(id, email) {
 		return User.query().patch({email: email}).where('uid', id);

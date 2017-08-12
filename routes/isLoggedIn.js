@@ -7,16 +7,24 @@ module.exports = function(req, res, next) {
         User.isUserInDB(req.user.NusNetsID)
         .then(boo => {
             if (boo == true) {
-                User.getGroupWarning(req.user.NusNetsID)
-                .then(num=> {
-                    console.log("warning", num);
-                    if (num < warningLimit) {
+                User.getUserGroupId(req.user.NusNetsID)
+                .then(gid=> {
+                    if (gid == null) {
                         return next();
                     } else {
-                        res.redirect('/warning?userid=' + req.user.NusNetsID);
-                        throw("redirected to warning page");
+                        User.getGroupWarning(req.user.NusNetsID)
+                        .then(num=> {
+                            console.log("warning", num);
+                            if (num < warningLimit) {
+                                return next();
+                            } else {
+                                res.redirect('/warning?userid=' + req.user.NusNetsID);
+                                throw("redirected to warning page");
+                            }
+                        }, null)        
                     }
-                }, null)
+                })
+                
             } else {
             res.redirect('/');
             }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% if (profile.displayName == "") { %>
+      <title>We didn't manage to get your information. Please fill it in.</title>
+    <% } else { %>
+      <title>Hello, <%= profile.displayName %></title>
+    <% } %>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% if (profile.displayName == "") { %>
+      <h1>We didn't manage to get your information. Please fill it in.</h1>
+      <h2>Please fill in your information accurately. Your NUSNETSID is used for authentication and your nus webmail is for receiving important information.</h2>
+    <form action="/processRegister" method="post">
+        <fieldset>
+          <legend>Registration Form</legend>
+            <label>User Name</label>
+              <input id="displayName" name='displayName' type="text">
+            <label>NUSNETS ID</label>
+              <input id="NusNetsID" name='NusNetsID' type="text">
+            <label>Email</label>
+              <input id="email" name='email' type="text">
+            <button type="submit">I ALLOW RVRC ROOM BOOKING SYSTEM TO USE MY INFORMATION WITHIN THIS SYSTEM</button>
+        </fieldset>
+    </form>
+    <% } else { %>
+      <h1>Hello, <%= profile.displayName %></h1>
+      <h2> Your NUSNETSID is used for authentication and your email is for receiving important information. </h2>
+    <form action="/processRegister" method="post">
+        <fieldset>
+          <legend>Registration Form</legend>
+            <label>User Name</label>
+              <input id="displayName" name='displayName' value='<%=profile.displayName%>' type="text" disabled>
+            <label>NUSNETS ID</label>
+              <input id="NusNetsID" name='NusNetsID' value='<%=profile.NusNetsID%>' type="text" disabled>
+            <label>Email</label>
+              <input id="email" name='email' value='<%=profile.emails[0].value%>' type="text" disabled>
+            <button type="submit">I ALLOW RVRC ROOM BOOKING SYSTEM TO USE MY INFORMATION WITHIN THIS SYSTEM</button>
+        </fieldset>
+    </form>
+    <% } %>
+    
+
+    <a href="/info">View General Info</a>
+    <a href="/logout">Logout</a>
+
+
+  </body>
+</html>

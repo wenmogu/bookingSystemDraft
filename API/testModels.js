@@ -265,4 +265,8 @@ Model.knex(knex);
 
 // User.getMembersEmail(1).then(resul=> {console.log(resul)});
 
-mailer.sendEmailTo('text', 'subject', ['e0052753@u.nus.edu']).then(resul=> {console.log(resul)});
+// mailer.sendEmailTo('text', 'subject', ['e0052753@u.nus.edu']).then(resul=> {console.log(resul)});
+
+// User.addUid('e0032334').then(resul=> {
+// 	console.log(resul)
+// })

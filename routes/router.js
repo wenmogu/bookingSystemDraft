@@ -1,6 +1,7 @@
 const User = require('../models/user');
 var limit = 1;
 var bookingRoutes = require('./booking-routes');
+var registrationRoutes = require('./registration-routes');
 /*
 > d.toString();
 'Sat Aug 05 2017 16:57:06 GMT+0800 (Malay Peninsula Standard Time)'
@@ -42,4 +43,5 @@ module.exports = function (app,passport) {
     );
 
     bookingRoutes(app, passport);
+    registrationRoutes(app, passport);
 }
