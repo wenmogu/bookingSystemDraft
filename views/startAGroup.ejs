@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <a href="/info">View General Info</a>
+    <a href="/logout">logout</a>
+    <h4> THINGS TO TAKE NOTE: </h4>
+    <p> After creating this group, you cannot join any other group. You can only invite others to join your group.</p>
+    <p> If you want to leave the group, please kindly dismiss the group, which will result in all your fellow members losing their group, or </p>
+    <p> contact the admin. </p>
+    <form action="/manageStartAGroup" method="post">
+        <fieldset>
+          <legend>Start A Group</legend>
+            <label>User</label>
+              <input id="username" name='username' value='<%=profile.displayName%>' type="text" disabled>
+            <label>NUSNETS ID</label>
+              <input id="NusNetsID" name='NusNetsID' value='<%=profile.NusNetsID%>' type="text" disabled>
+            <label>Email</label>
+              <input id="email" name='email' value='<%=profile.emails[0].value%>' type="text" disabled>
+            <button type="submit">I WANT TO START A GROUP</button>
+        </fieldset>
+    </form>
+  </body>
+</html>

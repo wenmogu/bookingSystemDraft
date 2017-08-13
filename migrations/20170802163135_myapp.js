@@ -34,7 +34,7 @@ exports.up = function(knex, Promise) {
 
         knex.schema.createTable('Token', function(table) {
         	table.string('userid').references('uid').inTable('User');
-        	table.string('email').notNullable();
+        	table.string('email').nullable();
         	table.string('token').notNullable();
         })
     ])

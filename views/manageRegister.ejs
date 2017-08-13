@@ -1,0 +1,24 @@
+{profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}}
+<br/><br/>
+<%= JSON.stringify(profile) %>
+<br/><br/>
+<!-- [{"uid":"e0052753","name":"Wen Xin","email":"e0052753@u.nus.edu","groupid":1}] -->
+
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Group <%= profile.groupid %> Information: </h3>
+    <a href="/info">View General Info</a>
+    <a href="/logout"> Logout </a>
+    <% if (profile.groupid == null) { %>
+    	<h3>Ask someone to invite you to his/her group! OR...</h3>
+    	<a href='/startAGroup'>Start a group yourself!</a>
+    <% } else { %>
+    	<a href='/manageGroup'> Manage My Group </a>
+    <% } %>
+  </body>
+</html>

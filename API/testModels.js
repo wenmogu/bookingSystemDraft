@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const Zu = require('../models/Zu');
-const d = require('./date-methods');
 const BookRecord = require('../models/bookrecord');
+const Token = require('../models/token');
 const newDate = require('./date-methods');
 const Room = require('../models/room');
 
@@ -34,7 +34,7 @@ Model.knex(knex);
 // }
 
 
-// User.addUid('e0052755').then(resul => {console.log(JSON.stringify(resul))}, err=>{console.error(err)});
+// User.addUid('e0032334').then(resul => {console.log(JSON.stringify(resul))}, err=>{console.error(err)});
 // User.howManyUsers().then(num => {console.log("asfsdf" + num)}); 
 
 //User.removeGroup('e0052753', 4).then(resul=> {console.log(JSON.stringify(resul))});
@@ -270,3 +270,7 @@ Model.knex(knex);
 // User.addUid('e0032334').then(resul=> {
 // 	console.log(resul)
 // })
+
+Token.createTokenFor('e0052753').then(resul=> {
+	console.log(JSON.stringify(resul));
+})

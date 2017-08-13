@@ -1,5 +1,5 @@
 const User = require('../models/user');
-var limit = 1;
+var limit = 3;
 
 function control(req, res, ifGroupFull, ifGroupNotFull, ifNotInGroup, ifNotRegistered) {
 //all the if params r functions; the first two with groupid as argument   

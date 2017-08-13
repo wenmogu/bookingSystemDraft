@@ -31,7 +31,7 @@ module.exports = function(app, passport) {
                     BookRecord.totalNumberOfBookingByAGroupInNextNDays(gid, checkNDays)
                     .then(num=> {
                         if (num == 0) {
-                            res.redirect('/manageRegisiter');
+                            res.redirect('/manageRegister');
                         } else {
                             BookRecord.BookingByAGroupInNextNDays(gid, checkNDays, [])
                             .then(resul=> {
