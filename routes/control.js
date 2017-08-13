@@ -2,7 +2,8 @@ const User = require('../models/user');
 var limit = 1;
 
 function control(req, res, ifGroupFull, ifGroupNotFull, ifNotInGroup, ifNotRegistered) {
-//all the if params r functions; the first two with groupid as argument       
+//all the if params r functions; the first two with groupid as argument   
+// first three have userinfo as argument    
     User.hasUserRegistered(req.user.NusNetsID)
     .then(bool=> {
         if (bool == false) {
@@ -25,27 +26,31 @@ function control(req, res, ifGroupFull, ifGroupNotFull, ifNotInGroup, ifNotRegis
         }
     })
     .then(() => {
-        User.getUserGroupId(req.user.NusNetsID)
-        .then(gid => {
-            if (gid == null || gid == undefined) {
-            //user does not hv a group
-                ifNotInGroup();
-                throw("user does not hv a group");
-            } else {
-            //user in a group, check if the group is full
-                User.howManyUsersInGroup(gid)
-                .then(num=> {
-                    if (num >= limit) {
-                    //group is allowed to make booking
-                        ifGroupFull(gid);
-                    } else {
-                    //group is not allowed to make booking. invite more members
-                        ifGroupNotFull(gid);
-                        throw("group is not allowed to make booking. invite more members")
-                    }
-                }, null)
-                .catch(err=>{;});
-            }
+        User.getUserInfo(req.user.NusNetsID)
+        .then(userinfo=> {
+            User.getUserGroupId(req.user.NusNetsID)
+            .then(gid => {
+                if (gid == null || gid == undefined) {
+                //user does not hv a group
+                    ifNotInGroup(userinfo);
+                    throw("user does not hv a group");
+                } else {
+                //user in a group, check if the group is full
+                    User.howManyUsersInGroup(gid)
+                    .then(num=> {
+                        if (num >= limit) {
+                        //group is allowed to make booking
+                            ifGroupFull(gid, userinfo);
+                        } else {
+                        //group is not allowed to make booking. invite more members
+                            ifGroupNotFull(gid, userinfo);
+                            throw("group is not allowed to make booking. invite more members")
+                        }
+                    }, null)
+                    .catch(err=>{;});
+                }
+            }, null)
+            .catch(err=>{;})
         }, null)
         .catch(err=>{;});
     }).catch(err => {

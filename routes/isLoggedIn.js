@@ -1,9 +1,11 @@
 const User = require('../models/user');
+var flash = require('./flash');
 var warningLimit = 4;
 
 
 module.exports = function(req, res, next) {
     if(req.isAuthenticated()) {
+        flash(req);
         User.isUserInDB(req.user.NusNetsID)
         .then(boo => {
             if (boo == true) {
@@ -33,3 +35,4 @@ module.exports = function(req, res, next) {
         res.redirect('/');
     }
 }
+

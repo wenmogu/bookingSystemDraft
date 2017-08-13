@@ -4,6 +4,8 @@ const Room = require('../models/room');
 const BookRecord = require('../models/bookrecord');
 var control = require('./control');
 var bookorcancel = require('./book-cancel');
+var flash = require('./flash');
+
 var newDate = require('../api/date-methods');
 
 const isLoggedIn = require('./isLoggedIn');
@@ -14,17 +16,18 @@ var bookingLimit = 2;
 
 module.exports = function(app, passport) {
 	app.get('/viewBooking', isLoggedIn, function(req, res) {
+        flash(req);
         control(req, res, 
-                function(gid){	
+                function(gid, userinfo){	
                 	BookRecord.BookingByAGroupInNextNDays(gid, checkNDays, [])
                 	.then(resul=> {
                 		res.render('viewBooking.ejs', 
-                			{profile:req.user, groupid: gid, booking:resul, dates:newDate.datesHyphenString(checkNDays), dateAndTimeString:new newDate().toDateAndTimeString()});
+                			{profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: gid, booking:resul, dates:newDate.datesHyphenString(checkNDays), dateAndTimeString:new newDate().toDateAndTimeString()});
                 	}, err=> {
                 		console.error(err);
                 	})
                 }, 
-                function(gid){
+                function(gid, userinfo){
                     BookRecord.totalNumberOfBookingByAGroupInNextNDays(gid, checkNDays)
                     .then(num=> {
                         if (num == 0) {
@@ -33,15 +36,23 @@ module.exports = function(app, passport) {
                             BookRecord.BookingByAGroupInNextNDays(gid, checkNDays, [])
                             .then(resul=> {
                                 res.render('viewBooking.ejs', 
-                                    {profile:req.user, groupid: gid, booking:resul, dates:newDate.datesHyphenString(checkNDays), dateAndTimeString:new newDate().toDateAndTimeString()});
+                                    {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: gid, booking:resul, dates:newDate.datesHyphenString(checkNDays), dateAndTimeString:new newDate().toDateAndTimeString()});
                             }, err=> {
                                 console.error(err);
                             })        
                         }
                     })
                 },
-                function(){
-                    res.redirect('/manageRegister')
+                function(userinfo){
+                    const invitationToken = req.flash('invitationToken')[0];
+                    console.log('invitationToken', invitationToken);
+                    if ( invitationToken == 'woshiwenmogu') {
+                        req.flash('invitationToken', "woshiwenmogu");
+                        res.redirect('/manageRegister');
+                    } else {
+                        req.flash('invitationToken', invitationToken);
+                        res.redirect('/joinAGroup');
+                    }
                 },
                 function(){
                     res.redirect('/register')
@@ -49,6 +60,7 @@ module.exports = function(app, passport) {
     })
 
     app.get('/info',function(req, res) {
+        flash(req);
     	BookRecord.BookingByAllGroupsInNextNDays(checkNDays, nslots)
     	.then(resul=>{
     		Room.allRoomNumber()
@@ -90,13 +102,13 @@ module.exports = function(app, passport) {
             const start = req.url.split('=')[2].split('&')[0];
             const end = req.url.split('=')[3].split('&')[0];
             control(req, res, 
-                    function(gid) {
-                        bookorcancel.bookForm(req, res, rid, d, start, end, gid);
+                    function(gid, userinfo) {
+                        bookorcancel.bookForm(req, res, rid, d, start, end, gid, userinfo);
                     }, 
-                    function(gid) {
+                    function(gid, userinfo) {
                         res.redirect('/manageRegister')
                     }, 
-                    function() {
+                    function(userinfo) {
                         res.redirect('/manageRegister')
                     }, 
                     function() {
@@ -123,7 +135,10 @@ module.exports = function(app, passport) {
             start > dateAndTimeString.timeString) {
              User.getUserGroupId(req.user.NusNetsID)
             .then(gid=> {
-                bookorcancel.manageBooking(req, res, rid, d, start, end, gid);
+                User.getUserInfo(req.user.NusNetsID)
+                .then(userinfo=> {
+                    bookorcancel.manageBooking(req, res, rid, d, start, end, gid, userinfo);                   
+                })
             })   
         } else {
             res.redirect('/info');
@@ -139,13 +154,13 @@ module.exports = function(app, passport) {
             const start = req.url.split('=')[2].split('&')[0];
             const end = req.url.split('=')[3].split('&')[0];
             control(req, res, 
-                    function(gid) {
-                        bookorcancel.cancelForm(req, res, rid, d, start, end, gid);
+                    function(gid, userinfo) {
+                        bookorcancel.cancelForm(req, res, rid, d, start, end, gid, userinfo);
                     }, 
-                    function(gid) {
-                        bookorcancel.cancelForm(req, res, rid, d, start, end, gid);
+                    function(gid, userinfo) {
+                        bookorcancel.cancelForm(req, res, rid, d, start, end, gid, userinfo);
                     }, 
-                    function() {
+                    function(userinfo) {
                         res.redirect('/manageRegister')
                     }, 
                     function() {
@@ -172,7 +187,10 @@ module.exports = function(app, passport) {
             start > dateAndTimeString.timeString) {
              User.getUserGroupId(req.user.NusNetsID)
             .then(gid=> {
-                bookorcancel.manageCancel(req, res, rid, d, start, end, gid);
+                User.getUserInfo(req.user.NusNetsID) 
+                .then(userinfo=> {
+                    bookorcancel.manageCancel(req, res, rid, d, start, end, gid, userinfo);
+                })
             })   
         } else {
             res.redirect('/info');

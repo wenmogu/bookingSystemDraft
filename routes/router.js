@@ -2,6 +2,7 @@ const User = require('../models/user');
 var limit = 1;
 var bookingRoutes = require('./booking-routes');
 var registrationRoutes = require('./registration-routes');
+
 /*
 > d.toString();
 'Sat Aug 05 2017 16:57:06 GMT+0800 (Malay Peninsula Standard Time)'
@@ -26,11 +27,22 @@ const isLoggedIn = require('./isLoggedIn');
 
 
 module.exports = function (app,passport) {
+    
     app.get('/',function (req,res) {
-        res.render('index.ejs',{ title : "Welcome to RVRC Room Booking System"});
+        if (req.url == '/') {
+            req.flash('invitationToken'); //this is to clear the previous accumulation of invitationToken
+            req.flash('invitationToken', "woshiwenmogu");
+            res.render('index.ejs',{ title:"Welcome to RVRC Room Booking System"});
+        } else {
+            req.flash('invitationToken');//this is to clear the previous accumulation of invitationToken
+            req.flash('invitationToken', req.url.split('=')[1]);
+            res.render('index.ejs',{ title:"Welcome to RVRC Room Booking System"});
+        }
+
     });  
 
     app.get('/logout', function (req,res) {
+        req.flash('invitationToken');//this is to clear the previous accumulation of invitationToken
         req.logout();
         res.redirect('/');
     });

@@ -24,10 +24,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ secret: 'nus-openid'}));
+app.use(session({ secret: 'lolol', cookie:{maxAge:60000}, resave: true, saveUninitialized: false}));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash())
+
 
 
 require('./routes/router.js')(app, passport);

@@ -1,0 +1,5 @@
+module.exports = function(req) {
+	console.log('flashhhhhhhhhhhhhhhhhhhhhhhh');
+    req.flash('invitationToken', req.flash('invitationToken'));
+    console.log('FLASHHHHHHHHHHHHHHHHHHHHHHHHH');
+}
