@@ -24,6 +24,19 @@ class newDate extends Date {
 		//[ '2017-8-13', '2017-8-12', '2017-8-11', '2017-8-10', '2017-8-9' ]
 	}
 
+	static pastDatesHyphenString(nDays) {
+		function helper(emptyarr, n) {
+			if (n <= nDays) {
+				return helper(emptyarr.concat([new newDate().addDays(-n).toHyphenString()]), n+1);
+			} else {
+				return emptyarr;
+			}
+		}
+		return helper([], 0);
+		//n = 4
+		//[ '2017-8-13', '2017-8-12', '2017-8-11', '2017-8-10', '2017-8-9' ]
+	}
+
 	static createTimeString(hr, min, sec) {
 		var dat = new newDate();
 		dat.setHours(hr);

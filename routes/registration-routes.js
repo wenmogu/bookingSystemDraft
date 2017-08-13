@@ -165,7 +165,7 @@ module.exports = function(app, passport, invitationToken) {
     						.then(resul=> {
     							User.howManyUsersInGroup(gid)
     							.then(num=> {
-    								res.render('manageGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}]}, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning})
+    								res.render('manageGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}]}, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning, dates: newDate.pastDatesHyphenString(checkNDays).reverse()})
     							})
     						})
     					})
@@ -180,7 +180,7 @@ module.exports = function(app, passport, invitationToken) {
     						.then(resul=> {
     							User.howManyUsersInGroup(gid)
     							.then(num=> {
-    								res.render('manageGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}]}, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning})
+    								res.render('manageGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}]}, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning, dates: newDate.pastDatesHyphenString(checkNDays).reverse()})
     							})
     						})
     					})

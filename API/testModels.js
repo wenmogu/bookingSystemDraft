@@ -271,6 +271,10 @@ Model.knex(knex);
 // 	console.log(resul)
 // })
 
-Token.createTokenFor('e0052753').then(resul=> {
-	console.log(JSON.stringify(resul));
+// Token.createTokenFor('e0052753').then(resul=> {
+// 	console.log(JSON.stringify(resul));
+// })
+
+BookRecord. makeBooking('e0052753', 101, 1, '2017-8-13', '8:00:00', '10:00:00').then(resul=>{
+	console.log(resul);
 })
