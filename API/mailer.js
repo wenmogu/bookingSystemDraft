@@ -2,6 +2,8 @@
 const passwords = require('../passwords');
 var nodemailer = require('nodemailer');
 
+const Token = require('../models/token');
+
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -12,9 +14,9 @@ var transporter = nodemailer.createTransport({
 
 var mailOptions = {
   from: passwords.user,
-  to: "to be updated",
-  subject: "to be updated",
-  text: 'to be updated'
+  to: '',
+  subject: '',
+  text: ''
 };
 
 class mailer extends Object {
@@ -23,6 +25,11 @@ class mailer extends Object {
 		return Promise.resolve(true);
 	}
 	
+	static changeHTMLTo(htmlString){
+		mailOptions.html = htmlString;
+		return Promise.resolve(true);
+	}
+
 	static changeTextTo(textString){
 		mailOptions.text = textString;
 		return Promise.resolve(true);
@@ -70,6 +77,50 @@ class mailer extends Object {
 			})
 		})
 	}
+
+	static formatMemberInfo(membersInfo) {
+
+		function helper(count, memberInfoFormat) {
+			if (count < membersInfo.length) {
+				var memberInfoFormatAssignment = memberInfoFormat + '<p> MemberName: ' + membersInfo[count].name + '</p> <p> Member Email: ' + membersInfo[count].email + '</p>';
+				return helper(count + 1, memberInfoFormatAssignment);
+			} else {
+				return memberInfoFormat;
+			}
+		}
+		return helper(0, '');
+	}
+
+	static formatHTMLInvitation(userinfo, membersInfo, warning, webaddress, token) {
+		return {greeting:'<p>Hello!</p>', invitor:'<p>' + userinfo.name + ' wants you to be in his/her Group. </p>', groupInfo: '<p> Group ID: ' + userinfo.groupid + ' Numbers of warnings the group has received: ' + warning + '</p>', memberInfoHeading: '<p> Members Info: </p>', memberInfo: mailer.formatMemberInfo(membersInfo), confirmLink: '<p> click on this link to join this group: ' + '<a href=' + '" ' + webaddress + '/?invitationToken=' + token + '">' + webaddress + "/?invitationToken=" + token + "</a>"};
+		
+	}
+
+	static sendInvitationTo(htmlInvitation, subject, recipientarr){// mailer.formatHTMLInvitation, title, [asdf@sdfdsf]
+		return mailer.changeHTMLTo(htmlInvitation.greeting + htmlInvitation.invitor + htmlInvitation.groupInfo + htmlInvitation.memberInfoHeading + htmlInvitation.memberInfo + htmlInvitation.confirmLink)
+		.then(bool=> {
+			mailer.changeSubjectTo(subject)
+			.then(bool=> {
+				function helper(count) {
+					if (count < recipientarr.length - 1) {
+						return mailer.sendMailTo(recipientarr[count])
+						.then(bool=> {
+							console.log("mail sent to: " + recipientarr[count]);
+							return helper(count + 1);
+						})
+					} else {
+						return mailer.sendMailTo(recipientarr[count])
+						.then(()=> {
+							console.log("mail sent to: " + recipientarr[count]);
+						})
+					}
+				}
+				return helper(0);		
+			})
+		})
+	}
+
+
 }
 
 module.exports = mailer;

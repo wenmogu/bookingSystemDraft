@@ -1,0 +1,30 @@
+asdf
+{profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, memberNumber:num, memberNumberLimit:memberNumberLimit}
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Group <%= profile.groupid %> Information: </h3>
+    <a href="/info">View General Info</a>
+    <a href="/logout"> Logout </a>
+    <a href='/inviteAMember'> Invite A Member </a>
+    <a href='/dismissGroup'> Dismiss My Group </a>
+
+    <h4> Number of Members: <%= memberNumber %> </h4>
+    <h4> Number of vacancies: <%= memberNumberLimit - memberNumber %> </h4>
+
+    <form action="/manageInviteAMember" method="post">
+        <fieldset>
+          <legend>Invitation Form</legend>
+            <label>Your friend's NUSNETS ID</label>
+              <input id="NusNetsID" name='NusNetsID' type="text">
+            <label>Your friend's Email</label>
+              <input id="email" name='email' type="text">
+            <button type="submit">Invite</button>
+        </fieldset>
+    </form>
+  </body>
+</html>

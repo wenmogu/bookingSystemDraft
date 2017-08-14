@@ -7,12 +7,14 @@ const Token = require('../models/token');
 var control = require('./control');
 
 var newDate = require('../api/date-methods');
+var mailer = require('../api/mailer');
 
 const isLoggedIn = require('./isLoggedIn');
 var flash = require('./flash');
 
 var memberNumberLimit = 5;
 var checkNDays = 4;
+var webaddress = 'localhost:3000';
 
 module.exports = function(app, passport, invitationToken) {
 
@@ -94,6 +96,7 @@ module.exports = function(app, passport, invitationToken) {
 
 	app.get('/startAGroup', isLoggedIn, function(req, res) {
 		//only for registered and doesnt hv a group
+		flash(req);
 		control(req,
 				res,
 				function(gid, userinfo) {
@@ -113,6 +116,7 @@ module.exports = function(app, passport, invitationToken) {
 
 	app.post('/manageStartAGroup', isLoggedIn, function(req, res) {
 		//this is only for redirect
+		flash(req);
 		User.createGroup(req.user.NusNetsID)
 		.then(n=> {
 			res.redirect('/manageGroup');
@@ -121,7 +125,6 @@ module.exports = function(app, passport, invitationToken) {
 
 	app.get('/joinAGroup', isLoggedIn, function(req, res) {
         //only for registered and doesnt hv a group
-        
         flash(req);
 
 	    var token = req.flash('invitationToken')[0];
@@ -144,16 +147,44 @@ module.exports = function(app, passport, invitationToken) {
 	                }, 
 	                function(userinfo) {
 	                    //retrieve group info by nusnetsid and token (req.flash[0])
-	                    res.send(token);
+	                    Token.getGidFromToken(token)
+	                    .then(gid=> {
+	                    	User.getMembersInfo(gid)
+	                    	.then(info=> {
+	                    		Zu.numberOfWarning(gid)
+	                    		.then(warning=> {
+	                    			User.howManyUsersInGroup(gid)
+	                    			.then(num=> {
+	                    				BookRecord.BookingByAGroupInPastNDays(gid, checkNDays, [])
+	                    				.then(resul=> {
+	                    					req.flash('invitationToken', 'woshiwenmogu');
+	                    					res.render('joinAGroup.ejs', {invitationToken:token, profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}]}, groupid:gid, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning, dates: newDate.pastDatesHyphenString(checkNDays).reverse()})
+	                    				})
+	                    			})
+	                    		})
+	                    	})
+	                    })
 	                }, 
 	                function() {
 	                    res.redirect('/register');
 	                })	
-	    }
-        
+	    }  
+    })
+
+    app.post('/manageJoinAGroup', isLoggedIn, function(req, res) {
+    	flash(req);
+    	console.log("bodyyyyy: ", req.body);
+    	User.addGroup(req.user.NusNetsID, parseInt(req.body.gid))
+    	.then(resul=> {
+    		Token.deleteTokenRelatedToUser(req.user.NusNetsID)
+    		.then(del=> {
+    			res.redirect('/manageGroup');
+    		})
+    	})
     })
 
     app.get('/manageGroup', isLoggedIn, function(req, res) {
+    	flash(req);
     	control(req,
     			res,
     			function(gid, userinfo) {
@@ -165,7 +196,7 @@ module.exports = function(app, passport, invitationToken) {
     						.then(resul=> {
     							User.howManyUsersInGroup(gid)
     							.then(num=> {
-    								res.render('manageGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}]}, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning, dates: newDate.pastDatesHyphenString(checkNDays).reverse()})
+    								res.render('manageGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}], groupid:gid}, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning, dates: newDate.pastDatesHyphenString(checkNDays).reverse()})
     							})
     						})
     					})
@@ -180,7 +211,7 @@ module.exports = function(app, passport, invitationToken) {
     						.then(resul=> {
     							User.howManyUsersInGroup(gid)
     							.then(num=> {
-    								res.render('manageGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}]}, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning, dates: newDate.pastDatesHyphenString(checkNDays).reverse()})
+    								res.render('manageGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}], groupid:gid}, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning, dates: newDate.pastDatesHyphenString(checkNDays).reverse()})
     							})
     						})
     					})
@@ -197,6 +228,7 @@ module.exports = function(app, passport, invitationToken) {
 
 	app.get('/inviteAMember', isLoggedIn, function(req, res) {
 		// only for registered and in a group and the group hvnt hit the upper limit for number of members 
+		flash(req);
 		control(req,
 				res,
 				function(gid, userinfo) {
@@ -233,10 +265,35 @@ module.exports = function(app, passport, invitationToken) {
 	})
 
 	app.post('/manageInviteAMember', isLoggedIn, function(req, res) {
-
+		//email contains: inviter name, members info, warning, token link: link.local(localhost:3000) + /?invitationToken=asdfasdfasdfsadf
+		flash(req);
+		User.getUserInfo(req.user.NusNetsID)
+		.then(userinfo=> {
+			User.getMembersInfo(userinfo.groupid)
+			.then(membersInfo=> {
+				Zu.numberOfWarning(userinfo.groupid)
+				.then(warning=> {
+					Token.createTokenFor(req.body.NusNetsID, userinfo.groupid)
+					.then(token=> {
+						mailer.sendInvitationTo(mailer.formatHTMLInvitation(userinfo, membersInfo, warning, webaddress, token), "You are invited to join a Group!", [req.body.email])
+						.then(()=> {
+							console.log('html invitation sent');
+							res.render('manageInviteAMember.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, recipient:req.body.email, invitationContent:mailer.formatHTMLInvitation(userinfo, membersInfo, warning)})
+						})
+						.catch(err=> {
+							console.log("html page sending error: ", err);
+						})	
+					})
+					.catch(err=> {
+						res.redirect('/inviteAMember');
+					})
+				})
+			})
+		})
 	})
 
 	app.get('/dismissGroup', isLoggedIn, function(req, res) {
 		// only for group not exceeding the dismissGroupWarningLimit
+		flash(req);
 	})
 }

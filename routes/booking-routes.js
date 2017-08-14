@@ -16,7 +16,9 @@ var bookingLimit = 2;
 
 module.exports = function(app, passport) {
 	app.get('/viewBooking', isLoggedIn, function(req, res) {
+
         flash(req);
+        // console.log('flash', req.flash('invitationToken'));
         control(req, res, 
                 function(gid, userinfo){	
                 	BookRecord.BookingByAGroupInNextNDays(gid, checkNDays, [])
@@ -94,6 +96,7 @@ module.exports = function(app, passport) {
     app.get('/booking', isLoggedIn, function(req, res) {
         // console.log(req.url);
         // /booking?room=105&start=20:00:00&end=22:00:00&date=2017-8-11
+        flash(req);
         if (req.url == '/booking') {
             res.redirect('/info');
         } else {
@@ -120,6 +123,7 @@ module.exports = function(app, passport) {
     app.post('/manageBooking', isLoggedIn, function(req, res) {
         // console.log(req.headers.referer);
         // http://localhost:3000/cancelBooking?room=102&start=14:00:00&end=16:00:00&date=2017-8-13
+        flash(req);
         const rid = parseInt(req.headers.referer.split('=')[1].split('&')[0]);
         const d = req.headers.referer.split('=')[4];
         const start = req.headers.referer.split('=')[2].split('&')[0];
@@ -146,6 +150,7 @@ module.exports = function(app, passport) {
     });
 
     app.get('/cancelBooking', isLoggedIn, function(req, res) {
+        flash(req);
         if (req.url == '/cancelBooking') {
             res.redirect('/viewBooking')
         } else {
@@ -172,6 +177,7 @@ module.exports = function(app, passport) {
     app.post('/manageCancel', isLoggedIn, function(req, res) {
         // console.log(req.headers.referer);
         // http://localhost:3000/cancelBooking?room=102&start=14:00:00&end=16:00:00&date=2017-8-13
+        flash(req);
         const rid = parseInt(req.headers.referer.split('=')[1].split('&')[0]);
         const d = req.headers.referer.split('=')[4];
         const start = req.headers.referer.split('=')[2].split('&')[0];

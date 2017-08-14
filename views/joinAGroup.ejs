@@ -1,8 +1,3 @@
-[
-  [ {"roomid":101,"groupid":1,"date":"2017-08-07T16:00:00.000Z","start":"02:00:00","end":"04:00:00"},
-    {"roomid":101,"groupid":1,"date":"2017-08-07T16:00:00.000Z","start":"02:00:00","end":"04:00:00"}  ],
-  [ {"roomid":101,"groupid":1,"date":"2017-08-08T16:00:00.000Z","start":"02:00:00","end":"04:00:00"}  ]
-]
 <html>
   <head>
     <title>Hello, <%= profile.displayName %></title>
@@ -10,12 +5,14 @@
   </head>
   <body>
     <h1>Hello, <%= profile.displayName %></h1>
-    <h3>Group <%= profile.groupid %> Information: </h3>
+    
     <a href="/info">View General Info</a>
     <a href="/logout"> Logout </a>
-    <a href='/inviteAMember'> Invite A Member </a>
-    <a href='/dismissGroup'> Dismiss My Group </a>
+    
 
+    <h3> Your Invitation Token: <%= invitationToken %> </h3>
+
+    <h3>Group <%= groupid %> Information: </h3>
     <h4> Number of Members: <%= memberNumber %> </h4>
     <h4> Number of vacancies: <%= memberNumberLimit - memberNumber %> </h4>
     <h4> Number of WARNINGs: <%= warning %> </h4>
@@ -44,6 +41,18 @@
         </div>
       <% } %>
     <% } %>
+
+    <% if (memberNumberLimit - memberNumber > 0) { %>
+      <form id="myform" action="/manageJoinAGroup" method="post">
+          <div>
+              <input type="text" name="gid" value='<%= groupid %>' hidden/><br/>
+              <a href="#" onclick="document.getElementById('myform').submit()">I AGREE TO JOIN THIS GROUP</a>
+          </div>
+      </form>
+    <% } else { %>
+      <a href='/manageRegister'> Manage My Registration </a>
+    <% } %>
+    
     
   </body>
 </html>

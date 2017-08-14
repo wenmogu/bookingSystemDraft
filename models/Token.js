@@ -1,5 +1,6 @@
 const {Model} = require('objection');
 const User = require('./user');
+const Zu = require('./zu');
 
 
 const randToken = require('rand-token')
@@ -12,10 +13,10 @@ class Token extends Model {
 	static get jsonSchema() {
 		return {
 			type: 'object',
-			required: ['userid', 'token'],
+			required: ['userid', 'groupid', 'token'],
 			properties: {
 				userid: {type: 'string'},
-				email: {type: 'string'},
+				groupid: {type: 'integer'},
 				token: {type: 'string'}
 			}
 		};
@@ -30,6 +31,15 @@ class Token extends Model {
 				join: {
 					from: 'Token.userid',
 					to: 'User.uid'
+				}
+			}, 
+
+			zu: {
+				relation: Model.BelongsToOneRelation,
+				modelClass: Zu,
+				join: {
+					from: 'Token.groupid',
+					to: 'Zu.gid'
 				}
 			}
 		};
@@ -55,11 +65,30 @@ class Token extends Model {
 	// 	};
 	// }
 
-	static createTokenFor(uid) {
-		return Token.query().insert({userid:uid, token:randToken.generate(11)})
+	static createTokenFor(uid, gid) {
+		return Token.query().insert({userid:uid, groupid:gid, token:randToken.generate(11)})
 		.then(resul=> {
 			// console.log(resul);{"userid":"e0032334","token":"5CMoSCzsXQ8","id":0}
 			return Promise.resolve(resul.token);
+		})
+	}
+
+	static getGidFromToken(token) {
+		return Token.query().where('token', token)
+		.then(resul=> {
+			if (resul.length == 1) {
+				return Promise.resolve(resul[0].groupid);
+				// {"userid":"e0052753","token":"5CMoSCzsXQ8","groupid":2}
+			} else {
+				return Promise.resolve(null);
+			}
+		})
+	}
+
+	static deleteTokenRelatedToUser(uid) {
+		return Token.query().where('userid', uid)
+		.then(resul=> {
+			return Promise.resolve(true);
 		})
 	}
 }

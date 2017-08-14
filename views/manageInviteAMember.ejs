@@ -1,0 +1,28 @@
+{profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, recipient:req.body.email, invitationContent:mailer.formatHTMLInvitation(userinfo, membersInfo, warning)}
+
+<br/>
+<%= profile %>
+<br/>
+<%= recipient %>
+<br/>
+<%= invitationContent %>
+<br/>
+
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Group <%= profile.groupid %> Information: </h3>
+    <a href="/info">View General Info</a>
+    <a href="/logout"> Logout </a>
+    <a href='/inviteAMember'> Invite A Member </a>
+    <a href='/dismissGroup'> Dismiss My Group </a>
+
+    <p> Your invitation has been sent to <%= recipient %> </p>
+
+
+  </body>
+</html>
