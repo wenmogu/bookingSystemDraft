@@ -224,7 +224,7 @@ module.exports = function(app, passport) {
             .then(gid=> {
                 User.getUserInfo(req.user.NusNetsID)
                 .then(userinfo=> {
-                    bookorcancel.manageBooking(req, res, rid, d, start, end, gid, userinfo);                   
+                    bookorcancel.manageCancel(req, res, rid, d, start, end, gid, userinfo);                   
                 })
             }) 
         } else {
