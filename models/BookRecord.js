@@ -275,7 +275,7 @@ class BookRecord extends Model {
 	}
 
 	static removeBookingByGroup(gid) {
-		return BookRecord.query().where('groupid', gid);
+		return BookRecord.query().delete().where('groupid', gid); 
 	}
 }
 

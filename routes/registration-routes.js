@@ -342,5 +342,6 @@ module.exports = function(app, passport, invitationToken) {
 				})
 			})
 		})
+		.catch(err=> {;})
 	})
 }

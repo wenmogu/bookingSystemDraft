@@ -32,6 +32,7 @@ class mailer extends Object {
 
 	static changeTextTo(textString){
 		mailOptions.text = textString;
+		mailOptions.html = undefined;
 		return Promise.resolve(true);
 	}
 	

@@ -36,6 +36,22 @@ exports.up = function(knex, Promise) {
         	table.string('userid').references('uid').inTable('User');
         	table.integer('groupid').unsigned().notNullable().references('gid').inTable('Zu');
         	table.string('token').notNullable();
+        }), 
+
+        knex.schema.createTable('Warning', function(table) {
+          table.string('warning').notNullable();
+          table.increments('warningType').primary();
+        }),
+
+        knex.schema.createTable('GroupWarning', function(table) {
+          table.integer('groupid').unsigned().notNullable().references('gid').inTable('Zu');
+          table.integer('warningType').unsigned().notNullable().references('warningType').inTable('Warning');
+          table.string('detail').nullable();
+          table.integer('offenderGroupid').unsigned.nullable();
+          table.string('offenderName').nullable();
+          table.date('date').notNullable();
+          table.time('start').notNullable();
+          table.time('end').notNullable();
         })
     ])
 
@@ -45,8 +61,10 @@ exports.down = function(knex, Promise) {
   return Promise.all([
   	knex.schema.dropTableIfExists('BookRecord'),
   	knex.schema.dropTableIfExists('Token'),
+    knex.schema.dropTableIfExists('GroupWarning'),
   	//in specific order: the ones contain the foreign keys r dropped later
   	
+    knex.schema.dropTableIfExists('Warning'),
   	knex.schema.dropTableIfExists('User'),
     knex.schema.dropTableIfExists('Zu'),
   	knex.schema.dropTableIfExists('Room')

@@ -20,6 +20,9 @@ class Zu extends Model {
 	}
 
 	static get relationMappings() {
+		const User = require('./user');
+		const Room = require('./Room');
+		const GroupWarning = require('./GroupWarning')
 		return {
 			zuyuan: {//lets not use member(censored word lol)
 				relation: Model.HasManyRelation,
@@ -39,6 +42,14 @@ class Zu extends Model {
 						to: 'BookRecord.roomid'
 					},
 					to: 'Room.rid'
+				}
+			}, 
+			warningSentBy: {
+				relation: Model.HasManyRelation,
+				modelClass: GroupWarning,
+				join: {
+					from: 'Zu.gid',
+					to: 'GroupWarning.groupid'
 				}
 			}
 		};

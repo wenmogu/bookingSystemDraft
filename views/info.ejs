@@ -70,15 +70,26 @@ dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringA
 		    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> BOOK </button></td>
 		    								<% } %>
 		    							<% } else { %>
-		    								<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+		    								<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> <%= timeStringArray[n] <= dateAndTimeString.timeString %> </button></td>
 		    							<% } %>
 	    							<!-- repetition -->
 	    							<% } else { %>
 	    								<% if (dateAndNumber[d].dateString == dates[d]) { %>
 	    									<% if (dateAndNumber[d].numberOfBooking >= bookingLimit) { %>
-	    										<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> BOOK </button></td>
+	    										<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> <%= timeStringArray[n] <= dateAndTimeString.timeString %> </button></td>
 	    									<% } else { %>
-	    										<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+	    									<!-- 	<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> <%= timeStringArray[n] <= dateAndTimeString.timeString %> </button></td> -->
+		    									<!-- repetition -->
+				    							<% if (dates[d] == dateAndTimeString.dateString) { %>
+				    								<% if (timeStringArray[n] > dateAndTimeString.timeString) { %>
+				    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+				    								<% } else { %>
+				    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> BOOK </button></td>
+				    								<% } %>
+				    							<% } else { %>
+				    								<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+				    							<% } %>
+			    							<!-- repetition -->
 	    									<% } %>
 	    								<% } else { %>
 	    								<!-- repetition -->

@@ -34,7 +34,7 @@ Model.knex(knex);
 // }
 
 
-// User.addUid('e0032334').then(resul => {console.log(JSON.stringify(resul))}, err=>{console.error(err)});
+User.addUid('e0032611').then(resul => {console.log(JSON.stringify(resul))}, err=>{console.error(err)});
 // User.howManyUsers().then(num => {console.log("asfsdf" + num)}); 
 
 //User.removeGroup('e0052753', 4).then(resul=> {console.log(JSON.stringify(resul))});
