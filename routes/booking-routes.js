@@ -19,7 +19,6 @@ module.exports = function(app, passport) {
 	app.get('/viewBooking', isLoggedIn, function(req, res) {
 
         flash(req);
-        // console.log('flash', req.flash('invitationToken'));
         control(req, res, 
                 function(gid, userinfo){	
                 	BookRecord.BookingByAGroupInNextNDays(gid, checkNDays, [])
@@ -63,6 +62,7 @@ module.exports = function(app, passport) {
     })
 
     app.get('/info',function(req, res) {
+        req.flash('invitationToken', "woshiwenmogu");
         flash(req);
     	BookRecord.BookingByAllGroupsInNextNDays(checkNDays, nslots)
     	.then(resul=>{
@@ -132,22 +132,37 @@ module.exports = function(app, passport) {
         const timeStringArray = newDate.timeStringArray(6, 0, 0, nslots);
         const datesHyphenString = newDate.datesHyphenString(checkNDays);
         const dateAndTimeString = new newDate().toDateAndTimeString();
+        console.log('heyyyyy');
+        console.log((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1),timeStringArray.includes(start), timeStringArray.includes(end), datesHyphenString.includes(d), d >= dateAndTimeString.dateString, start > dateAndTimeString.timeString);
 
-        if (timeStringArray.includes(start) && 
+        if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
+            timeStringArray.includes(start) && 
             timeStringArray.includes(end) && 
             datesHyphenString.includes(d) && 
-            d >= dateAndTimeString.dateString && 
-            start > dateAndTimeString.timeString) {
-             User.getUserGroupId(req.user.NusNetsID)
+            d > dateAndTimeString.dateString) {
+            User.getUserGroupId(req.user.NusNetsID)
             .then(gid=> {
                 User.getUserInfo(req.user.NusNetsID)
                 .then(userinfo=> {
                     bookorcancel.manageBooking(req, res, rid, d, start, end, gid, userinfo);                   
                 })
             })   
+        } else if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
+            timeStringArray.includes(start) && 
+            timeStringArray.includes(end) && 
+            datesHyphenString.includes(d) && 
+            d == dateAndTimeString.dateString && 
+            start > dateAndTimeString.timeString) {
+            User.getUserGroupId(req.user.NusNetsID)
+            .then(gid=> {
+                User.getUserInfo(req.user.NusNetsID)
+                .then(userinfo=> {
+                    bookorcancel.manageBooking(req, res, rid, d, start, end, gid, userinfo);                   
+                })
+            }) 
         } else {
             res.redirect('/info');
-        } 
+        }
     });
 
     app.get('/cancelBooking', isLoggedIn, function(req, res) {
@@ -185,23 +200,36 @@ module.exports = function(app, passport) {
         const end = req.headers.referer.split('=')[3].split('&')[0];
         const timeStringArray = newDate.timeStringArray(6, 0, 0, nslots);
         const datesHyphenString = newDate.datesHyphenString(checkNDays);
-        const dateAndTimeString = new newDate().toDateAndTimeString();
+        const dateAndTimeString = new newDate().toDateAndTimeString(); 
 
-        if (timeStringArray.includes(start) && 
+        if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
+            timeStringArray.includes(start) && 
             timeStringArray.includes(end) && 
             datesHyphenString.includes(d) && 
-            d >= dateAndTimeString.dateString && 
-            start > dateAndTimeString.timeString) {
-             User.getUserGroupId(req.user.NusNetsID)
+            d > dateAndTimeString.dateString) {
+            User.getUserGroupId(req.user.NusNetsID)
             .then(gid=> {
-                User.getUserInfo(req.user.NusNetsID) 
+                User.getUserInfo(req.user.NusNetsID)
                 .then(userinfo=> {
-                    bookorcancel.manageCancel(req, res, rid, d, start, end, gid, userinfo);
+                    bookorcancel.manageCancel(req, res, rid, d, start, end, gid, userinfo);                   
                 })
             })   
+        } else if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
+            timeStringArray.includes(start) && 
+            timeStringArray.includes(end) && 
+            datesHyphenString.includes(d) && 
+            d == dateAndTimeString.dateString && 
+            start > dateAndTimeString.timeString) {
+            User.getUserGroupId(req.user.NusNetsID)
+            .then(gid=> {
+                User.getUserInfo(req.user.NusNetsID)
+                .then(userinfo=> {
+                    bookorcancel.manageBooking(req, res, rid, d, start, end, gid, userinfo);                   
+                })
+            }) 
         } else {
             res.redirect('/info');
-        } 
+        }
     });
 }
 

@@ -5,7 +5,7 @@ module.exports = {
 	webaddress:'localhost:3000',
 	dismissGroupWarningLimit:1,
 	warningLimit:4,
-	limit:2,
+	limit:1,
 	bookingLimit:2,
 	realm:'http://localhost/'
 }

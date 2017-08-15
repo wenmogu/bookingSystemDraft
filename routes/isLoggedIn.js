@@ -9,7 +9,6 @@ module.exports = function(req, res, next) {
     if(req.isAuthenticated()) {
         flash(req);
         // for debugging
-        // console.log('flash', req.flash('invitationToken'));
         User.isUserInDB(req.user.NusNetsID)
         .then(boo => {
             if (boo == true) {
