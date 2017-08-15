@@ -10,15 +10,20 @@
     <h3>Group <%= profile.groupid %> Information: </h3>
     <a href="/info">View General Info</a>
     <a href="/logout"> Logout </a>
-    <a href='/manageGroup'> Manage My Group </a>
+    
 
     <h4> Number of Warnings: <%= warning %> </h4>
     <h4> Number of Warnings Left Before You Cannot Dismiss Your Group : <%= dismissGroupWarningLimit - warning %> </h4>
 
     <h5>Your group members will be notified upon your decision.</h5>
 
-    <form action="/manageDismissGroup" method="post">
-        <button type="submit"> I am sure to dismiss my group. </button>
-    </form>
+    <% if (warning >= dismissGroupWarningLimit) { %>
+      <a href='/manageGroup'> Other Options </a>
+    <% } else { %>
+      <form action="/manageDismissGroup" method="post">
+          <button type="submit"> I am sure to dismiss my group. </button>
+      </form>
+    <% } %>
+    
   </body>
-</html>
+</html> 

@@ -14,12 +14,13 @@ module.exports = {
 }
 
 2. and in the root folder, create a passwords.js, and it looks like this: 
+
 module.exports = {
 	user: 'the gmail account (it has to be an admin account) you want to spam others and yourself with',
 	password: 'your email password',
-  uid: 'ur nusnets id ',
-		name: 'your name',
-		email: 'your email, but eventually it will auto-update to ur nus student email'
+  	uid: 'ur nusnets id ',
+	name: 'your name',
+	email: 'your email, but eventually it will auto-update to ur nus student email'
 }
 
 3. install the node modules
