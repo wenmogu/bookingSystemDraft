@@ -1,10 +1,12 @@
+var adminDetails = require('../passwords');
+
 exports.up = function(knex, Promise) {
   return Promise.all([
   	knex('Zu').insert({gid: 1, warning: 0})
   	.then(resul => {
   		console.log(JSON.stringify(resul));
   		return knex('User')
-  			   .insert({uid:'e0052753', name:'Wen Xin', email:'e0052753@u.nus.edu', groupid:1})
+  			   .insert({uid:adminDetails.uid, name:adminDetails.name, email:adminDetails.name, groupid:1})
   			   .then(inserted => {
   			   	console.log(inserted);
   			   }, errr => {
