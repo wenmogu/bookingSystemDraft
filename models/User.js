@@ -155,8 +155,26 @@ class User extends Model {
 		return User.query().patch({groupid: gid}).where('uid', id);
 	}
 
-	static removeGroup(id) {
+	static removeGroupidFromUser(id) {
 		return User.query().patch({groupid: null}).where('uid', id);
+	}
+
+	static removeGroup(gid) {
+		return User.getMembersInfo(gid)
+		.then(membersInfo=> {
+			console.log(JSON.stringify(membersInfo));
+			function helper(count) {
+				if (count < membersInfo.length) {
+					return User.removeGroupidFromUser(membersInfo[count].uid)
+					.then(resul=> {
+						return helper(count + 1);
+					})
+				} else {
+					return Promise.resolve(true);
+				}
+			}
+			return helper(0);
+		})
 	}
 
 /*------------TrueOrFalse-------------------------*/

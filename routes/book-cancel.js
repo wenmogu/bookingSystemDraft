@@ -1,7 +1,9 @@
 const User = require('../models/user');
 const BookRecord = require('../models/bookrecord');
-var bookingLimit = 2;
 
+var config = require('../config');
+var bookingLimit = config.bookingLimit;
+ 
 
 
 module.exports = {

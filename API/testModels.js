@@ -34,7 +34,7 @@ Model.knex(knex);
 // }
 
 
-User.addUid('e0032334').then(resul => {console.log(JSON.stringify(resul))}, err=>{console.error(err)});
+// User.addUid('e0032334').then(resul => {console.log(JSON.stringify(resul))}, err=>{console.error(err)});
 // User.howManyUsers().then(num => {console.log("asfsdf" + num)}); 
 
 //User.removeGroup('e0052753', 4).then(resul=> {console.log(JSON.stringify(resul))});
@@ -275,6 +275,8 @@ User.addUid('e0032334').then(resul => {console.log(JSON.stringify(resul))}, err=
 // 	console.log(JSON.stringify(resul));
 // })
 
-BookRecord. makeBooking('e0052753', 101, 1, '2017-8-13', '8:00:00', '10:00:00').then(resul=>{
-	console.log(resul);
-})
+// BookRecord. makeBooking('e0052753', 101, 1, '2017-8-13', '8:00:00', '10:00:00').then(resul=>{
+// 	console.log(resul);
+// })
+
+// User.removeGroup(1).then(resul=> {console.log('removeGroup: ', resul)});

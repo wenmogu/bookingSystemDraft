@@ -1,7 +1,9 @@
 const User = require('../models/user');
 var flash = require('./flash');
-var warningLimit = 4;
+var config = require('../config');
 
+var warningLimit = config.warningLimit;
+ 
 
 module.exports = function(req, res, next) {
     if(req.isAuthenticated()) {

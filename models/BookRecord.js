@@ -64,7 +64,7 @@ class BookRecord extends Model {
 
 	static cancelBooking(user, rid, gid, d, start, end) {//101, 1, '2017-7-8', '2:00:00', '4:00:00'
 		var text = user + " has helped Group " + gid + " cancelled the booking of Room" + rid + ". Details below: Room: " + rid +", date: " + d + " , start: " + start + ", end: " + end + ".";
-		var subject = "Group " + gid + " has made a booking." ;
+		var subject = "Group " + gid + " has cancelled a booking." ;
 		var recipients;
 		return BookRecord.query().delete().where({roomid:rid, groupid:gid, date: d, start:start, end:end})
 		.then(resul=> {
@@ -272,6 +272,10 @@ class BookRecord extends Model {
 				return Promise.resolve(false);
 			}
 		})
+	}
+
+	static removeBookingByGroup(gid) {
+		return BookRecord.query().where('groupid', gid);
 	}
 }
 

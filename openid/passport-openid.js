@@ -1,4 +1,5 @@
 var OpenIDStrategy = require('passport-openid').Strategy;
+var config = require('../config');
 
 module.exports = function (passport) {
   passport.serializeUser(function(user, done) {
@@ -9,8 +10,8 @@ module.exports = function (passport) {
   });
 
   passport.use(new OpenIDStrategy({
-      returnURL: 'http://localhost:3000/auth/openid/return',
-      realm: 'http://localhost/',
+      returnURL: 'http://' + config.webaddress + '/auth/openid/return',
+      realm: config.realm,
       profile: true
     },
     function(identifier, profile, done) {

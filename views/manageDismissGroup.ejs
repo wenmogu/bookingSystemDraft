@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Your Previous Group <%= profile.groupid %> Information: </h3>
+    <a href="/info">View General Info</a>
+    <a href="/logout"> Logout </a>
+    <a href='/manageRegister'> Other Options </a>
+    
+
+    <p> The dismissal message has been sent to
+      <% for (var i = 0; i < recipientarr.length - 1; i++) { %>
+        <%= recipientarr[i] %>, 
+      <% } %>
+      and <%= recipientarr[recipientarr.length - 1] %>.
+    </p>
+
+
+  </body>
+</html>

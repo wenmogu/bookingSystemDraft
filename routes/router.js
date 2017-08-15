@@ -1,20 +1,10 @@
 const User = require('../models/user');
-var limit = 1;
 var bookingRoutes = require('./booking-routes');
 var registrationRoutes = require('./registration-routes');
 
-/*
-> d.toString();
-'Sat Aug 05 2017 16:57:06 GMT+0800 (Malay Peninsula Standard Time)'
-> d.toLocaleDateString();
-'8/5/2017'
-> d.toLocaleString();
-'8/5/2017, 4:57:06 PM'
-> d.toDateString();
-'Sat Aug 05 2017'
-> d.toTimeString();
-'16:57:06 GMT+0800 (Malay Peninsula Standard Time)'
-*/
+const isLoggedIn = require('./isLoggedIn');
+
+
 const {Model} = require('objection');
 const Knex = require('knex');
 const config = require('../knexfile');
@@ -22,8 +12,6 @@ var env         = 'development';
 var knex        = require('knex')(config[env]);
 
 Model.knex(knex);
-
-const isLoggedIn = require('./isLoggedIn');
 
 
 module.exports = function (app,passport) {

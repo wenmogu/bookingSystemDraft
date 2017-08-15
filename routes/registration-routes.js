@@ -12,9 +12,12 @@ var mailer = require('../api/mailer');
 const isLoggedIn = require('./isLoggedIn');
 var flash = require('./flash');
 
-var memberNumberLimit = 5;
-var checkNDays = 4;
-var webaddress = 'localhost:3000';
+var config = require('../config');
+
+var memberNumberLimit = config.memberNumberLimit;
+var checkNDays = config.checkNDays;
+var webaddress = config.webaddress;
+var dismissGroupWarningLimit = config.dismissGroupWarningLimit;
 
 module.exports = function(app, passport, invitationToken) {
 
@@ -295,5 +298,49 @@ module.exports = function(app, passport, invitationToken) {
 	app.get('/dismissGroup', isLoggedIn, function(req, res) {
 		// only for group not exceeding the dismissGroupWarningLimit
 		flash(req);
+		control(req, 
+				res,
+				function(gid, userinfo) {
+					Zu.numberOfWarning(gid)
+					.then(warning=> {
+						res.render('dismissGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, warning:warning, dismissGroupWarningLimit:dismissGroupWarningLimit})
+					})
+				}, 
+				function(gid, userinfo) {
+					Zu.numberOfWarning(gid)
+					.then(warning=> {
+						res.render('dismissGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, warning:warning, dismissGroupWarningLimit:dismissGroupWarningLimit})
+					})
+				}, 
+				function(userinfo) {
+					res.redirect('/manageRegister');
+				}, 
+				function() {
+					res.redirect('/register');
+				})
+	})
+
+	app.post('/manageDismissGroup', isLoggedIn, function(req, res) {
+		flash(req);
+		//delete all the group booking record
+		//remove all the groupid from groupmembers
+		//remove the groupid from zu
+		//send email to the group members
+		User.getUserInfo(req.user.NusNetsID)
+		.then(userinfo=> {
+			User.getMembersEmail(userinfo.groupid)
+			.then(recipientarr=> {
+				User.removeGroup(userinfo.groupid)
+				.then(()=> {
+					BookRecord.removeBookingByGroup(userinfo.groupid)
+					.then(resul=> {
+						mailer.sendEmailTo(userinfo.name + " has dismissed Group " + userinfo.groupid + ".", "Your Group has been DISMISSED", recipientarr)
+						.then(resull=> {
+							res.render('manageDismissGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, recipientarr})
+						})
+					})
+				})
+			})
+		})
 	})
 }

@@ -9,10 +9,11 @@ var flash = require('./flash');
 var newDate = require('../api/date-methods');
 
 const isLoggedIn = require('./isLoggedIn');
-
-var checkNDays = 4;
-var nslots = 9;
-var bookingLimit = 2;
+ 
+var config = require('../config');
+var checkNDays = config.checkNDays;
+var nslots = config.nslots;
+var bookingLimit = config.bookingLimit;
 
 module.exports = function(app, passport) {
 	app.get('/viewBooking', isLoggedIn, function(req, res) {

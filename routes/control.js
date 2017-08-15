@@ -1,6 +1,8 @@
 const User = require('../models/user');
-var limit = 3;
 
+var config = require('../config');
+var limit = config.limit;
+ 
 function control(req, res, ifGroupFull, ifGroupNotFull, ifNotInGroup, ifNotRegistered) {
 //all the if params r functions; the first two with groupid as argument   
 // first three have userinfo as argument    

@@ -1,0 +1,24 @@
+{profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, warning:warning, dismissGroupWarningLimit:dismissGroupWarningLimit}
+
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Group <%= profile.groupid %> Information: </h3>
+    <a href="/info">View General Info</a>
+    <a href="/logout"> Logout </a>
+    <a href='/manageGroup'> Manage My Group </a>
+
+    <h4> Number of Warnings: <%= warning %> </h4>
+    <h4> Number of Warnings Left Before You Cannot Dismiss Your Group : <%= dismissGroupWarningLimit - warning %> </h4>
+
+    <h5>Your group members will be notified upon your decision.</h5>
+
+    <form action="/manageDismissGroup" method="post">
+        <button type="submit"> I am sure to dismiss my group. </button>
+    </form>
+  </body>
+</html>
