@@ -1,6 +1,7 @@
 const {Model} = require('objection');
 const Zu = require('./zu');
 const Token = require('./token');
+var GroupWarning = require('./groupwarning');
 
 class User extends Model {
 /*--------------------------------schema checked against when creating instances of User--------------------------------------*/
@@ -37,6 +38,14 @@ class User extends Model {
 				join: {
 					from: 'User.uid',
 					to: 'Token.userid'
+				}
+			},
+			warningSentBy: {
+				relation: Model.HasManyRelation,
+				modelClass: GroupWarning,
+				join: {
+					from: 'User.uid',
+					to: 'GroupWarning.userid'
 				}
 			}
 		};

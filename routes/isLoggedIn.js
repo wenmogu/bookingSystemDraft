@@ -28,8 +28,7 @@ module.exports = function(req, res, next) {
                             }
                         }, null)        
                     }
-                })
-                
+                })  
             } else {
             res.redirect('/');
             }

@@ -6,7 +6,6 @@ const Token = require('../models/token');
 
 var control = require('./control');
 
-var newDate = require('../api/date-methods');
 var mailer = require('../api/mailer');
 
 const isLoggedIn = require('./isLoggedIn');

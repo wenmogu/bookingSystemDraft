@@ -4,6 +4,8 @@ const BookRecord = require('../models/bookrecord');
 const Token = require('../models/token');
 const newDate = require('./date-methods');
 const Room = require('../models/room');
+const Warning = require('../models/warning');
+const GroupWarning = require('../models/GroupWarning');
 
 const mailer = require('./mailer');
 
@@ -15,6 +17,7 @@ const knex = Knex(knexConfig.development);
 
 Model.knex(knex);
 
+console.log(GroupWarning);
 // Date.prototype.addDays = function(days) {
 //     var dat = new Date(this.valueOf());
 //     dat.setDate(dat.getDate() + days);
@@ -34,7 +37,7 @@ Model.knex(knex);
 // }
 
 
-User.addUid('e0032611').then(resul => {console.log(JSON.stringify(resul))}, err=>{console.error(err)});
+// User.addUid('e0032334').then(resul => {console.log(JSON.stringify(resul))}, err=>{console.error(err)});
 // User.howManyUsers().then(num => {console.log("asfsdf" + num)}); 
 
 //User.removeGroup('e0052753', 4).then(resul=> {console.log(JSON.stringify(resul))});
@@ -280,3 +283,13 @@ User.addUid('e0032611').then(resul => {console.log(JSON.stringify(resul))}, err=
 // })
 
 // User.removeGroup(1).then(resul=> {console.log('removeGroup: ', resul)});
+
+// Warning.additionOfWarning(['Using the room without booking', 'Eating/drinking in the room'])
+// .then(resul=> {
+// 	console.log(resul);
+// })
+
+Warning.listOfWarnings().
+then(resul=> {
+	console.log("list: ", resul);
+})

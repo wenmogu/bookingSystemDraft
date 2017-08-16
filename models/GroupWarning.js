@@ -1,3 +1,5 @@
+const {Model} = require('objection');
+
 class GroupWarning extends Model {
 /*--------------------------------schema checked against when creating instances of User--------------------------------------*/
 	static get tableName() {
@@ -7,9 +9,9 @@ class GroupWarning extends Model {
 	static get jsonSchema() {
 		return {
 			type: 'object',
-			required: ['groupid','warningType', 'detail', 'offenderGroupid', 'offenderName', 'date', 'start', 'end'],
+			required: ['userid','warningType', 'offenderGroupid', 'date', 'start', 'end'],
 			properties: {
-				groupid: {type: ['integer']},
+				userid: {type: ['integer']},
 				warningType: {type: ['integer']},
 				detail: {type: ['string']},
 				offenderGroupid: {type: ['integer']},
@@ -24,7 +26,7 @@ class GroupWarning extends Model {
 
 	static get relationMappings() {
 		const Warning = require('./warning');
-		const Zu = require('./zu');
+		const User = require('./user');
 		return {
 			TypeOfWarning: {
 				relation: Model.BelongsToOneRelation,
@@ -36,12 +38,18 @@ class GroupWarning extends Model {
 			}, 
 			sender: {
 				relation: Model.BelongsToOneRelation,
-				modelClass: Zu,
+				modelClass: User,
 				join: {
-					from: 'Warning.groupid',
-					to: 'Zu.gid'
+					from: 'GroupWarning.userid',
+					to: 'User.uid'
 				}
 			}
 		};
 	}
+
+	static getWarningsFromGroupId(gid) {
+		return GroupWarning.query().where('groupid', gid);
+	}
 }
+
+module.exports = GroupWarning;

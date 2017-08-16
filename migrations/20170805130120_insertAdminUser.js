@@ -21,8 +21,14 @@ exports.up = function(knex, Promise) {
     knex('Room').insert({rid: 102}),
     knex('Room').insert({rid: 103}),
     knex('Room').insert({rid: 104}),
-    knex('Room').insert({rid: 105})
+    knex('Room').insert({rid: 105}),
 
+    knex('Warning').insert({warning: 'Abusive use of room and facilities'}),
+    knex('Warning').insert({warning: 'Occupying room at someone else\'s timeslot'}),
+    knex('Warning').insert({warning: 'Unfunctional Facilities'}),
+    knex('Warning').insert({warning: 'Room is not utilized (e.g. booked but no one is inside'}), 
+    knex('Warning').insert({warning: 'Using the room without booking'}),
+    knex('Warning').insert({warning: 'Eating/drinking in the room'})
   ])
 };
 

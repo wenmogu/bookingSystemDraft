@@ -43,15 +43,7 @@ class Zu extends Model {
 					},
 					to: 'Room.rid'
 				}
-			}, 
-			warningSentBy: {
-				relation: Model.HasManyRelation,
-				modelClass: GroupWarning,
-				join: {
-					from: 'Zu.gid',
-					to: 'GroupWarning.groupid'
-				}
-			}
+			}	
 		};
 	}
 
