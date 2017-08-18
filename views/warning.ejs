@@ -1,0 +1,35 @@
+{profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, warnings:warnings}
+
+<%= JSON.stringify(profile) %>
+<br/>
+<%= JSON.stringify(warnings) %>
+
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Group <%= profile.groupid %> Information: </h3>
+    <a href="/info">View General Info</a>
+
+    <h4> Number of WARNINGs: <%= warnings.length %> </h4>
+
+
+    <h4> Past warnings: </h4>
+
+    <% for (var i = 0; i < warnings.length; i++) { %>
+    	<div>
+    		<p> Warning Type: <%= warnings[i].warningType %> </p>
+    		<p> Detail: <%= warnings[i].detail %> </p>
+    		<p>	Date: <%= warnings[i].date %></p>
+			<p>	Timeslot start: <%= warnings[i].start %></p>
+			<p>	Timeslot end: <%= warnings[i].end %></p>
+      </div>
+    <% } %>
+
+
+    
+  </body>
+</html>

@@ -44,11 +44,12 @@ exports.up = function(knex, Promise) {
         }),
 
         knex.schema.createTable('GroupWarning', function(table) {
-          table.integer('userid').unsigned().notNullable().references('uid').inTable('User');
+          table.string('userid').notNullable().references('uid').inTable('User');
           table.integer('warningType').unsigned().notNullable().references('warningType').inTable('Warning');
           table.string('detail').nullable();
           table.integer('offenderGroupid').unsigned().nullable();
           table.string('offenderName').nullable();
+          table.string('offenderUserId').nullable();
           table.date('date').notNullable();
           table.time('start').notNullable();
           table.time('end').notNullable();

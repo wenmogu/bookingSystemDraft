@@ -1,0 +1,46 @@
+{profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, dates:dates, timeStringArray:timeStringArray, list:list}
+<%= profile %>
+<br/>
+<%= dates %>
+<br/>
+<%= timeStringArray %>
+<br/>
+<%= JSON.stringify(list) %>
+
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Group <%= profile.groupid %></h3>
+    <a href="/info">View General Info</a>
+    <form action="/manageReport" method="post">
+        <fieldset>
+          <legend>Report Form</legend>
+            <label>User</label>
+              <input id="username" name='username' value='<%=profile.displayName%>' type="text" disabled>
+            <label>Warning Type</label>
+              <select id="warningtype" name='warningtype' required>
+              <% for (var i = 0; i < list.length; i++) { %>
+              	<option value="<%= i %>"> <%= list[i].warning %></option>
+              <% } %>
+              </select>
+            <label>Detail</label>
+              <input id="detail" name='detail' type="text">
+            <label>Offender GroupID</label>
+              <input id="offendergroupid" name='offendergroupid'  type="text">
+            <label>Offender Name</label>
+              <input id="offendername" name='offendername' type="text">
+            <label>Date</label>
+              <input id="date" name='date' type="text" required>
+            <label>Time Start</label>
+              <input id="start" name='start' type="text" required>
+            <label>Time End</label>
+              <input id="end" name='end' type="text" required>
+            <button type="submit">Submit</button>
+        </fieldset>
+    </form>
+  </body>
+</html>

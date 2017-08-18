@@ -80,7 +80,6 @@ class mailer extends Object {
 	}
 
 	static formatMemberInfo(membersInfo) {
-
 		function helper(count, memberInfoFormat) {
 			if (count < membersInfo.length) {
 				var memberInfoFormatAssignment = memberInfoFormat + '<p> MemberName: ' + membersInfo[count].name + '</p> <p> Member Email: ' + membersInfo[count].email + '</p>';
@@ -93,8 +92,7 @@ class mailer extends Object {
 	}
 
 	static formatHTMLInvitation(userinfo, membersInfo, warning, webaddress, token) {
-		return {greeting:'<p>Hello!</p>', invitor:'<p>' + userinfo.name + ' wants you to be in his/her Group. </p>', groupInfo: '<p> Group ID: ' + userinfo.groupid + ' Numbers of warnings the group has received: ' + warning + '</p>', memberInfoHeading: '<p> Members Info: </p>', memberInfo: mailer.formatMemberInfo(membersInfo), confirmLink: '<p> click on this link to join this group: ' + '<a href=' + '" ' + webaddress + '/?invitationToken=' + token + '">' + webaddress + "/?invitationToken=" + token + "</a>"};
-		
+		return {greeting:'<p>Hello!</p>', invitor:'<p>' + userinfo.name + ' wants you to be in his/her Group. </p>', groupInfo: '<p> Group ID: ' + userinfo.groupid + ' Numbers of warnings the group has received: ' + warning + '</p>', memberInfoHeading: '<p> Members Info: </p>', memberInfo: mailer.formatMemberInfo(membersInfo), confirmLink: '<p> click on this link to join this group: ' + '<a href=' + '" ' + webaddress + '/?invitationToken=' + token + '">' + webaddress + "/?invitationToken=" + token + "</a>"};	
 	}
 
 	static sendInvitationTo(htmlInvitation, subject, recipientarr){// mailer.formatHTMLInvitation, title, [asdf@sdfdsf]
@@ -117,6 +115,35 @@ class mailer extends Object {
 					}
 				}
 				return helper(0);		
+			})
+		})
+	}
+
+	static formatHTMLReport(reporter, warningType, detail, offenderGroupId, offenderName, date, start, end) {
+		return {reporter: '<p> By: ' + reporter + '</p>', warningType: '<p> Warning Type: ' + warningType + '</p>', detail: '<p> Detail: ' + detail + '</p>', offenderGroupId: '<p> Offender GroupID: ' + offenderGroupId + '</p>', offenderName: '<p> Offender Name: ' + offenderName + '</p>', date: '<p> Date: ' + date + '</p>', start: '<p> Start: ' + start + '</p>', end: '<p> End: ' + end + '</p>'}
+	}
+
+	static sendReportTo(htmlReport, recipientarr) {
+		return mailer.changeHTMLTo(htmlReport.reporter + htmlReport.warningType + htmlReport.detail + htmlReport.offenderGroupId + htmlReport.offenderName + htmlReport.date + htmlReport.start + htmlReport.end)
+		.then(bool=> {
+			mailer.changeSubjectTo('Report Coming!')
+			.then(bool=> {
+				function helper(count) {
+					if (count < recipientarr.length - 1) {
+						return mailer.sendMailTo(recipientarr[count])
+						.then(bool=> {
+							console.log("mail sent to: " + recipientarr[count]);
+							return helper(count + 1);
+						})
+					} else {
+						return mailer.sendMailTo(recipientarr[count])
+						.then(()=> {
+							console.log("mail sent to: " + recipientarr[count]);
+							return Promise.resolve(true)
+						})
+					}
+				}
+				return helper(0);
 			})
 		})
 	}

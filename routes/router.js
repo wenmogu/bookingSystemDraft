@@ -1,6 +1,7 @@
 const User = require('../models/user');
 var bookingRoutes = require('./booking-routes');
 var registrationRoutes = require('./registration-routes');
+var warningRoutes = require('./warning-routes');
 
 const isLoggedIn = require('./isLoggedIn');
 
@@ -44,4 +45,5 @@ module.exports = function (app,passport) {
 
     bookingRoutes(app, passport);
     registrationRoutes(app, passport);
+    warningRoutes(app, passport);
 }

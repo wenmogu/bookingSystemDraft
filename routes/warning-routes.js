@@ -1,13 +1,18 @@
 const Warning = require('../models/warning');
 const GroupWarning = require('../models/groupwarning');
+const User = require('../models/user');
+
+const passwords = require('../passwords');
 
 var newDate = require('../api/date-methods');
+var mailer = require('../api/mailer');
 
 const isLoggedIn = require('./isLoggedIn');
 
 var control = require('./control');
 var flash = require('./flash');
 
+var config = require('../config');
 var checkNDays = config.checkNDays;
 var nslots = config.nslots;
 
@@ -63,13 +68,22 @@ module.exports = function(app, passport) {
 		control(req,
 				res,
 				function(gid, userinfo) {
-					res.render('report.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, dates:dates, timeStringArray:timeStringArray})
+					Warning.listOfWarnings()
+					.then(list=> {
+						res.render('report.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, dates:dates, timeStringArray:timeStringArray, list:list})
+					})
 				}, 
 				function(gid, userinfo) {
-					res.render('report.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, dates:dates, timeStringArray:timeStringArray})
+					Warning.listOfWarnings()
+					.then(list=> {
+						res.render('report.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, dates:dates, timeStringArray:timeStringArray, list:list})
+					})				
 				}, 
 				function(userinfo) {
-					res.render('report.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, dates:dates, timeStringArray:timeStringArray})
+					Warning.listOfWarnings()
+					.then(list=> {
+						res.render('report.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, dates:dates, timeStringArray:timeStringArray, list:list})
+					})
 				}, 
 				function() {
 					res.redirect('/register')
@@ -79,5 +93,16 @@ module.exports = function(app, passport) {
 	app.post('/manageReport', function(req, res) {
 		//send email to admin 
 		//then give a confirmation page
+		mailer.sendReportTo(mailer.formatHTMLReport(req.user.NusNetsID, req.body.warningtype, req.body.detail, req.body.offendergroupid, req.body.offendername, req.body.date, req.body.start, req.body.end)
+							, [passwords.user])
+		.then(bool=> {
+			User.getUserInfo(req.user.NusNetsID)
+			.then(userinfo=> {
+				res.render('manageReport.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}});
+			})
+			.catch(err=> {
+				console.log(err);
+			})
+		})
 	})
 }

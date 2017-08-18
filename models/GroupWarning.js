@@ -9,13 +9,14 @@ class GroupWarning extends Model {
 	static get jsonSchema() {
 		return {
 			type: 'object',
-			required: ['userid','warningType', 'offenderGroupid', 'date', 'start', 'end'],
+			required: ['userid', 'warningType', 'date', 'start', 'end'],
 			properties: {
-				userid: {type: ['integer']},
+				userid: {type: ['string']},
 				warningType: {type: ['integer']},
-				detail: {type: ['string']},
-				offenderGroupid: {type: ['integer']},
-				offenderName: {type: ['string']},
+				detail: {type: ['string', null]},
+				offenderGroupid: {type: ['integer', null]},
+				offenderName: {type: ['string', null]},
+				offenderUserId: {type: ['string', null]},
 				date: {type: ['date']},
 				start: {type: ['time']},
 				end: {type: ['time']}
@@ -36,7 +37,7 @@ class GroupWarning extends Model {
 					to: 'GroupWarning.warningType'
 				}
 			}, 
-			sender: {
+			reporter: {
 				relation: Model.BelongsToOneRelation,
 				modelClass: User,
 				join: {
@@ -48,7 +49,11 @@ class GroupWarning extends Model {
 	}
 
 	static getWarningsFromGroupId(gid) {
-		return GroupWarning.query().where('groupid', gid);
+		return GroupWarning.query().where('offenderGroupid', gid);
+	}
+
+	static issueWarning(userid, warningType, detail, offenderGroupid, offenderName, offenderUserId, date, start, end) {
+		return GroupWarning.query().insert({'userid': userid, 'warningType':warningType, 'detail': detail, 'offenderGroupid':offenderGroupid, 'offenderName':offenderName, 'offenderUserId': offenderUserId, 'date':date, 'start':start, 'end':end});
 	}
 }
 
