@@ -37,7 +37,7 @@ module.exports = {
 	}
 	,
 	cancelForm: function(req, res, rid, d, start, end, gid, userinfo) {
-	    BookRecord.isTimeSlotBookedBy(rid, d, start, end,gid)
+	    BookRecord.isTimeSlotBookedBy(rid, d, start, end, gid)
 	    .then(bool=> {
 	    	if (bool == true) {
 	    		//room is booked by this group, continue
@@ -56,16 +56,44 @@ module.exports = {
 	}
 	,
 	manageBooking: function(req, res, rid, d, start, end, gid, userinfo) {
-		BookRecord.makeBooking(userinfo.name, rid, gid, d, start, end)
-		.then(()=> {
-			res.render('manageBooking.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid}, groupid:gid, roomid:rid, date:d, start:start, end:end});
-		})
+		BookRecord.isTimeSlotBooked(rid, d, start, end)
+	    .then(bool=> {
+	    	if (bool == false) {
+	    		//room is not booked by any group, continue
+	    		BookRecord.makeBooking(userinfo.name, rid, gid, d, start, end)
+				.then(()=> {
+					res.render('manageBooking.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid}, groupid:gid, roomid:rid, date:d, start:start, end:end});
+				})
+	    	} else {
+	    		//room is booked by some group, redirect back to info
+	    		res.redirect('/info')
+	    	}
+	    }, null)
+	    .catch(err=> {
+	        console.log("OMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
+	        console.error(err);
+	        console.log("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+	    })
 	} 
 	,
 	manageCancel: function(req, res, rid, d, start, end, gid, userinfo) {
-		BookRecord.cancelBooking(userinfo.name, rid, gid, d, start, end)
-		.then(()=> {
-			res.render('manageCancel.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid}, groupid:gid, roomid:rid, date:d, start:start, end:end});
-		})
+		BookRecord.isTimeSlotBookedBy(rid, d, start, end, gid)
+	    .then(bool=> {
+	    	if (bool == true) {
+	    		//room is booked by this group, continue
+	    		BookRecord.cancelBooking(userinfo.name, rid, gid, d, start, end)
+				.then(()=> {
+					res.render('manageCancel.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid}, groupid:gid, roomid:rid, date:d, start:start, end:end});
+				})
+	    	} else {
+	    		//room is not booked by this group, redirect back to info
+	    		res.redirect('/viewBooking')
+	    	}
+	    }, null)
+	    .catch(err=> {
+	        console.log("OMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
+	        console.error(err);
+	        console.log("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+	    })
 	}
 }

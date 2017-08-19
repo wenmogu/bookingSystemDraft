@@ -18,7 +18,7 @@ var checkNDays = config.checkNDays;
 var webaddress = config.webaddress;
 var dismissGroupWarningLimit = config.dismissGroupWarningLimit;
 
-module.exports = function(app, passport, invitationToken) {
+module.exports = function(app, passport) {
 
 	app.get('/register', isLoggedIn, function(req, res) {
 		//only for hvnt registered

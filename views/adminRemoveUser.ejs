@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Group <%= profile.groupid %></h3>
+    <a href="/admin">Go To Admin Page</a>
+
+	<script>
+	function toggle(source) {
+	    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+	    for (var i = 0; i < checkboxes.length; i++) {
+	        if (checkboxes[i] != source)
+	            checkboxes[i].checked = source.checked;
+	    }
+	}
+	</script>
+
+	<form action="/manageAdminRemoveUser" method="post">
+		Select To Delete: <br/>
+		<input type="checkbox" onclick="toggle(this);" />Check all?<br />
+		<br/>
+		<table>
+			<tr>
+				<th>Check box</th>
+				<th>Group ID <th>
+				<th>User Name <th>
+				<th>User NUSNETSID <th>
+				<th>User Email <th>
+			</tr>
+			<% for (var i = 0; i < info.length; i++) { %>
+				<tr>
+					<th><input type="checkbox" name="<%= i %>" value="<%= info[i].uid %>"/></th>
+					<th><%= info[i].groupid %></th>
+					<th><%= info[i].name %></th>
+					<th><%= info[i].uid %></th>
+					<th><%= info[i].email %></th>
+				</tr>
+			<% } %>
+		</table>
+		<button type="submit">Delete User(s)</button>
+	</form>
+  </body>
+</html>

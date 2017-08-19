@@ -40,6 +40,22 @@ class mailer extends Object {
 		mailOptions.to = recipient;
 		return Promise.resolve(true);
 	}
+
+	static formatEmailArrayFromReqBody(reqbody) {
+		var emptyarr = [];
+		function helper() {
+			console.log("reqbody: ", reqbody);
+			for (var key in reqbody) {
+				if (reqbody.hasOwnProperty(key) && key != 'subject' && key != "body") {
+					emptyarr.push(reqbody[key]);
+				}
+			}
+		}
+		
+		return Promise.resolve(helper()).then(()=> {
+			return Promise.resolve(emptyarr);
+		})
+	}
 	
 	static sendMailTo(recipient){
 		return mailer.changeRecipientTo(recipient)
@@ -126,7 +142,7 @@ class mailer extends Object {
 	static sendReportTo(htmlReport, recipientarr) {
 		return mailer.changeHTMLTo(htmlReport.reporter + htmlReport.warningType + htmlReport.detail + htmlReport.offenderGroupId + htmlReport.offenderName + htmlReport.date + htmlReport.start + htmlReport.end)
 		.then(bool=> {
-			mailer.changeSubjectTo('Report Coming!')
+			mailer.changeSubjectTo('Warning Report')
 			.then(bool=> {
 				function helper(count) {
 					if (count < recipientarr.length - 1) {

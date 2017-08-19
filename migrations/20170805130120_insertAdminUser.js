@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
   	.then(resul => {
   		console.log(JSON.stringify(resul));
   		return knex('User')
-  			   .insert({uid:adminDetails.uid, name:adminDetails.name, email:adminDetails.name, groupid:1})
+  			   .insert({uid:adminDetails.uid, name:adminDetails.name, email:adminDetails.email, groupid:1})
   			   .then(inserted => {
   			   	console.log(inserted);
   			   }, errr => {

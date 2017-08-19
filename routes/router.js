@@ -2,6 +2,7 @@ const User = require('../models/user');
 var bookingRoutes = require('./booking-routes');
 var registrationRoutes = require('./registration-routes');
 var warningRoutes = require('./warning-routes');
+var adminRoutes = require('./admin-routes');
 
 const isLoggedIn = require('./isLoggedIn');
 
@@ -27,7 +28,6 @@ module.exports = function (app,passport) {
             req.flash('invitationToken', req.url.split('=')[1]);
             res.render('index.ejs',{ title:"Welcome to RVRC Room Booking System"});
         }
-
     });  
 
     app.get('/logout', function (req,res) {
@@ -46,4 +46,6 @@ module.exports = function (app,passport) {
     bookingRoutes(app, passport);
     registrationRoutes(app, passport);
     warningRoutes(app, passport);
+    adminRoutes(app, passport);
+
 }

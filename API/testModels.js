@@ -293,7 +293,20 @@ console.log(GroupWarning);
 // then(resul=> {
 // 	console.log("list: ", resul);
 // })
-GroupWarning.issueWarning('e0052753', 2, 'you suck', 1, null, 'e0052753', '2017-8-21', '8:00:00', '10:00:00')
-.then(resul=> {
-	console.log(resul);
-})
+// GroupWarning.issueWarning('e0052753', 2, 'you suck', 1, null, 'e0052753', '2017-8-21', '8:00:00', '10:00:00')
+// .then(resul=> {
+// 	console.log(resul);
+// })
+
+// mailer.formatEmailArrayFromReqBody({ '0': 'e0052753@u.nus.edu',
+//   subject: 'lol',
+//   body: 'body of lol' })
+//   .then(resul=> {
+//   	console.log(resul);
+//   })
+var req = "";
+req.body = {'0': 'e0052753@u.nus.edu', subject: 'hello', body: 'test' };
+		mailer.formatEmailArrayFromReqBody(req.body)
+		.then(resul=> {
+			console.log(resul);
+		})

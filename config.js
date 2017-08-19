@@ -1,6 +1,7 @@
 module.exports = {
 	memberNumberLimit:5,
 	checkNDays:4,
+	adminCheckNDays:7,
 	nslots:9,
 	webaddress:'localhost:3000',
 	dismissGroupWarningLimit:1,

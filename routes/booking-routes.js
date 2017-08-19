@@ -70,18 +70,17 @@ module.exports = function(app, passport) {
     		.then(roomnumbers => {
     			if (req.user == undefined) {
     				res.render('info.ejs', {profile:req.user, booking:resul, allRoomNumber:roomnumbers, dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringArray(6, 0, 0, nslots), numberOfTimeslots: nslots, dateAndTimeString:new newDate().toDateAndTimeString()});
-    				throw("render info page");
+    				
     			} else {
     				User.getUserInfo(req.user.NusNetsID)
     				.then(userinfo=> {
     					if (userinfo.groupid == null) {
     						res.render('info.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid}, booking:resul, allRoomNumber:roomnumbers, dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringArray(6, 0, 0, nslots), numberOfTimeslots: nslots, dateAndTimeString:new newDate().toDateAndTimeString()});
-    						throw("render info page");
+    						
     					} else {
     						BookRecord.numberOfBookingByAGroupInNextNDays(userinfo.groupid, checkNDays)
     						.then(dateAndNumber=> {
     							res.render('info.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, booking:resul, allRoomNumber:roomnumbers, dates:newDate.datesHyphenString(checkNDays), timeStringArray:newDate.timeStringArray(6, 0, 0, nslots), numberOfTimeslots: nslots, dateAndTimeString:new newDate().toDateAndTimeString(), dateAndNumber:dateAndNumber, bookingLimit:bookingLimit});
-    							throw("render info page");
     						},null)
     					}
     				}, null)
@@ -135,34 +134,40 @@ module.exports = function(app, passport) {
         console.log('heyyyyy');
         console.log((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1),timeStringArray.includes(start), timeStringArray.includes(end), datesHyphenString.includes(d), d >= dateAndTimeString.dateString, start > dateAndTimeString.timeString);
 
-        if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
-            timeStringArray.includes(start) && 
-            timeStringArray.includes(end) && 
-            datesHyphenString.includes(d) && 
-            d > dateAndTimeString.dateString) {
-            User.getUserGroupId(req.user.NusNetsID)
-            .then(gid=> {
+        User.getUserGroupId(req.user.NusNetsID)
+        .then(gid=> {
+            if (gid == 1) {
+                //admin, can do anything 
                 User.getUserInfo(req.user.NusNetsID)
                 .then(userinfo=> {
                     bookorcancel.manageBooking(req, res, rid, d, start, end, gid, userinfo);                   
                 })
-            })   
-        } else if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
-            timeStringArray.includes(start) && 
-            timeStringArray.includes(end) && 
-            datesHyphenString.includes(d) && 
-            d == dateAndTimeString.dateString && 
-            start > dateAndTimeString.timeString) {
-            User.getUserGroupId(req.user.NusNetsID)
-            .then(gid=> {
-                User.getUserInfo(req.user.NusNetsID)
-                .then(userinfo=> {
-                    bookorcancel.manageBooking(req, res, rid, d, start, end, gid, userinfo);                   
-                })
-            }) 
-        } else {
-            res.redirect('/info');
-        }
+            } else {
+                if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
+                    timeStringArray.includes(start) && 
+                    timeStringArray.includes(end) && 
+                    datesHyphenString.includes(d) && 
+                    d > dateAndTimeString.dateString) {
+                    User.getUserInfo(req.user.NusNetsID)
+                    .then(userinfo=> {
+                        bookorcancel.manageBooking(req, res, rid, d, start, end, gid, userinfo);                   
+                    }) 
+                } else if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
+                    timeStringArray.includes(start) && 
+                    timeStringArray.includes(end) && 
+                    datesHyphenString.includes(d) && 
+                    d == dateAndTimeString.dateString && 
+                    start > dateAndTimeString.timeString) {
+                    User.getUserInfo(req.user.NusNetsID)
+                    .then(userinfo=> {
+                        bookorcancel.manageBooking(req, res, rid, d, start, end, gid, userinfo);                   
+                    })
+                } else {
+                    res.redirect('/info');
+                }
+            }
+        })
+        
     });
 
     app.get('/cancelBooking', isLoggedIn, function(req, res) {
@@ -202,34 +207,40 @@ module.exports = function(app, passport) {
         const datesHyphenString = newDate.datesHyphenString(checkNDays);
         const dateAndTimeString = new newDate().toDateAndTimeString(); 
 
-        if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
-            timeStringArray.includes(start) && 
-            timeStringArray.includes(end) && 
-            datesHyphenString.includes(d) && 
-            d > dateAndTimeString.dateString) {
-            User.getUserGroupId(req.user.NusNetsID)
-            .then(gid=> {
+        User.getUserGroupId(req.user.NusNetsID)
+        .then(gid=> {
+            if (gid == 1) {
+                //admin, can do anything 
                 User.getUserInfo(req.user.NusNetsID)
                 .then(userinfo=> {
                     bookorcancel.manageCancel(req, res, rid, d, start, end, gid, userinfo);                   
                 })
-            })   
-        } else if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
-            timeStringArray.includes(start) && 
-            timeStringArray.includes(end) && 
-            datesHyphenString.includes(d) && 
-            d == dateAndTimeString.dateString && 
-            start > dateAndTimeString.timeString) {
-            User.getUserGroupId(req.user.NusNetsID)
-            .then(gid=> {
-                User.getUserInfo(req.user.NusNetsID)
-                .then(userinfo=> {
-                    bookorcancel.manageCancel(req, res, rid, d, start, end, gid, userinfo);                   
-                })
-            }) 
-        } else {
-            res.redirect('/info');
-        }
+            } else {
+                if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
+                    timeStringArray.includes(start) && 
+                    timeStringArray.includes(end) && 
+                    datesHyphenString.includes(d) && 
+                    d > dateAndTimeString.dateString) {
+                    User.getUserInfo(req.user.NusNetsID)
+                    .then(userinfo=> {
+                        bookorcancel.manageCancel(req, res, rid, d, start, end, gid, userinfo);                   
+                    }) 
+                } else if ((timeStringArray.indexOf(end) - timeStringArray.indexOf(start) == 1) && 
+                    timeStringArray.includes(start) && 
+                    timeStringArray.includes(end) && 
+                    datesHyphenString.includes(d) && 
+                    d == dateAndTimeString.dateString && 
+                    start > dateAndTimeString.timeString) {
+                    User.getUserInfo(req.user.NusNetsID)
+                    .then(userinfo=> {
+                        bookorcancel.manageCancel(req, res, rid, d, start, end, gid, userinfo);                   
+                    })
+                } else {
+                    res.redirect('/info');
+                }
+            }
+        })
+
     });
 }
 

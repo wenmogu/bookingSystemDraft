@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>Record Deleted</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+
+    <a href="/admin">Go To Admin Page</a>
+
+
+    <p> The following booking record has been deleted by you: </p>
+    <ul>
+    	<li> Room Number: <%= detail.rid %> </li>
+      <li> Date: <%= detail.d %> </li>
+      <li> Timeslot Start: <%= detail.start %> </li>
+      <li> Timeslot End: <%= detail.end %> </li>
+      <li> Group ID: <%= detail.gid %> </li>
+    </ul>
+
+  </body>
+</html>

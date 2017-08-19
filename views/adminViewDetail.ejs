@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin:checking Booking Detail</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <a href="/adminBookRecord">View General Info</a>
+    <a href="/viewBooking">View Booking Info</a>
+    <h4>Booking info: </h4>
+<%= JSON.stringify(info) %>
+    <form action='/adminDeleteBookingInfo' method="post">
+    	Group ID: <input type="text" name='gid' value='<%= info[0].groupid %>' hidden><%= info[0].groupid %><br/>
+    	Room Number: <input type="text" name='rid' value='<%= info[0].roomid %>' hidden><%= info[0].roomid %><br/>
+    	Date: <input type="text" name='d' value='<%= info[0].date %>' hidden><%= info[0].date %><br/>
+    	Time start: <input type="text" name='start' value='<%= info[0].start %>' hidden><%= info[0].start %><br/>
+    	Time end: <input type="text" name='end' value='<%= info[0].end %>' hidden><%= info[0].end %><br/>
+      <button type="submit">Delete The Above Record</button>
+    </form>
+
+  </body>
+</html>

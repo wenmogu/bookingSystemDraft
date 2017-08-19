@@ -20,7 +20,10 @@ function control(req, res, ifGroupFull, ifGroupNotFull, ifNotInGroup, ifNotRegis
       //update user email
         if (boo == true) {
             if (req.user.emails[0].value != "") {
-                User.updateUserEmail(req.user.NusNetsID, req.user.emails[0].value);
+                User.updateUserEmail(req.user.NusNetsID, req.user.emails[0].value)
+                .then(resul=> {
+                    ;
+                });
             } else {
                 //as NUS Openid sometimes will not pass in the correct email value
                 ;

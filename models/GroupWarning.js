@@ -55,6 +55,10 @@ class GroupWarning extends Model {
 	static issueWarning(userid, warningType, detail, offenderGroupid, offenderName, offenderUserId, date, start, end) {
 		return GroupWarning.query().insert({'userid': userid, 'warningType':warningType, 'detail': detail, 'offenderGroupid':offenderGroupid, 'offenderName':offenderName, 'offenderUserId': offenderUserId, 'date':date, 'start':start, 'end':end});
 	}
+
+	static getWarningFromWarningType(type) {
+		return GroupWarning.query().where('warningType', type);
+	}
 }
 
 module.exports = GroupWarning;

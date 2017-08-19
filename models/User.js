@@ -62,6 +62,14 @@ class User extends Model {
 		});
 		//User.howManyUsers().then(num => {console.log(num)}); => 2 
 	}
+
+	static getAllUsers() {
+		return User.query().orderBy('groupid');
+	}
+
+	static getAllActiveUsers() {
+		return User.query().where('email', '!=', "null");
+	}
 	
 	static addUid(id) {
 		return User.query().insert({uid: id});
@@ -69,6 +77,20 @@ class User extends Model {
 
 	static removeUid(id) {
 		return User.query().delete().where('uid', id);
+	}
+
+	static removeUidArr(uidArr) {
+		function helper(count) {
+			if (count < uidArr.length) {
+				return User.removeUid(uidArr[count])
+				.then(resul=> {
+					return helper(count + 1);
+				})
+			} else {
+				return Promise.resolve(true);
+			}
+		}
+		return helper(0);
 	}
 
 //user queries
@@ -185,6 +207,7 @@ class User extends Model {
 			return helper(0);
 		})
 	}
+
 
 /*------------TrueOrFalse-------------------------*/
 	static isUserInDB(id) {

@@ -93,6 +93,7 @@ module.exports = function(app, passport) {
 	app.post('/manageReport', function(req, res) {
 		//send email to admin 
 		//then give a confirmation page
+		flash(req);
 		mailer.sendReportTo(mailer.formatHTMLReport(req.user.NusNetsID, req.body.warningtype, req.body.detail, req.body.offendergroupid, req.body.offendername, req.body.date, req.body.start, req.body.end)
 							, [passwords.user])
 		.then(bool=> {

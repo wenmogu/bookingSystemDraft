@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>Hello, <%= profile.displayName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Hello, <%= profile.displayName %></h1>
+    <h3>Group <%= profile.groupid %></h3>
+    <a href="/admin">Go To Admin Page</a>
+
+	<script>
+	function toggle(source) {
+	    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+	    for (var i = 0; i < checkboxes.length; i++) {
+	        if (checkboxes[i] != source)
+	            checkboxes[i].checked = source.checked;
+	    }
+	}
+	</script>
+
+	<form action="/manageAdminIssueWarning" method="post">
+		Reporter ID: <input type='text' name="userid"><br/>
+		Warning: <select id="warningtype" name='warningtype' required>
+	              <% for (var i = 0; i < list.length; i++) { %>
+	              	<option value="<%= list[i].warningType %>"> <%= list[i].warning %></option>
+	              <% } %>
+	             </select>
+		Detail: <input type='text' name="detail" required><br/>
+		Offender Group ID: <input type='text' name="offendergroupid" required><br/>
+		Offender Name: <input type='text' name="offendername"><br/>
+		Offender NUSNETS ID: <input type='text' name="offenderuserid"><br/>
+		Offence Date (in the form of 20YY-MM-DD): <input type='text' name="date" required><br/>
+		Timeslot start (in the form of hr:min:sec): <input type='text' name="start" required><br/>
+		Timeslot end (in the form of hr:min:sec): <input type='text' name="end" required><br/>
+		<br/>
+
+		<button type="submit">Submit</button>
+	</form>
+
+	Group Member References:
+	<table>
+		<tr>
+			<th>Group ID <th>
+			<th>User Name <th>
+			<th>User NUSNETSID <th>
+			<th>User Email <th>
+		</tr>
+		<% for (var i = 0; i < info.length; i++) { %>
+			<tr>
+				<th><%= info[i].groupid %></th>
+				<th><%= info[i].name %></th>
+				<th><%= info[i].uid %></th>
+				<th><%= info[i].email %></th>
+			</tr>
+		<% } %>
+	</table>
+
+  </body>
+</html>

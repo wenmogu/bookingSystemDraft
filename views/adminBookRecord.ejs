@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset='utf-8'>
+		<% if(profile == undefined) { %>
+			<title>Hello, Guest</title>
+		<% } else { %>
+			<title>Hello, <%= profile.displayName %></title>
+		<% } %>
+	</head> 
+	<body>
+		<% if(profile == undefined) { %>
+			<form id="myform" action="/auth/openid" method="post">
+            	<div>
+                	<input type="text" name="openid_identifier" value='https://openid.nus.edu.sg' hidden/><br/>
+                	<a class="btn btn-warning" href="#" onclick="document.getElementById('myform').submit()">Login With Your NUSID</a>
+            	</div>
+        	</form>
+		<% } else { %>
+			<p><a href="/logout">Logout</a></p>
+		<% } %>
+		
+		<p><a href="/viewBooking">View My Booking Info</a></p>
+
+	    <% for (var d = dates.length - 1; d > -1; d--) { %>
+	    	<div>
+	    		<h3> DATE: <%= dates[d] %> </h3>
+	    		<table>
+	    			<tr>
+	    				<th>Room Number</th>
+	    				<% for (var i = 0; i < numberOfTimeslots - 1; i++) { %>
+	    					<th> <%= timeStringArray[i] %> ~ <%= timeStringArray[i + 1] %><th>
+	    				<% } %>
+	    			</tr>
+
+	    			<% for (var u = 0; u < allRoomNumber.length; u++) { %>
+	    				<tr>
+	    					<td> <%= allRoomNumber[u].rid %> <td>
+	    					<% for (var n = 0; n < numberOfTimeslots - 1; n++) { %>
+	    						<% if (booking[d][u][n].length == 1) { %>
+	    							<!-- the room on this day at this timeslot is booked by someone -->
+	    							<td><button onclick="location.href='/adminViewDetail?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> VIEW DETAIL </button></td>
+	    						<% } else if (booking[d][u][n].length == 0) { %>
+    								<% if (dateAndNumber[d].dateString == dates[d]) { %>
+    									<!-- repetition -->
+		    							<% if (dates[d] == dateAndTimeString.dateString) { %>
+		    								<% if (timeStringArray[n] > dateAndTimeString.timeString) { %>
+		    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+		    								<% } else { %>
+		    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> BOOK </button></td>
+		    								<% } %>
+		    							<% } else { %>
+		    								<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+		    							<% } %>
+		    							<!-- repetition -->
+    								<% } else { %>
+    								<!-- repetition -->
+		    							<% if (dates[d] == dateAndTimeString.dateString) { %>
+		    								<% if (timeStringArray[n] > dateAndTimeString.timeString) { %>
+		    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+		    								<% } else { %>
+		    									<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled> BOOK </button></td>
+		    								<% } %>
+		    							<% } else { %>
+		    								<td><button onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> BOOK </button></td>
+		    							<% } %>
+	    							<!-- repetition -->
+    								<% } %>
+	    						<% } %>
+	    					<% } %>
+	 
+	    				</tr>
+	    			<% } %>
+	    			
+	    		</table>
+	    	</div>
+	    	<br/><br/>
+	    <% } %>
+	</body>
+</html>

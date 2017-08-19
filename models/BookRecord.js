@@ -82,6 +82,26 @@ class BookRecord extends Model {
 		})	
 	}
 
+	static cancelBookingByAdmin(user, rid, gid, d, start, end) {//101, 1, '2017-7-8', '2:00:00', '4:00:00'
+		var text = "System Admin has cancelled a booking by " + "Group " + gid + " of Room" + rid + ". Details below: Room: " + rid +", date: " + d + " , start: " + start + ", end: " + end + "." + "Apologies for any inconvenience.";
+		var subject = "System Admin has cancelled a booking by Group " + gid + "." ;
+		var recipients;
+		return BookRecord.query().delete().where({roomid:rid, groupid:gid, date: d, start:start, end:end})
+		.then(resul=> {
+			User.getMembersEmail(gid)
+			.then(arr=> {
+				recipients = arr;
+				return Promise.resolve(true);
+			})
+			.then(bool=> {
+				mailer.sendEmailTo(text, subject, recipients)
+				.then(()=> {
+					console.log("mails sent 👌 ");
+				})
+			})
+		})	
+	}
+
 	static numberOfBookingByAGroupOnDay(gid, d) {//101, 1, '2017-7-8'
 		return Promise.resolve(BookRecord.query().count('groupid').where({date:d, groupid:gid}))
 		.then(resul=> {
@@ -272,6 +292,10 @@ class BookRecord extends Model {
 				return Promise.resolve(false);
 			}
 		})
+	}
+
+	static checkBookingDetail(rid, start, end, d) {
+		return BookRecord.query().where({roomid:rid, date:d, start:start, end:end});
 	}
 
 	static removeBookingByGroup(gid) {

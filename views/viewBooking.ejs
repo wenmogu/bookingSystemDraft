@@ -15,6 +15,12 @@ booking: <%= booking%>
 		<h1>Your Group ID: <%= groupid %></h1>
 		<h1>Welcome to View Booking page, <%= profile.displayName %></h1>
 
+		<% if (groupid == 1) { %>
+			<a href="/adminBooking">View Booking By Admin</a>
+			<a href='/admin'> Go To Admin Page </a>
+		<% } %>
+
+
 		<a href="/logout">Logout</a>
 
 		<% for (var d=booking.length - 1; d > -1; d--) { %>
@@ -32,12 +38,36 @@ booking: <%= booking%>
 					
 					<% if (dateAndTimeString.dateString == dates[d]) { %>
 						<% if (dateAndTimeString.timeString > booking[d][i].start) { %>
-							<p><button onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'" disabled> Cancel Booking </button></p>
+
+							<% if (groupid == 1) { %>
+								<!-- admin button -->
+								<p><button onclick="location.href ='/adminBookRecord'"> Go To Admin Booking Info Page </button></p>
+							<% } else { %>
+								<!-- normal user cancel button -->
+								<p><button onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'" disabled> Cancel Booking </button></p>
+							<% } %>
+							
 						<% } else { %>
-							<p><button onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </button></p>
+
+							<% if (groupid == 1) { %>
+								<!-- admin button -->
+								<p><button onclick="location.href ='/adminBookRecord'"> Go To Admin Booking Info Page </button></p>
+							<% } else { %>
+								<!-- normal user cancel button -->
+								<p><button onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </button></p>
+							<% } %>
+							
 						<% } %>
 					<% } else { %>
-						<p><button onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </button></p>
+
+						<% if (groupid == 1) { %>
+							<!-- admin button -->
+							<p><button onclick="location.href ='/adminBookRecord'"> Go To Admin Booking Info Page </button></p>
+						<% } else { %>
+							<!-- normal user cancel button -->
+							<p><button onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </button></p>
+						<% } %>
+						
 					<% } %>			
 					<br/><br/>
 				<% } %>
