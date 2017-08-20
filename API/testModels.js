@@ -304,9 +304,14 @@ console.log(GroupWarning);
 //   .then(resul=> {
 //   	console.log(resul);
 //   })
-var req = "";
-req.body = {'0': 'e0052753@u.nus.edu', subject: 'hello', body: 'test' };
-		mailer.formatEmailArrayFromReqBody(req.body)
-		.then(resul=> {
-			console.log(resul);
-		})
+// var req = "";
+// req.body = {'0': 'e0052753@u.nus.edu', subject: 'hello', body: 'test' };
+// 		mailer.formatEmailArrayFromReqBody(req.body)
+// 		.then(resul=> {
+// 			console.log(resul);
+// 		})
+
+GroupWarning.getWarningFromWarningType(1)
+.then(resul=>{
+	console.log(JSON.stringify(resul));
+})

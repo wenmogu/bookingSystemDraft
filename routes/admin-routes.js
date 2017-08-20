@@ -231,10 +231,10 @@ module.exports = function(app, passport) {
 		.then(resul=> {
 			User.getMembersEmail(parseInt(req.body.offendergroupid))
 			.then(recipientArr=> {
-				GroupWarning.getWarningFromWarningType(parseInt(req.body.warningtype))
+				Warning.findWarningByType(parseInt(req.body.warningtype))
 				.then(warnings=> {
 					mailer.sendReportTo(mailer.formatHTMLReport("secret", 
-											warnings[0].warning,
+											warnings,
 										    req.body.detail, 
 										    parseInt(req.body.offendergroupid), 
 										    req.body.offendername, 
