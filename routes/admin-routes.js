@@ -70,10 +70,14 @@ module.exports = function(app, passport) {
             const d = req.url.split('=')[4];
             const start = req.url.split('=')[2].split('&')[0];
             const end = req.url.split('=')[3].split('&')[0];
-			BookRecord.checkBookingDetail(rid, start, end, d)
-			.then(info=> {
-				res.render('adminViewDetail.ejs', {info:info});
-			})
+            User.getUserInfo(req.user.NusNetsID)
+            .then(userinfo=> {
+	            BookRecord.checkBookingDetail(rid, start, end, d)
+				.then(info=> {
+					res.render('adminViewDetail.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: userinfo.groupid, info:info});
+				})	
+            })
+			
 		}
 	})
 
@@ -97,7 +101,10 @@ module.exports = function(app, passport) {
 										 req.body.start, 
 										 req.body.end)
 				.then(resul=> {
-					res.render('adminDeleteBookingInfo.ejs', {detail:req.body});
+					User.getUserInfo(req.user.NusNetsID)
+					.then(userinfo=> {
+						res.render('adminDeleteBookingInfo.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: userinfo.groupid, detail:req.body});
+					})
 				})
 	    	} else {
 	    		//room is not booked by this group, redirect back to info
@@ -132,24 +139,28 @@ module.exports = function(app, passport) {
 
 	app.post('/manageAdminAddThings', isAdminLoggedIn, function(req, res) {
 		flash(req);
-		if (req.body.itemtype == "Warning") {
-			Warning.additionOfWarning([req.body.itemvalue])
-			.then(resul=> {
-				res.render('manageAdminAddThings.ejs', {itemType: req.body.itemtype, itemValue:req.body.itemvalue});
-			})
-			.catch(err=> {
-				res.redirect('/adminAddThings');
-			})
-		} else {
-			User.addUid(req.body.itemvalue)
-			.then(resul=> {
-				res.render('manageAdminAddThings.ejs',{itemType: req.body.itemtype, itemValue:req.body.itemvalue});
-			})
-			.catch(err=> {
-				console.log(err);
-				res.redirect('/adminAddThings');
-			})
-		}
+		User.getUserInfo(req.user.NusNetsID)
+		.then(userinfo=> {
+			if (req.body.itemtype == "Warning") {
+				Warning.additionOfWarning([req.body.itemvalue])
+				.then(resul=> {
+					res.render('manageAdminAddThings.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: userinfo.groupid, itemType: req.body.itemtype, itemValue:req.body.itemvalue});
+				})
+				.catch(err=> {
+					res.redirect('/adminAddThings');
+				})
+			} else {
+				User.addUid(req.body.itemvalue)
+				.then(resul=> {
+					res.render('manageAdminAddThings.ejs',{profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: userinfo.groupid, itemType: req.body.itemtype, itemValue:req.body.itemvalue});
+				})
+				.catch(err=> {
+					console.log(err);
+					res.redirect('/adminAddThings');
+				})
+			}	
+		})
+		
 	})
 
 	app.get('/adminRemoveUser', isAdminLoggedIn, function(req, res) {
@@ -167,13 +178,16 @@ module.exports = function(app, passport) {
 		flash(req);
 		mailer.formatEmailArrayFromReqBody(JSON.parse(JSON.stringify(req.body)))
 		.then(useridArr=> {
-			User.removeUidArr(useridArr)
-			.then(bool=> {
-				res.render('manageAdminRemoveUser.ejs', {useridArr:useridArr})
-			})
-			.catch(err=> {
-				console.log(err);
-				res.redirect('/adminRemoveUser');
+			User.getUserInfo(req.user.NusNetsID)
+			.then(userinfo=> {
+				User.removeUidArr(useridArr)
+				.then(bool=> {
+					res.render('manageAdminRemoveUser.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: userinfo.groupid, useridArr:useridArr})
+				})
+				.catch(err=> {
+					console.log(err);
+					res.redirect('/adminRemoveUser');
+				})	
 			})
 		})
 	})
@@ -196,7 +210,10 @@ module.exports = function(app, passport) {
 		.then(recipientArr=> {
 			mailer.sendEmailTo(req.body.body, req.body.subject, recipientArr)
 			.then(resul=> {
-				res.render('manageAdminNotify.ejs', {recipientArr:recipientArr});
+				User.getUserInfo(req.user.NusNetsID)
+				.then(userinfo=> {
+					res.render('manageAdminNotify.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: userinfo.groupid, recipientArr:recipientArr});					
+				})
 			})
 		})
 	})
@@ -243,11 +260,12 @@ module.exports = function(app, passport) {
 										    req.body.end),
 									    recipientArr)
 					.then(resul=> {
-						res.render('manageAdminIssueWarning.ejs', {recipientArr:recipientArr})
+						User.getUserInfo(req.user.NusNetsID)
+						.then(userinfo=> {
+						res.render('manageAdminIssueWarning.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: userinfo.groupid, recipientArr:recipientArr})							
+						})
 					})	
 				})
-				
-
 			})
 			.catch(err=> {
 				console.log(err);
