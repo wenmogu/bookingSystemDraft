@@ -4,8 +4,8 @@ const User = require('../models/User');
 
 const passwords = require('../passwords');
 
-var newDate = require('../api/date-methods');
-var mailer = require('../api/mailer');
+var newDate = require('../API/date-methods');
+var mailer = require('../API/mailer');
 
 const isLoggedIn = require('./isLoggedIn');
 

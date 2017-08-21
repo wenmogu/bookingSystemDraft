@@ -4,9 +4,9 @@ const Zu = require('./Zu');
 const Token = require('./Token');
 const Room = require('./Room');
 
-const mailer = require('../api/mailer');
+const mailer = require('../API/mailer');
 
-const newDate = require('../api/date-methods');
+const newDate = require('../API/date-methods');
 /*
 > d.toString();
 'Sat Aug 05 2017 16:57:06 GMT+0800 (Malay Peninsula Standard Time)'

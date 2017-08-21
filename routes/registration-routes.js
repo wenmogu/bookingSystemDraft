@@ -6,7 +6,7 @@ const Token = require('../models/Token');
 
 var control = require('./control');
 
-var mailer = require('../api/mailer');
+var mailer = require('../API/mailer');
 
 const isLoggedIn = require('./isLoggedIn');
 var flash = require('./flash');

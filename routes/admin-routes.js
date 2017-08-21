@@ -8,8 +8,8 @@ const GroupWarning = require('../models/GroupWarning');
 
 var control = require('./control');
 
-var mailer = require('../api/mailer');
-var newDate = require('../api/date-methods')
+var mailer = require('../API/mailer');
+var newDate = require('../API/date-methods')
 
 const isAdminLoggedIn = require('./isAdminLoggedIn');
 var flash = require('./flash');

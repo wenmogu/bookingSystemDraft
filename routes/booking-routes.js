@@ -6,7 +6,7 @@ var control = require('./control');
 var bookorcancel = require('./book-cancel');
 var flash = require('./flash');
 
-var newDate = require('../api/date-methods');
+var newDate = require('../API/date-methods');
 
 const isLoggedIn = require('./isLoggedIn');
  

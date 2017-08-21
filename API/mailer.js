@@ -2,7 +2,7 @@
 const passwords = require('../passwords');
 var nodemailer = require('nodemailer');
 
-const Token = require('../models/token');
+const Token = require('../models/Token');
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
