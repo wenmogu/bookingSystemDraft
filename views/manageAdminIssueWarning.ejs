@@ -49,11 +49,9 @@
     <p> The warning has been issued. </p>
     <p> Your warning report has been sent to: </p>
     <ul>
-   <!--  <% for (var i = 0; i < recipientArr; i++) { %>
-    	<li> <%= recipientArr[i] %></li>
-    <% } %>
-    or see which one works -->
-      <li> <%= recipientArr %> </li>
+	    <% for (var i = 0; i < recipientArr.length; i++) { %>
+	    	<li> <%= recipientArr[i] %></li>
+	    <% } %>
     </ul>
 			</div>
 		</div>

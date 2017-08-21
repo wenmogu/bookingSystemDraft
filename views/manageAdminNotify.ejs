@@ -45,16 +45,14 @@
   			<div class="col-lg-7 col-center-block">
   				<a class="btn btn-primary" href="/admin">Go To Admin Page</a>
   				<br> </br>
-  				{recipientArr:recipientArr}
-  				<%= recipientArr %>
+  				
+
   				<p> Your notification has been sent to: </p>
-  				<ul>
-    <!-- <% for (var i = 0; i < recipientArr; i++) { %>
-    	<li> <%= recipientArr[i] %> </li>
-    	<% } %> -->
-    	<!-- i dont know which one works. test it out pls -->
-    	<li><%= recipientArr %> </li>
-    </ul>
+  		<ul>
+        <% for (var i = 0; i < recipientArr.length; i++) { %>
+      	<li> <%= recipientArr[i] %> </li>
+      	<% } %>
+      </ul>
 </div>
 </div>
 <footer>

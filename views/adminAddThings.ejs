@@ -44,20 +44,28 @@
 		<div class="row">
 			<div class="col-lg-7 col-center-block">
 			<h1>Hello, <%= profile.displayName %></h1>
-    	<h3>Group <%= profile.groupid %></h3>
+    	   <h3>Group <%= profile.groupid %></h3>
         <a class="btn btn-primary" href="/admin">Go To Admin Page</a>
-    	<br> </br>
 
-    	<form action='/manageAdminAddThings' method="post" class="form-horizontal">
+        <br> </br>
+    	
+
+    	
+        
+        <form action='/manageAdminAddThings' method="post" class="form-horizontal">
     	Item Type: 
-    	<select id="itemtype" name='itemtype' required>
+    	<select class="form-control" id="itemtype" name='itemtype' required>
 	        <option value="Warning"> Warning</option>
 	        <option value="User"> User NUSNETSID</option>
 	    </select>
 	    <br/>
-	   	Item Value: <input type="text" name="itemvalue" required>
-	   	<button type="submit"> Submit </button>
+	   	Item Value: <input class="form-control" type="text" name="itemvalue" required>
+	   	<br> </br>
+	   	<button class="btn btn-primary" type="submit"> Submit </button>
     	</form>
+
+
+
 			</div>
 		</div>
 		<footer>

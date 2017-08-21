@@ -49,13 +49,9 @@
 
     <p> The following users have been removed: </p>
     <ul>
-    <!-- <% for (var i = 0; i < useridArr; i++) { %>
-    	<li> <%= useridArr[i] %> </li>
-    <% } %>
-
-    or below: see which one works; pls remove a few at the same time; -->
-
-      <li> <%= useridArr %></li>
+	    <% for (var i = 0; i < useridArr.length; i++) { %>
+	    	<li> <%= useridArr[i] %> </li>
+	    <% } %>
     </ul>
 			</div>
 		</div>

@@ -59,8 +59,8 @@
 
           <br> </br>
 
-  				<h4 class="btn btn-default"> Group Member: </h4>
-
+  				<h4 style="font-size:18px" class="label label-default"> Group Member: </h4>
+          <br> </br>
   				<% for (var i = 0; i < membersInfo.length; i++) { %>
   				<div>
   					<p> Member Name: <%= membersInfo[i].name %> </p>
@@ -69,10 +69,10 @@
   				</div>
   				<% } %>
 
-  				<h4 class="btn btn-default"> Past Bookings </h4>
-  				
+  				<h4 style="font-size:18px" class="label label-default"> Past Bookings: </h4>
+  				<br> </br>
   				<% for (var d = pastBooking.length - 1; d > -1; d--) { %>
-  				<h5>DATE: <%= dates[d] %></h5>
+  				<h5 class="label label-info" style="font-size:14px" >DATE: <%= dates[d]  %><br></br></h5>
   				<% for (var i = 0; i < pastBooking[d].length; i++) { %>
   				<div>
   					<p>Room Number: <%= pastBooking[d][i].roomid %></p>

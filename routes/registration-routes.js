@@ -7,6 +7,7 @@ const Token = require('../models/Token');
 var control = require('./control');
 
 var mailer = require('../API/mailer');
+var newDate = require('../API/date-methods');
 
 const isLoggedIn = require('./isLoggedIn');
 var flash = require('./flash');
