@@ -1,10 +1,10 @@
-const User = require('../models/user');
-const Zu = require('../models/zu');
-const Room = require('../models/room');
-const BookRecord = require('../models/bookrecord');
-const Token = require('../models/token');
-const Warning = require('../models/warning');
-const GroupWarning = require('../models/groupwarning');
+const User = require('../models/User');
+const Zu = require('../models/Zu');
+const Room = require('../models/Room');
+const BookRecord = require('../models/BookRecord');
+const Token = require('../models/Token');
+const Warning = require('../models/Warning');
+const GroupWarning = require('../models/GroupWarning');
 
 var control = require('./control');
 

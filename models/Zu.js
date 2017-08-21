@@ -1,5 +1,5 @@
 const {Model} = require('objection');
-const User = require('./user');
+const User = require('./User');
 const Room = require('./Room');
 
 class Zu extends Model {
@@ -20,9 +20,9 @@ class Zu extends Model {
 	}
 
 	static get relationMappings() {
-		const User = require('./user');
-		const Room = require('./room');
-		const GroupWarning = require('./groupwarning')
+		const User = require('./User');
+		const Room = require('./Room');
+		const GroupWarning = require('./GroupWarning')
 		return {
 			zuyuan: {//lets not use member(censored word lol)
 				relation: Model.HasManyRelation,

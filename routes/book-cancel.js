@@ -1,5 +1,5 @@
-const User = require('../models/user');
-const BookRecord = require('../models/bookrecord');
+const User = require('../models/User');
+const BookRecord = require('../models/BookRecord');
 
 var config = require('../config');
 var bookingLimit = config.bookingLimit;

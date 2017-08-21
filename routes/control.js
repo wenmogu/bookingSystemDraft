@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 
 var config = require('../config');
 var limit = config.limit;

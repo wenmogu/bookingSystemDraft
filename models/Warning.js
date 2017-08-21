@@ -18,7 +18,7 @@ class Warning extends Model {
 	}
 
 	static get relationMappings() {
-		const GroupWarning = require('./groupwarning');
+		const GroupWarning = require('./GroupWarning');
 		return {
 			TypeOfWarning: {
 				relation: Model.HasManyRelation,

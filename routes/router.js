@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 var bookingRoutes = require('./booking-routes');
 var registrationRoutes = require('./registration-routes');
 var warningRoutes = require('./warning-routes');

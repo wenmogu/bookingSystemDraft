@@ -1,5 +1,5 @@
 const {Model} = require('objection');
-const Zu = require('./zu');
+const Zu = require('./Zu');
 
 
 class Room extends Model {

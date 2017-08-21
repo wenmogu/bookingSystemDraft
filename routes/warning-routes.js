@@ -1,6 +1,6 @@
-const Warning = require('../models/warning');
-const GroupWarning = require('../models/groupwarning');
-const User = require('../models/user');
+const Warning = require('../models/Warning');
+const GroupWarning = require('../models/GroupWarning');
+const User = require('../models/User');
 
 const passwords = require('../passwords');
 

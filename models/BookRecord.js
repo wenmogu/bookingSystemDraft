@@ -1,8 +1,8 @@
 const {Model} = require('objection');
-const User = require('./user');
-const Zu = require('./zu');
-const Token = require('./token');
-const Room = require('./room');
+const User = require('./User');
+const Zu = require('./Zu');
+const Token = require('./Token');
+const Room = require('./Room');
 
 const mailer = require('../api/mailer');
 

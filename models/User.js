@@ -1,7 +1,7 @@
 const {Model} = require('objection');
-const Zu = require('./zu');
-const Token = require('./token');
-var GroupWarning = require('./groupwarning');
+const Zu = require('./Zu');
+const Token = require('./Token');
+var GroupWarning = require('./GroupWarning');
 
 class User extends Model {
 /*--------------------------------schema checked against when creating instances of User--------------------------------------*/

@@ -1,6 +1,6 @@
 const {Model} = require('objection');
-const User = require('./user');
-const Zu = require('./zu');
+const User = require('./User');
+const Zu = require('./Zu');
 
 
 const randToken = require('rand-token')
@@ -23,7 +23,7 @@ class Token extends Model {
 	}
 
 	static get relationMappings() {
-		const User = require('./user');
+		const User = require('./User');
 		return {
 			zhuren: {
 				relation: Model.BelongsToOneRelation,

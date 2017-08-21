@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 var flash = require('./flash');
 var config = require('../config');
 
