@@ -21,8 +21,8 @@ class Zu extends Model {
 
 	static get relationMappings() {
 		const User = require('./user');
-		const Room = require('./Room');
-		const GroupWarning = require('./GroupWarning')
+		const Room = require('./room');
+		const GroupWarning = require('./groupwarning')
 		return {
 			zuyuan: {//lets not use member(censored word lol)
 				relation: Model.HasManyRelation,

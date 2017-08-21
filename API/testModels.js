@@ -1,11 +1,11 @@
-const User = require('../models/User');
-const Zu = require('../models/Zu');
+const User = require('../models/user');
+const Zu = require('../models/zu');
 const BookRecord = require('../models/bookrecord');
 const Token = require('../models/token');
 const newDate = require('./date-methods');
 const Room = require('../models/room');
 const Warning = require('../models/warning');
-const GroupWarning = require('../models/GroupWarning');
+const GroupWarning = require('../models/groupwarning');
 
 const mailer = require('./mailer');
 
