@@ -1,25 +1,99 @@
-
-{profile:req.user, groupid:gid, roomid:rid, date:d, start:start, end:end}
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Hello, <%= profile.displayName %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hello, <%= profile.displayName %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet" href="/stylesheets/theme1/bootstrap.css" media="screen">
+  <link rel="stylesheet" href="/stylesheets/theme1/custom.min.css">
+  <!--[if lt IE 9]>
+      <script src="../public/stylesheets/theme1/html5shiv.js"></script>
+      <script src="../public/stylesheets/theme1/respond.min.js"></script>
+      <![endif]-->
+    </head>
+    <body>
+     <style>  
+      .col-center-block {  
+       float: none;  
+       display: block;  
+       margin-left: auto;  
+       margin-right: auto;  
+     }  
+   </style>  
+   <div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+     <div class="navbar-header">
+      <a class="navbar-brand" href="/">RVRC BOOKING</a>
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+     </button>
+   </div>
+   <div id="navbar-main" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-right">
+     <li>
+      <a>Hi, <%= profile.displayName %></a>
+    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="container">
+  <div class="row">
+   <div class="col-lg-7 col-center-block">
     <h1>Hello, <%= profile.displayName %></h1>
-    <a href="/info">View General Info</a>
-    <a href="/viewBooking">View Booking Info</a>
-    <a href="/logout">logout</a>
-    <h3>Group <%= groupid %>, your booking is cancelled. Details below: </h3>
-    <h4>Cancellation info: </h4>
-	<p>Name: <%= profile.displayName %></p>
-	<p>Group ID: <%= groupid %></p>
-	<p>Room Number: <%= roomid %></p>
-	<p>Date: <%= date %></p>
-	<p>Time start: <%= start %></p>
-	<p>Time end: <%= end %></p>
-  </body>
-</html>
+    <a class="btn btn-primary" href="/info">View General Info</a>
+    <a class="btn btn-primary" href="/viewBooking">View Booking Info</a>
+    <a class="btn btn-primary" href="/logout">logout</a>
+    <h3>Group <%= groupid %>, your booking is Cancelled. Details below: </h3>
+    <br> </br>
+    <form class="form-horizontal">
+      <fieldset>
+      <legend>Cancellation information</legend>
 
+        <p style="font-size: 18px;">Name: <%= profile.displayName %></p>
+        <p style="font-size: 18px;">Group ID: <%= groupid %></p>
+        <p style="font-size: 18px;">Room Number: <%= roomid %></p>
+        <p style="font-size: 18px;">Date: <%= date %></p>
+        <p style="font-size: 18px;">Time start: <%= start %></p>
+        <p style="font-size: 18px;">Time end: <%= end %></p>
+      </fieldset>
+    </form>
+  </div>
+</div>
+<footer>
+ <div class="row">
+  <div class="col-lg-12">
+   <ul class="list-unstyled">
+    <li class="pull-right">
+     <a href="#top">Back to top</a>
+   </li>
+   <li>
+     <a href="http://rvrc.nus.edu.sg">RVRC</a>
+   </li>
+   <li>
+     <a href="http://feeds.feedburner.com/bootswatch">Contact Us</a>
+   </li>
+ </ul>
+ <p>
+  Theme made by
+  <a href="http://thomaspark.co" rel="nofollow">Thomas Park</a>
+  .
+</p>
+<p>
+  Code released under the
+  <a href="https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE">MIT License</a>
+  .
+</p>
+</div>
+</div>  
+</footer>
+</div>
+<script src="/stylesheets/theme1/jquery-1.10.2.min.js"></script>
+<script src="/stylesheets/theme1/bootstrap.min.js"></script>
+<script src="/stylesheets/theme1/custom.js"></script>
+</body>
+</html>
 				

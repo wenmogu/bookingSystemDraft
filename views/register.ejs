@@ -1,50 +1,165 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <% if (profile.displayName == "") { %>
-      <title>We didn't manage to get your information. Please fill it in.</title>
-    <% } else { %>
-      <title>Hello, <%= profile.displayName %></title>
-    <% } %>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <% if (profile.displayName == "") { %>
-      <h1>We didn't manage to get your information. Please fill it in.</h1>
-      <h2>Please fill in your information accurately. Your NUSNETSID is used for authentication and your nus webmail is for receiving important information.</h2>
-    <form action="/processRegister" method="post">
-        <fieldset>
-          <legend>Registration Form</legend>
-            <label>User Name</label>
-              <input id="displayName" name='displayName' type="text">
-            <label>NUSNETS ID</label>
-              <input id="NusNetsID" name='NusNetsID' type="text">
-            <label>Email</label>
-              <input id="email" name='email' type="text">
-            <button type="submit">I ALLOW RVRC ROOM BOOKING SYSTEM TO USE MY INFORMATION WITHIN THIS SYSTEM</button>
-        </fieldset>
-    </form>
-    <% } else { %>
-      <h1>Hello, <%= profile.displayName %></h1>
-      <h2> Your NUSNETSID is used for authentication and your email is for receiving important information. </h2>
-    <form action="/processRegister" method="post">
-        <fieldset>
-          <legend>Registration Form</legend>
-            <label>User Name</label>
-              <input id="displayName" name='displayName' value='<%=profile.displayName%>' type="text" disabled>
-            <label>NUSNETS ID</label>
-              <input id="NusNetsID" name='NusNetsID' value='<%=profile.NusNetsID%>' type="text" disabled>
-            <label>Email</label>
-              <input id="email" name='email' value='<%=profile.emails[0].value%>' type="text" disabled>
-            <button type="submit">I ALLOW RVRC ROOM BOOKING SYSTEM TO USE MY INFORMATION WITHIN THIS SYSTEM</button>
-        </fieldset>
-    </form>
-    <% } %>
-    
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <% if (profile.displayName == "") { %>
+  <title>We didn't manage to get your information. Please fill it in.</title>
+  <% } else { %>
+  <title>Hello, <%= profile.displayName %></title>
+  <% } %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet" href="/stylesheets/theme1/bootstrap.css" media="screen">
+  <link rel="stylesheet" href="/stylesheets/theme1/custom.min.css">
+  <!--[if lt IE 9]>
+      <script src="../public/stylesheets/theme1/html5shiv.js"></script>
+      <script src="../public/stylesheets/theme1/respond.min.js"></script>
+      <![endif]-->
+    </head>
+    <body>
+      <style>  
+        .col-center-block {  
+          float: none;  
+          display: block;  
+          margin-left: auto;  
+          margin-right: auto;  
+        }  
+      </style>  
+      <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">RVRC BOOKING</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div id="navbar-main" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a>Hi, <%= profile.displayName %></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 col-center-block">
+            <% if (profile.displayName == "") { %>
+            <h1>We didn't manage to get your information. Please fill it in.</h1>
+            <h2 style="font-size:18px; color: orange;">Please fill in your information accurately. Your NUSNETSID is used for authentication and your nus webmail is for receiving important information.</h2>
+            <form action="/processRegister" method="post" class="form-horizontal">
+              <fieldset>
+                <legend>Registration Form</legend>
+                <div class="form-group">
+                  <label for="displayName" class="col-lg-2 control-label">User Name</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="displayName" name="displayName">
+                  </div>
+                </div>
 
-    <a href="/info">View General Info</a>
-    <a href="/logout">Logout</a>
+                <div class="form-group">
+                  <label for="NusNetsID" class="col-lg-2 control-label">NUSNETS ID</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="NusNetsID" name="NusNetsID"> 
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="email" class="col-lg-2 control-label">Email</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="email" name="email">
+                  </div>
+                </div>
 
 
-  </body>
-</html>
+                <div class="form-group">
+                  <div class="col-lg-10 col-lg-offset-2">
+                    <button type="submit" class="btn btn-primary">I ALLOW RVRC ROOM BOOKING SYSTEM TO USE MY INFORMATION WITHIN THIS SYSTEM</button>
+                  </div>
+                </div>
+
+              </fieldset>
+            </form>
+
+            <% } else { %>
+            <h1>Hello, <%= profile.displayName %></h1>
+            <h2 style="font-size:18px; color: orange;"> Your NUSNETSID is used for authentication and your email is for receiving important information. </h2>
+
+            <form action="/processRegister" method="post" class="form-horizontal">
+              <fieldset>
+                <legend>Registration Form</legend>
+                <div class="form-group">
+                  <label for="displayName" class="col-lg-2 control-label">User Name</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="displayName" name="displayName" value='<%=profile.displayName%>' disabled>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="NusNetsID" class="col-lg-2 control-label">NUSNETS ID</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="NusNetsID" name="NusNetsID" value='<%=profile.NusNetsID%>' disabled> 
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="email" class="col-lg-2 control-label">Email</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="email" name="email" value='<%=profile.emails[0].value%>' disabled>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <div class="col-lg-10 col-lg-offset-2">
+                    <button type="submit" class="btn btn-primary">I ALLOW RVRC ROOM BOOKING SYSTEM TO USE MY INFORMATION WITHIN THIS SYSTEM</button>
+                  </div>
+                </div>
+
+              </fieldset>
+            </form>
+
+            <% } %>
+
+
+            <a href="/info">View General Info</a>
+            <a href="/logout">Logout</a>
+
+          </div>
+        </div>
+        <footer>
+          <div class="row">
+            <div class="col-lg-12">
+              <ul class="list-unstyled">
+                <li class="pull-right">
+                  <a href="#top">Back to top</a>
+                </li>
+                <li>
+                  <a href="http://rvrc.nus.edu.sg">RVRC</a>
+                </li>
+                <li>
+                  <a href="http://feeds.feedburner.com/bootswatch">Contact Us</a>
+                </li>
+              </ul>
+              <p>
+                Theme made by
+                <a href="http://thomaspark.co" rel="nofollow">Thomas Park</a>
+                .
+              </p>
+              <p>
+                Code released under the
+                <a href="https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE">MIT License</a>
+                .
+              </p>
+            </div>
+          </div>  
+        </footer>
+      </div>
+      <script src="/stylesheets/theme1/jquery-1.10.2.min.js"></script>
+      <script src="/stylesheets/theme1/bootstrap.min.js"></script>
+      <script src="/stylesheets/theme1/custom.js"></script>
+    </body>
+    </html>
