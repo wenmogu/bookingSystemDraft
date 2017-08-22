@@ -44,7 +44,7 @@ exports.up = function(knex, Promise) {
         }),
 
         knex.schema.createTable('GroupWarning', function(table) {
-          table.string('userid').notNullable().references('uid').inTable('User');
+          table.string('userid').notNullable();
           table.integer('warningType').unsigned().notNullable().references('warningType').inTable('Warning');
           table.string('detail').nullable();
           table.integer('offenderGroupid').unsigned().nullable();

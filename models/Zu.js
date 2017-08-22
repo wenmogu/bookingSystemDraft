@@ -67,6 +67,10 @@ class Zu extends Model {
 		})
 	}
 
+	static updateWarningNumber(gid, n) {
+		return Zu.query().patch({warning:n}).where('gid', gid);
+	}
+
 }
 
 module.exports = Zu

@@ -22,45 +22,67 @@
   		}  
   	</style>  
   	<div class="navbar navbar-default navbar-fixed-top">
-  		<div class="container">
-  			<div class="navbar-header">
-  				<a class="navbar-brand" href="/">RVRC BOOKING</a>
-  				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-  					<span class="icon-bar"></span>
-  					<span class="icon-bar"></span>
-  					<span class="icon-bar"></span>
-  				</button>
-  			</div>
-  			<div id="navbar-main" class="navbar-collapse collapse">
-  				<ul class="nav navbar-nav navbar-right">
-  					<li>
-  						<a>Hi, <%= profile.displayName %></a>
-  					</li>
-  				</ul>
-  			</div>
-  		</div>
-  	</div>
+  		
+      
+  
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">RVRC BOOKING</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+      <% if (groupid == 1) { %>
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Navigation <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            
+            <li><a href="/adminBooking">View Booking By Admin</a></li>
+            <li class="divider"></li>
+            <li><a href='/admin'> Go To Admin Page </a></li>
+            <li class="divider"></li>
+            <li><a href='/report'> Report </a></li>
+            <li class="divider"></li>
+            <li><a href='/warning'> Warning </a></li>
+            <li class="divider"></li>
+            <li><a href="/info"> View General Info </a></li>
+            
+          </ul>
+        </li>
+       <% } %>
+
+        <li class="active"><a href="/logout"> Logout <span class="sr-only">(current)</span></a></li>
+        
+        
+      </ul>
+      
+      
+    </div>
+    
+
+  </div>
+
+
+  	
   	<div class="container">
   		<div class="row">
   			<div class="col-lg-7 col-center-block">
   				<h1>Your Group ID: <%= groupid %></h1>
   				<h1>Welcome to View Booking page, <%= profile.displayName %></h1>
 
-  				<% if (groupid == 1) { %>
-  							<a class="btn btn-primary" href="/adminBooking">View Booking By Admin</a>
-  							<a class="btn btn-primary" href='/admin'> Go To Admin Page </a>
-                <a class="btn btn-primary" href='/report'> Report </a>
-                <a class="btn btn-primary" href='/warning'> Warning </a>
-                <a class="btn btn-primary" href='/manageGroup'> Manage Group </a>
-  						<% } %>
-
-  				<a class="btn btn-primary" class="btn btn-warning" href="/logout">Logout</a>
+  				
 
   				<% for (var d=booking.length - 1; d > -1; d--) { %>
   				<h3> DATE: <%= new Date(Date.parse(dates[d])).toDateString() %> </h3>
 
   				<% if (booking[d].length == 0) { %>
-  				<p style="font-size: 20px" class="text-primary">No booking slot</p>
+  				<p> <a class="btn btn-primary" href="/info#day<%=d%>"> Book </a></p>
   				<br/><br/>
   				<% } else { %>
   				<% for (var i = 0; i < booking[d].length; i++) { %>
@@ -74,7 +96,7 @@
 
   				<% if (groupid == 1) { %>
   				<!-- admin button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Go To Admin Booking Info Page </a></p>
+  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> View Booking Detail </a></p>
   				<% } else { %>
   				<!-- normal user cancel button -->
   				<p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'" disabled> Cancel Booking </a></p>
@@ -84,7 +106,7 @@
   				
   				<% if (groupid == 1) { %>
   				<!-- admin button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Go To Admin Booking Info Page </a></p>
+  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> View Booking Detail </a></p>
   				<% } else { %>
   				<!-- normal user cancel button -->
   				<p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </a></p>
@@ -98,7 +120,7 @@
 
   				<% if (groupid == 1) { %>
   				<!-- admin button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Go To Admin Booking Info Page </a></p>
+  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> View Booking Detail </a></p>
   				<% } else { %>
   				<!-- normal user cancel button -->
   				<p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </a></p>
@@ -109,7 +131,7 @@
   				<% } %>
   				<% } %>
 
-  				<a class="btn btn-primary" href="/info">View General Info</a>
+  				
   			</div>
   		</div>
   		<footer>

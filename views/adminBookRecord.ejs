@@ -22,28 +22,25 @@
 		}  
 	</style>  
 	<div class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="/">RVRC BOOKING</a>
-				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			</div>
-			<div id="navbar-main" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li>
-						<a>Hi, <%= profile.displayName %></a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-7 col-center-block">
-			<% if(profile == undefined) { %>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">RVRC BOOKING</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Navigation <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">            
+            <li><a href="/viewBooking">View My Booking Info</a></li>
+          </ul>
+        </li>
+        <% if(profile == undefined) { %>
 			<form id="myform" action="/auth/openid" method="post">
             	<div>
                 	<input type="text" name="openid_identifier" value='https://openid.nus.edu.sg' hidden/><br/>
@@ -51,20 +48,30 @@
             	</div>
         	</form>
 		<% } else { %>
-			<p><a href="/logout">Logout</a></p>
+			 <li class="active"><a href="/logout"> Logout <span class="sr-only">(current)</span></a></li>
 		<% } %>
+      
+       
+      </ul>      
+    </div>
+ </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-7 col-center-block">
+			
 		
-		<p><a href="/viewBooking">View My Booking Info</a></p>
+		
 
 	    <% for (var d = dates.length - 1; d > -1; d--) { %>
-	    	<div>
+	    	<div id="day<%=d%>">
+	    		<br/><br/>
 	    		<h3> DATE: <%= new Date(Date.parse(dates[d])).toDateString() %> </h3>
 	    		<table>
 	    			<tr>
 	    				<th>Room Number</th>
 	    				<th> </th>
 	    				<% for (var i = 0; i < numberOfTimeslots - 1; i++) { %>
-  							<th><%= timeStringArray[i].slice(0, 5) %> ~ <%= timeStringArray[i + 1].slice(0, 5) %></th>
+  							<th><%= timeStringArray[i].slice(0, 5) %></th>
   							<% } %>
 	    			</tr>
 

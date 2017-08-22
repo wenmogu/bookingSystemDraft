@@ -1,4 +1,5 @@
 const {Model} = require('objection');
+const Zu = require('./Zu');
 
 class GroupWarning extends Model {
 /*--------------------------------schema checked against when creating instances of User--------------------------------------*/
@@ -36,14 +37,6 @@ class GroupWarning extends Model {
 					from: 'Warning.warningType',
 					to: 'GroupWarning.warningType'
 				}
-			}, 
-			reporter: {
-				relation: Model.BelongsToOneRelation,
-				modelClass: User,
-				join: {
-					from: 'GroupWarning.userid',
-					to: 'User.uid'
-				}
 			}
 		};
 	}
@@ -53,7 +46,13 @@ class GroupWarning extends Model {
 	}
 
 	static issueWarning(userid, warningType, detail, offenderGroupid, offenderName, offenderUserId, date, start, end) {
-		return GroupWarning.query().insert({'userid': userid, 'warningType':warningType, 'detail': detail, 'offenderGroupid':offenderGroupid, 'offenderName':offenderName, 'offenderUserId': offenderUserId, 'date':date, 'start':start, 'end':end});
+		return GroupWarning.query().insert({'userid': userid, 'warningType':warningType, 'detail': detail, 'offenderGroupid':offenderGroupid, 'offenderName':offenderName, 'offenderUserId': offenderUserId, 'date':date, 'start':start, 'end':end})
+		.then(resul=> {
+			return GroupWarning.getWarningsFromGroupId(offenderGroupid)
+			.then(warnings=> {
+				return Zu.updateWarningNumber(offenderGroupid, warnings.length);
+			})
+		})
 	}
 
 }

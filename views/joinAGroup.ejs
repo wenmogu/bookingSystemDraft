@@ -22,31 +22,35 @@
     }  
   </style>  
   <div class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">RVRC BOOKING</a>
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div id="navbar-main" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a>Hi, <%= profile.displayName %></a>
-          </li>
-        </ul>
-      </div>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">RVRC BOOKING</a>
     </div>
-  </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Navigation <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">            
+            <li><a href="/info">View General Info</a></li>
+          </ul>
+        </li>
+      
+        <li class="active"><a href="/logout"> Logout <span class="sr-only">(current)</span></a></li>
+      </ul>      
+    </div>
+ </div>
   <div class="container">
     <div class="row">
       <div class="col-lg-7 col-center-block">
       <h1>Hello, <%= profile.displayName %></h1>
     
-    <a class="btn btn-primary" href="/info">View General Info</a>
-    <a class="btn btn-primary" href="/logout"> Logout </a>
+    
     
     <br> </br>
     <h3> Your Invitation Token: <%= invitationToken %> </h3>

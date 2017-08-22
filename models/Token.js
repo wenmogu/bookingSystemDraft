@@ -86,8 +86,8 @@ class Token extends Model {
 	}
 
 	static deleteTokenRelatedToUser(uid) {
-		return Token.query().where('userid', uid)
-		.then(resul=> {
+		return Token.query().delete().where('userid', uid)
+		.then(resul=> { 
 			return Promise.resolve(true);
 		})
 	}
