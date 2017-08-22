@@ -15,7 +15,7 @@ module.exports = function(req, res, next) {
                 User.getUserGroupId(req.user.NusNetsID)
                 .then(gid=> {
                     if (gid == null) {
-                        return next();
+                        return next(); 
                     } else {
                         User.getGroupWarning(req.user.NusNetsID)
                         .then(num=> {

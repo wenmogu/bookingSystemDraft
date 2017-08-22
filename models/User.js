@@ -158,7 +158,7 @@ class User extends Model {
 
 	static getGroupWarning(uid) {
 		return User.getUserGroupId(uid)
-		.then(gid=> {
+		.then(gid=> { 
 			return Zu.numberOfWarning(gid)
 			.then(num=> {
 				console.log("user, numberOfWarning: ", num);

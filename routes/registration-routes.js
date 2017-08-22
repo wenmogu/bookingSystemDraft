@@ -149,23 +149,31 @@ module.exports = function(app, passport) {
 	                    res.redirect('/manageRegister');
 	                }, 
 	                function(userinfo) {
-	                    //retrieve group info by nusnetsid and token (req.flash[0])
+	                    //retrieve group info by nusnetsid and token (req.flash[0]) 
 	                    Token.getGidFromToken(token)
 	                    .then(gid=> {
-	                    	User.getMembersInfo(gid)
-	                    	.then(info=> {
-	                    		Zu.numberOfWarning(gid)
-	                    		.then(warning=> {
-	                    			User.howManyUsersInGroup(gid)
-	                    			.then(num=> {
-	                    				BookRecord.BookingByAGroupInPastNDays(gid, checkNDays, [])
-	                    				.then(resul=> {
-	                    					req.flash('invitationToken', 'woshiwenmogu');
-	                    					res.render('joinAGroup.ejs', {invitationToken:token, profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}]}, groupid:gid, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning, dates: newDate.pastDatesHyphenString(checkNDays).reverse()})
-	                    				})
-	                    			})
-	                    		})
-	                    	})
+	                    	console.log('joinAGroup, gid: ', gid);
+	                    	if (gid == null) {
+	                    		console.log('revamping token');
+	    						req.flash('invitationToken', "woshiwenmogu");
+	                    		console.log('joinAGroup, gid: ', gid);
+	                    		res.redirect('/manageRegister');
+	                    	} else {
+		                    	User.getMembersInfo(gid)
+		                    	.then(info=> {
+		                    		Zu.numberOfWarning(gid)
+		                    		.then(warning=> {
+		                    			User.howManyUsersInGroup(gid)
+		                    			.then(num=> {
+		                    				BookRecord.BookingByAGroupInPastNDays(gid, checkNDays, [])
+		                    				.then(resul=> {
+		                    					req.flash('invitationToken', 'woshiwenmogu');
+		                    					res.render('joinAGroup.ejs', {invitationToken:token, profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, emails:[{value: userinfo.email}]}, groupid:gid, membersInfo:info, pastBooking:resul, memberNumber:num, memberNumberLimit: memberNumberLimit, warning:warning, dates: newDate.pastDatesHyphenString(checkNDays).reverse()})
+		                    				})
+		                    			})
+		                    		})
+		                    	})	
+	                    	}
 	                    })
 	                }, 
 	                function() {
@@ -183,6 +191,10 @@ module.exports = function(app, passport) {
     		.then(del=> {
     			res.redirect('/manageGroup');
     		})
+    	})
+    	.catch(err=> {
+    		console.log(err);
+    		res.redirect('/manageGroup');
     	})
     })
 
