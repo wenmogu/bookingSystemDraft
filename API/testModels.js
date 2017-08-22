@@ -1,21 +1,21 @@
-// const User = require('../models/user');
-// const Zu = require('../models/zu');
-// const BookRecord = require('../models/bookrecord');
-// const Token = require('../models/token');
-// const newDate = require('./date-methods');
-// const Room = require('../models/room');
-// const Warning = require('../models/warning');
-// const GroupWarning = require('../models/groupwarning');
+const User = require('../models/user');
+const Zu = require('../models/zu');
+const BookRecord = require('../models/bookrecord');
+const Token = require('../models/token');
+const newDate = require('./date-methods');
+const Room = require('../models/room');
+const Warning = require('../models/warning');
+const GroupWarning = require('../models/groupwarning');
 
-// const mailer = require('./mailer');
+const mailer = require('./mailer');
 
-// const {Model} = require('objection');
-// const Knex = require('knex');
-// const knexConfig = require('../knexfile');
+const {Model} = require('objection');
+const Knex = require('knex');
+const knexConfig = require('../knexfile');
 
-// const knex = Knex(knexConfig.development);
+const knex = Knex(knexConfig.development);
 
-// Model.knex(knex);
+Model.knex(knex);
 
 // console.log(GroupWarning);
 // // Date.prototype.addDays = function(days) {
@@ -315,3 +315,5 @@
 // .then(resul=>{
 // 	console.log(JSON.stringify(resul));
 // })
+
+console.log(newDate.datesHyphenString(12));

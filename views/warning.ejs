@@ -58,9 +58,10 @@
     	<div>
     		<p> Warning Type: <%= warnings[i].warningType %> </p>
     		<p> Detail: <%= warnings[i].detail %> </p>
-    		<p>	Date: <%= warnings[i].date %></p>
-			<p>	Timeslot start: <%= warnings[i].start %></p>
-			<p>	Timeslot end: <%= warnings[i].end %></p>
+    		<p> Date: <%= new Date(Date.parse(warnings[i].date)).toDateString() %> </p>
+    		<!-- <p>	Date: <%= warnings[i].date %></p> -->
+			<p>	Timeslot start: <%= warnings[i].start.slice(0, 5) %></p>
+			<p>	Timeslot end: <%= warnings[i].end.slice(0, 5) %></p>
       </div>
     <% } %>
 

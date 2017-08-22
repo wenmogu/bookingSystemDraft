@@ -12,14 +12,11 @@
 */
 class newDate extends Date {
 	static datesHyphenString(nDays) {
-		function helper(emptyarr, n) {
-			if (n > -1) {
-				return helper(emptyarr.concat([new newDate().addDays(n).toHyphenString()]), n-1);
-			} else {
-				return emptyarr;
-			}
+		const arr = [];
+		for (let i = 0; i <= nDays; i++) {
+			arr.push(new newDate().addDays(i).toHyphenString());
 		}
-		return helper([], nDays);
+		return arr;
 		//n = 4
 		//[ '2017-8-13', '2017-8-12', '2017-8-11', '2017-8-10', '2017-8-9' ]
 	}

@@ -58,13 +58,13 @@
 
 	    <% for (var d = dates.length - 1; d > -1; d--) { %>
 	    	<div>
-	    		<h3> DATE: <%= dates[d] %> </h3>
+	    		<h3> DATE: <%= new Date(Date.parse(dates[d])).toDateString() %> </h3>
 	    		<table>
 	    			<tr>
 	    				<th>Room Number</th>
 	    				<th> </th>
 	    				<% for (var i = 0; i < numberOfTimeslots - 1; i++) { %>
-  							<th><%= timeStringArray[i] %> ~ <%= timeStringArray[i + 1] %></th>
+  							<th><%= timeStringArray[i].slice(0, 5) %> ~ <%= timeStringArray[i + 1].slice(0, 5) %></th>
   							<% } %>
 	    			</tr>
 
@@ -74,30 +74,30 @@
 	    					<% for (var n = 0; n < numberOfTimeslots - 1; n++) { %>
 	    						<% if (booking[d][u][n].length == 1) { %>
 	    							<!-- the room on this day at this timeslot is booked by someone -->
-	    							<td><a class="btn btn-default" onclick="location.href='/adminViewDetail?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'"> VIEW DETAIL </a></td>
+	    							<td><a class="btn btn-primary btn-block" href="/adminViewDetail?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>"> VIEW DETAIL </a></td>
 	    						<% } else if (booking[d][u][n].length == 0) { %>
     								<% if (dateAndNumber[d].dateString == dates[d]) { %>
     									<!-- repetition -->
 		    							<% if (dates[d] == dateAndTimeString.dateString) { %>
 		    								<% if (timeStringArray[n] > dateAndTimeString.timeString) { %>
-		    									<td><a class="btn btn-default" onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'">BOOK</a></td>
+		    									<td><a class="btn btn-success btn-block" href="/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>">BOOK</a></td>
 		    								<% } else { %>
-		    									<td><a class="btn btn-default" onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled>BOOK</a></td>
+		    									<td><a class="btn btn-success btn-block" href="javascript:function() { return false; }">BOOK</a></td>
 		    								<% } %>
 		    							<% } else { %>
-		    								<td><a class="btn btn-default" onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'">BOOK</a></td>
+		    								<td><a class="btn btn-success btn-block" href="/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>">BOOK</a></td>
 		    							<% } %>
 		    							<!-- repetition -->
     								<% } else { %>
     								<!-- repetition -->
 		    							<% if (dates[d] == dateAndTimeString.dateString) { %>
 		    								<% if (timeStringArray[n] > dateAndTimeString.timeString) { %>
-		    									<td><a class="btn btn-default" onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'">BOOK</a></td>
+		    									<td><a class="btn btn-success btn-block" href="/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>">BOOK</a></td>
 		    								<% } else { %>
-		    									<td><a class="btn btn-default" onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'" disabled>BOOK</a></td>
+		    									<td><a class="btn btn-success btn-block" href="javascript:function() { return false; }">BOOK</a></td>
 		    								<% } %>
 		    							<% } else { %>
-		    								<td><a class="btn btn-default" onclick="location.href='/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>'">BOOK</a></td>
+		    								<td><a class="btn btn-success btn-block" href="/booking?room=<%= allRoomNumber[u].rid %>&start=<%=timeStringArray[n] %>&end=<%=timeStringArray[n+1] %>&date=<%=dates[d] %>">BOOK</a></td>
 		    							<% } %>
 	    							<!-- repetition -->
     								<% } %>

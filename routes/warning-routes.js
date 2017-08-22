@@ -24,7 +24,7 @@ module.exports = function(app, passport) {
 		} else {
 			var NusNetsId = req.url.split('=')[1];
 			User.getUserInfo(NusNetsId)
-			.then(userinfo=> {
+			.then(userinfo=> { 
 				GroupWarning.getWarningsFromGroupId(userinfo.groupid)
 				.then(warnings=> {
 					res.render('warning.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, warnings:warnings})

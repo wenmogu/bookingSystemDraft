@@ -74,7 +74,7 @@ module.exports = function(app, passport) {
             .then(userinfo=> {
 	            BookRecord.checkBookingDetail(rid, start, end, d)
 				.then(info=> {
-					res.render('adminViewDetail.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: userinfo.groupid, info:info});
+					res.render('adminViewDetail.ejs', {profile: {displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, groupid: userinfo.groupid, info:info, _info: [{groupid:userinfo.groupid, roomid:rid, date:d, start:start, end:end}]});
 				})	
             })
 			

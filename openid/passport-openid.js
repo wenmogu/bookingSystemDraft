@@ -10,7 +10,7 @@ module.exports = function (passport) {
   });
 
   passport.use(new OpenIDStrategy({
-      returnURL: 'http://' + config.webaddress + '/auth/openid/return',
+      returnURL: config.webaddress + '/auth/openid/return',
       realm: config.realm,
       profile: true
     },

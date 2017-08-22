@@ -3,7 +3,7 @@ module.exports = {
 	checkNDays:4,
 	adminCheckNDays:7,
 	nslots:9,
-	webaddress:'localhost:3000',
+	webaddress:'http://localhost:3000',
 	dismissGroupWarningLimit:1,
 	warningLimit:4,
 	limit:1,

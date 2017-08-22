@@ -57,7 +57,7 @@
   				<a class="btn btn-primary" class="btn btn-warning" href="/logout">Logout</a>
 
   				<% for (var d=booking.length - 1; d > -1; d--) { %>
-  				<h3> DATE: <%=dates[d] %></h3>
+  				<h3> DATE: <%= new Date(Date.parse(dates[d])).toDateString() %> </h3>
 
   				<% if (booking[d].length == 0) { %>
   				<p style="font-size: 20px" class="text-primary">No booking slot</p>
@@ -74,7 +74,7 @@
 
   				<% if (groupid == 1) { %>
   				<!-- admin button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/adminBookRecord'"> Go To Admin Booking Info Page </a></p>
+  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Go To Admin Booking Info Page </a></p>
   				<% } else { %>
   				<!-- normal user cancel button -->
   				<p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'" disabled> Cancel Booking </a></p>
@@ -84,7 +84,7 @@
   				
   				<% if (groupid == 1) { %>
   				<!-- admin button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/adminBookRecord'"> Go To Admin Booking Info Page </a></p>
+  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Go To Admin Booking Info Page </a></p>
   				<% } else { %>
   				<!-- normal user cancel button -->
   				<p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </a></p>
@@ -98,7 +98,7 @@
 
   				<% if (groupid == 1) { %>
   				<!-- admin button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/adminBookRecord'"> Go To Admin Booking Info Page </a></p>
+  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Go To Admin Booking Info Page </a></p>
   				<% } else { %>
   				<!-- normal user cancel button -->
   				<p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </a></p>
