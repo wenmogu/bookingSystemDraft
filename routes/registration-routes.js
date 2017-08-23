@@ -340,19 +340,26 @@ module.exports = function(app, passport) {
 		//send email to the group members
 		User.getUserInfo(req.user.NusNetsID)
 		.then(userinfo=> {
-			User.getMembersEmail(userinfo.groupid)
-			.then(recipientarr=> {
-				User.removeGroup(userinfo.groupid)
-				.then(()=> {
-					BookRecord.removeBookingByGroup(userinfo.groupid)
-					.then(resul=> {
-						mailer.sendEmailTo(userinfo.name + " has dismissed Group " + userinfo.groupid + ".", "Your Group has been DISMISSED", recipientarr)
-						.then(resull=> {
-							res.render('manageDismissGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, recipientarr})
+			Zu.numberOfWarning(userinfo.groupid)
+			.then(num=> {
+				if (num >= dismissGroupWarningLimit) {
+					res.redirect('/warning')
+				} else {
+					User.getMembersEmail(userinfo.groupid)
+					.then(recipientarr=> {
+						User.removeGroup(userinfo.groupid)
+						.then(()=> {
+							BookRecord.removeBookingByGroup(userinfo.groupid)
+							.then(resul=> {
+								mailer.sendEmailTo(userinfo.name + " has dismissed Group " + userinfo.groupid + ".", "Your Group has been DISMISSED", recipientarr)
+								.then(resull=> {
+									res.render('manageDismissGroup.ejs', {profile:{displayName:userinfo.name, NusNetsID:userinfo.uid, groupid:userinfo.groupid}, recipientarr})
+								})
+							})
 						})
-					})
-				})
-			})
+					})		
+				}
+			})	
 		})
 		.catch(err=> {;})
 	})

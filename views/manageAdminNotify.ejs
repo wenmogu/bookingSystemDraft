@@ -11,17 +11,17 @@
       <script src="../public/stylesheets/theme1/html5shiv.js"></script>
       <script src="../public/stylesheets/theme1/respond.min.js"></script>
       <![endif]-->
-  </head>
-  <body>
-  	<style>  
-  		.col-center-block {  
-  			float: none;  
-  			display: block;  
-  			margin-left: auto;  
-  			margin-right: auto;  
-  		}  
-  	</style>  
-  	<div class="navbar navbar-default navbar-fixed-top">
+    </head>
+    <body>
+     <style>  
+      .col-center-block {  
+       float: none;  
+       display: block;  
+       margin-left: auto;  
+       margin-right: auto;  
+     }  
+   </style>  
+   <div class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
@@ -33,60 +33,75 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-      
-      <li class="dropdown">
+        
+        <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Navigation <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">            
+            <li><a href="/info">View General Info</a></li>
+            <li class="divider"></li>
             <li><a href="/admin">Go To Admin Page</a></li>
-            
+            <li class="divider"></li>
+            <li><a href="/adminBooking">View Booking By Admin</a></li>
+            <li class="divider"></li>
+            <li><a href="/adminAddThings">Add Warning Or New User</a></li>
+            <li class="divider"></li>
+            <li><a href="/adminBookRecord">View All Book Record</a></li>
+            <li class="divider"></li>
+            <li><a href='/adminShowAllUsers'>View All User Info</a></li>
+            <li class="divider"></li>
+            <li><a href='/adminRemoveUser'>Remove A User</a></li>
+            <li class="divider"></li>
+            <li><a href='/adminNotify'>Send Notification To Users</a></li>
+            <li class="divider"></li>
+            <li><a href='/adminIssueWarning'>Issue An Warning</a></li>
           </ul>
         </li>
-      
+        
         <li class="active"><a href="/logout"> Logout <span class="sr-only">(current)</span></a></li>
       </ul>      
     </div>
- </div>
-  	<div class="container">
-  		<div class="row">
-  			<div class="col-lg-7 col-center-block">
-  			
-  				
-  				<br></br>
+  </div>
+  <div class="container">
+    <div class="row">
+     <div class="col-lg-7 col-center-block">
+       
+      
+      <br></br>
 
-  				<p> Your notification has been sent to: </p>
-  		<ul>
+      <p> Your notification has been sent to: </p>
+      <ul>
         <% for (var i = 0; i < recipientArr.length; i++) { %>
-      	<li> <%= recipientArr[i] %> </li>
-      	<% } %>
+        <li> <%= recipientArr[i] %> </li>
+        <% } %>
       </ul>
+    </div>
+  </div>
+  <footer>
+   <div class="row">
+    <div class="col-lg-12">
+     <ul class="list-unstyled">
+      <li class="pull-right">
+       <a href="#top">Back to top</a>
+     </li>
+     <li>
+       <a href="http://rvrc.nus.edu.sg">RVRC</a>
+     </li>
+     <li>
+       <a href="http://feeds.feedburner.com/bootswatch">Contact Us</a>
+     </li>
+   </ul>
+   <p>
+    Theme made by
+    <a href="http://thomaspark.co" rel="nofollow">Thomas Park</a>
+    .
+  </p>
+  <p>
+    Code released under the
+    <a href="https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE">MIT License</a>
+    .
+  </p>
 </div>
-</div>
-<footer>
-	<div class="row">
-		<div class="col-lg-12">
-			<ul class="list-unstyled">
-				<li class="pull-right">
-					<a href="#top">Back to top</a>
-				</li>
-				<li>
-					<a href="http://rvrc.nus.edu.sg">RVRC</a>
-				</li>
-				<li>
-					<a href="http://feeds.feedburner.com/bootswatch">Contact Us</a>
-				</li>
-			</ul>
-			<p>
-				Theme made by
-				<a href="http://thomaspark.co" rel="nofollow">Thomas Park</a>
-				.
-			</p>
-			<p>
-				Code released under the
-				<a href="https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE">MIT License</a>
-				.
-			</p>
-		</div>
-	</div>	
+</div>	
 </footer>
 </div>
 <script src="/stylesheets/theme1/jquery-1.10.2.min.js"></script>

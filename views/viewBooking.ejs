@@ -11,20 +11,20 @@
       <script src="../public/stylesheets/theme1/html5shiv.js"></script>
       <script src="../public/stylesheets/theme1/respond.min.js"></script>
       <![endif]-->
-  </head>
-  <body>
-  	<style>  
-  		.col-center-block {  
-  			float: none;  
-  			display: block;  
-  			margin-left: auto;  
-  			margin-right: auto;  
-  		}  
-  	</style>  
-  	<div class="navbar navbar-default navbar-fixed-top">
-  		
-      
-  
+    </head>
+    <body>
+     <style>  
+      .col-center-block {  
+       float: none;  
+       display: block;  
+       margin-left: auto;  
+       margin-right: auto;  
+     }  
+   </style>  
+   <div class="navbar navbar-default navbar-fixed-top">
+
+
+
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
@@ -38,28 +38,31 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
 
-      <% if (groupid == 1) { %>
-      <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Navigation <span class="caret"></span></a>
+        <% if (groupid == 1) { %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Admin <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            
             <li><a href="/adminBooking">View Booking By Admin</a></li>
             <li class="divider"></li>
-            <li><a href='/admin'> Go To Admin Page </a></li>
+            <li><a href='/admin'> Go To Admin Page </a></li>          
+          </ul>
+        </li>
+        <% } %>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Navigation <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/info"> View General Info </a></li>
             <li class="divider"></li>
             <li><a href='/report'> Report </a></li>
             <li class="divider"></li>
             <li><a href='/warning'> Warning </a></li>
             <li class="divider"></li>
-            <li><a href="/info"> View General Info </a></li>
+            <li><a href="/manageGroup"> Manage Group </a></li>
             
           </ul>
         </li>
-       <% } %>
-
-        <li class="active"><a href="/logout"> Logout <span class="sr-only">(current)</span></a></li>
-        
-        
+        <li class="active"><a href="/logout"> Logout <span class="sr-only">(current)</span></a></li> 
       </ul>
       
       
@@ -69,101 +72,101 @@
   </div>
 
 
-  	
-  	<div class="container">
-  		<div class="row">
-  			<div class="col-lg-7 col-center-block">
-  				<h1>Your Group ID: <%= groupid %></h1>
-  				<h1>Welcome to View Booking page, <%= profile.displayName %></h1>
 
-  				
-
-  				<% for (var d=booking.length - 1; d > -1; d--) { %>
-  				<h3> DATE: <%= new Date(Date.parse(dates[d])).toDateString() %> </h3>
-
-  				<% if (booking[d].length == 0) { %>
-  				<p> <a class="btn btn-primary" href="/info#day<%=d%>"> Book </a></p>
-  				<br/><br/>
-  				<% } else { %>
-  				<% for (var i = 0; i < booking[d].length; i++) { %>
-  				<p>GROUP ID: <%=booking[d][i].groupid%></p>
-  				<p>ROOMNUMBER: <%=booking[d][i].roomid%></p>
-  				<p>TIMESLOT STARTS AT: <%=booking[d][i].start%></p>
-  				<p>TIMESLOT ENDS AT: <%=booking[d][i].end%></p>
-
-  				<% if (dateAndTimeString.dateString == dates[d]) { %>
-  				<% if (dateAndTimeString.timeString > booking[d][i].start) { %>
-
-  				<% if (groupid == 1) { %>
-  				<!-- admin button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> View Booking Detail </a></p>
-  				<% } else { %>
-  				<!-- normal user cancel button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'" disabled> Cancel Booking </a></p>
-  				<% } %>
-
-  				<% } else { %>
-  				
-  				<% if (groupid == 1) { %>
-  				<!-- admin button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> View Booking Detail </a></p>
-  				<% } else { %>
-  				<!-- normal user cancel button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </a></p>
-  				<% } %>
+  <div class="container">
+    <div class="row">
+     <div class="col-lg-7 col-center-block">
+      <h1>Your Group ID: <%= groupid %></h1>
+      <h1>Welcome to View Booking page, <%= profile.displayName %></h1>
 
 
 
-  				<% } %>
-  				<% } else { %>
-  				
+      <% for (var d=booking.length - 1; d > -1; d--) { %>
+      <h3> DATE: <%= new Date(Date.parse(dates[d])).toDateString() %> </h3>
 
-  				<% if (groupid == 1) { %>
-  				<!-- admin button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> View Booking Detail </a></p>
-  				<% } else { %>
-  				<!-- normal user cancel button -->
-  				<p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </a></p>
-  				<% } %>
-  				<% } %>			
-  				<br/><br/>
-  				<% } %>
-  				<% } %>
-  				<% } %>
+      <% if (booking[d].length == 0) { %>
+      <p> <a class="btn btn-primary" href="/info#day<%=d%>"> Book </a></p>
+      <br/><br/>
+      <% } else { %>
+      <% for (var i = 0; i < booking[d].length; i++) { %>
+      <p>GROUP ID: <%=booking[d][i].groupid%></p>
+      <p>ROOMNUMBER: <%=booking[d][i].roomid%></p>
+      <p>TIMESLOT STARTS AT: <%=booking[d][i].start%></p>
+      <p>TIMESLOT ENDS AT: <%=booking[d][i].end%></p>
 
-  				
-  			</div>
-  		</div>
-  		<footer>
-  			<div class="row">
-  				<div class="col-lg-12">
-  					<ul class="list-unstyled">
-  						<li class="pull-right">
-  							<a href="#top">Back to top</a>
-  						</li>
-  						<li>
-  							<a href="http://rvrc.nus.edu.sg">RVRC</a>
-  						</li>
-  						<li>
-  							<a href="http://feeds.feedburner.com/bootswatch">Contact Us</a>
-  						</li>
-  					</ul>
-  					<p>
-  						Theme made by
-  						<a href="http://thomaspark.co" rel="nofollow">Thomas Park</a>
-  						.
-  					</p>
-  					<p>
-  						Code released under the
-  						<a href="https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE">MIT License</a>
-  						.
-  					</p>
-  				</div>
-  			</div>	
-  		</footer>
-  	</div>
-  	<script src="/stylesheets/theme1/jquery-1.10.2.min.js"></script>
-  	<script src="/stylesheets/theme1/bootstrap.min.js"></script>
-  	<script src="/stylesheets/theme1/custom.js"></script>
-  </body>
-  </html>
+      <% if (dateAndTimeString.dateString == dates[d]) { %>
+      <% if (dateAndTimeString.timeString > booking[d][i].start) { %>
+
+      <% if (groupid == 1) { %>
+      <!-- admin button -->
+      <p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> View Booking Detail </a></p>
+      <% } else { %>
+      <!-- normal user cancel button -->
+      <p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'" disabled> Cancel Booking </a></p>
+      <% } %>
+
+      <% } else { %>
+
+      <% if (groupid == 1) { %>
+      <!-- admin button -->
+      <p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> View Booking Detail </a></p>
+      <% } else { %>
+      <!-- normal user cancel button -->
+      <p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </a></p>
+      <% } %>
+
+
+
+      <% } %>
+      <% } else { %>
+
+
+      <% if (groupid == 1) { %>
+      <!-- admin button -->
+      <p><a class="btn btn-primary" onclick="location.href ='/adminViewDetail?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> View Booking Detail </a></p>
+      <% } else { %>
+      <!-- normal user cancel button -->
+      <p><a class="btn btn-primary" onclick="location.href ='/cancelBooking?room=<%=booking[d][i].roomid%>&start=<%=booking[d][i].start%>&end=<%=booking[d][i].end%>&date=<%=dates[d] %>'"> Cancel Booking </a></p>
+      <% } %>
+      <% } %>			
+      <br/><br/>
+      <% } %>
+      <% } %>
+      <% } %>
+
+
+    </div>
+  </div>
+  <footer>
+   <div class="row">
+    <div class="col-lg-12">
+     <ul class="list-unstyled">
+      <li class="pull-right">
+       <a href="#top">Back to top</a>
+     </li>
+     <li>
+       <a href="http://rvrc.nus.edu.sg">RVRC</a>
+     </li>
+     <li>
+       <a href="http://feeds.feedburner.com/bootswatch">Contact Us</a>
+     </li>
+   </ul>
+   <p>
+    Theme made by
+    <a href="http://thomaspark.co" rel="nofollow">Thomas Park</a>
+    .
+  </p>
+  <p>
+    Code released under the
+    <a href="https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE">MIT License</a>
+    .
+  </p>
+</div>
+</div>	
+</footer>
+</div>
+<script src="/stylesheets/theme1/jquery-1.10.2.min.js"></script>
+<script src="/stylesheets/theme1/bootstrap.min.js"></script>
+<script src="/stylesheets/theme1/custom.js"></script>
+</body>
+</html>

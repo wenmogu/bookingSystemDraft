@@ -11,17 +11,17 @@
       <script src="../public/stylesheets/theme1/html5shiv.js"></script>
       <script src="../public/stylesheets/theme1/respond.min.js"></script>
       <![endif]-->
-  </head>
-  <body>
-  	<style>  
-  		.col-center-block {  
-  			float: none;  
-  			display: block;  
-  			margin-left: auto;  
-  			margin-right: auto;  
-  		}  
-  	</style>  
-  	<div class="navbar navbar-default navbar-fixed-top">
+    </head>
+    <body>
+     <style>  
+      .col-center-block {  
+       float: none;  
+       display: block;  
+       margin-left: auto;  
+       margin-right: auto;  
+     }  
+   </style>  
+   <div class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
@@ -33,141 +33,157 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-      
-      <li class="dropdown">
+        
+        <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Navigation <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">            
             <li><a href="/adminBookRecord">View General Info</a></li>
             <li class="divider"></li>
             <li><a href="/viewBooking">View Booking Info</a></li>
+            <li class="divider"></li>
+            <li><a href="/admin">Go To Admin Page</a></li>
+            <li class="divider"></li>
+            <li><a href="/adminBooking">View Booking By Admin</a></li>
+            <li class="divider"></li>
+            <li><a href="/adminAddThings">Add Warning Or New User</a></li>
+            <li class="divider"></li>
+            <li><a href="/adminBookRecord">View All Book Record</a></li>
+            <li class="divider"></li>
+            <li><a href='/adminShowAllUsers'>View All User Info</a></li>
+            <li class="divider"></li>
+            <li><a href='/adminRemoveUser'>Remove A User</a></li>
+            <li class="divider"></li>
+            <li><a href='/adminNotify'>Send Notification To Users</a></li>
+            <li class="divider"></li>
+            <li><a href='/adminIssueWarning'>Issue An Warning</a></li>
           </ul>
         </li>
-      
+        
         <li class="active"><a href="/logout"> Logout <span class="sr-only">(current)</span></a></li>
       </ul>      
     </div>
- </div>
-  	
-  					
-  	<div class="container">
-  		<div class="row">
-  			<div class="col-lg-7 col-center-block">
-  				
-  				<h4>Booking info: </h4>
+  </div>
+  
+  
+  <div class="container">
+    <div class="row">
+     <div class="col-lg-7 col-center-block">
+      
+      <h4>Booking info: </h4>
 
-  				<form action='/adminDeleteBookingInfo' method="post" class="form-horizontal">
-  					<fieldset>
+      <form action='/adminDeleteBookingInfo' method="post" class="form-horizontal">
+       <fieldset>
 
-  						<% if (info[0] == undefined) {%>
+        <% if (info[0] == undefined) {%>
 
-  						<table class="table table-striped table-hover ">
-  							<tbody>
-  								<tr>
-  									<td>Group ID: </td>
-  									<td><input type="text" name='gid' value='<%= _info[0].groupid %>' hidden><%= _info[0].groupid %></td>
-  								</tr>
+        <table class="table table-striped table-hover ">
+         <tbody>
+          <tr>
+           <td>Group ID: </td>
+           <td><input type="text" name='gid' value='<%= _info[0].groupid %>' hidden><%= _info[0].groupid %></td>
+         </tr>
 
-  								<tr>
-  									<td>Room Number: </td>
-  									<td><input type="text" name='rid' value='<%= _info[0].roomid %>' hidden><%= _info[0].roomid %></td>
-  								</tr>
+         <tr>
+           <td>Room Number: </td>
+           <td><input type="text" name='rid' value='<%= _info[0].roomid %>' hidden><%= _info[0].roomid %></td>
+         </tr>
 
-  								<tr>
-  									<td>Date: </td>
-  									<td><input type="text" name='d' value='<%= _info[0].date %>' hidden><%= _info[0].date %>
-  									</tr>
+         <tr>
+           <td>Date: </td>
+           <td><input type="text" name='d' value='<%= _info[0].date %>' hidden><%= _info[0].date %>
+           </tr>
 
-  									<tr>
-  										<td>Time start: </td>
-  										<td><input type="text" name='start' value='<%= _info[0].start %>' hidden><%= _info[0].start %></td>
-  									</tr>
+           <tr>
+            <td>Time start: </td>
+            <td><input type="text" name='start' value='<%= _info[0].start %>' hidden><%= _info[0].start %></td>
+          </tr>
 
-  									<tr>
-  										<td>Time end: </td>
-  										<td><input type="text" name='end' value='<%= _info[0].end %>' hidden><%= _info[0].end %></td>
-  									</tr>
-
-
-
-  								</tbody>
-  							</table>
-
-  							<% } else {%>
-
-  							<table class="table table-striped table-hover ">
-  								<tbody>
-  									<tr>
-  										<td>Group ID: </td>
-  										<td><input type="text" name='gid' value='<%= info[0].groupid %>' hidden><%= info[0].groupid %></td>
-  									</tr>
-
-  									<tr>
-  										<td>Room Number: </td>
-  										<td><input type="text" name='rid' value='<%= info[0].roomid %>' hidden><%= info[0].roomid %></td>
-  									</tr>
-
-  									<tr>
-  										<td>Date: </td>
-  										<td><input type="text" name='d' value='<%= info[0].date %>' hidden><%= info[0].date %>
-  										</tr>
-
-  										<tr>
-  											<td>Time start: </td>
-  											<td><input type="text" name='start' value='<%= info[0].start %>' hidden><%= info[0].start %></td>
-  										</tr>
-
-  										<tr>
-  											<td>Time end: </td>
-  											<td><input type="text" name='end' value='<%= info[0].end %>' hidden><%= info[0].end %></td>
-  										</tr>
+          <tr>
+            <td>Time end: </td>
+            <td><input type="text" name='end' value='<%= _info[0].end %>' hidden><%= _info[0].end %></td>
+          </tr>
 
 
 
-  									</tbody>
-  								</table>
-  								<% } %>
+        </tbody>
+      </table>
+
+      <% } else {%>
+
+      <table class="table table-striped table-hover ">
+        <tbody>
+         <tr>
+          <td>Group ID: </td>
+          <td><input type="text" name='gid' value='<%= info[0].groupid %>' hidden><%= info[0].groupid %></td>
+        </tr>
+
+        <tr>
+          <td>Room Number: </td>
+          <td><input type="text" name='rid' value='<%= info[0].roomid %>' hidden><%= info[0].roomid %></td>
+        </tr>
+
+        <tr>
+          <td>Date: </td>
+          <td><input type="text" name='d' value='<%= info[0].date %>' hidden><%= info[0].date %>
+          </tr>
+
+          <tr>
+           <td>Time start: </td>
+           <td><input type="text" name='start' value='<%= info[0].start %>' hidden><%= info[0].start %></td>
+         </tr>
+
+         <tr>
+           <td>Time end: </td>
+           <td><input type="text" name='end' value='<%= info[0].end %>' hidden><%= info[0].end %></td>
+         </tr>
 
 
-  								<div class="form-group">
-  									<div class="col-lg-10 col-lg-offset-2">
-  										<button type="submit" class="btn btn-danger">Delete The Above Record</button>
-  									</div>
-  								</div>
 
-  							</fieldset>
-  						</form>
-  					</div>
-  				</div>
-  				<footer>
-  					<div class="row">
-  						<div class="col-lg-12">
-  							<ul class="list-unstyled">
-  								<li class="pull-right">
-  									<a href="#top">Back to top</a>
-  								</li>
-  								<li>
-  									<a href="http://rvrc.nus.edu.sg">RVRC</a>
-  								</li>
-  								<li>
-  									<a href="http://feeds.feedburner.com/bootswatch">Contact Us</a>
-  								</li>
-  							</ul>
-  							<p>
-  								Theme made by
-  								<a href="http://thomaspark.co" rel="nofollow">Thomas Park</a>
-  								.
-  							</p>
-  							<p>
-  								Code released under the
-  								<a href="https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE">MIT License</a>
-  								.
-  							</p>
-  						</div>
-  					</div>	
-  				</footer>
-  			</div>
-  			<script src="/stylesheets/theme1/jquery-1.10.2.min.js"></script>
-  			<script src="/stylesheets/theme1/bootstrap.min.js"></script>
-  			<script src="/stylesheets/theme1/custom.js"></script>
-  		</body>
-  		</html>
+       </tbody>
+     </table>
+     <% } %>
+
+
+     <div class="form-group">
+       <div class="col-lg-10 col-lg-offset-2">
+        <button type="submit" class="btn btn-danger">Delete The Above Record</button>
+      </div>
+    </div>
+
+  </fieldset>
+</form>
+</div>
+</div>
+<footer>
+ <div class="row">
+  <div class="col-lg-12">
+   <ul class="list-unstyled">
+    <li class="pull-right">
+     <a href="#top">Back to top</a>
+   </li>
+   <li>
+     <a href="http://rvrc.nus.edu.sg">RVRC</a>
+   </li>
+   <li>
+     <a href="http://feeds.feedburner.com/bootswatch">Contact Us</a>
+   </li>
+ </ul>
+ <p>
+  Theme made by
+  <a href="http://thomaspark.co" rel="nofollow">Thomas Park</a>
+  .
+</p>
+<p>
+  Code released under the
+  <a href="https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE">MIT License</a>
+  .
+</p>
+</div>
+</div>	
+</footer>
+</div>
+<script src="/stylesheets/theme1/jquery-1.10.2.min.js"></script>
+<script src="/stylesheets/theme1/bootstrap.min.js"></script>
+<script src="/stylesheets/theme1/custom.js"></script>
+</body>
+</html>
