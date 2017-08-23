@@ -16,6 +16,20 @@ exports.up = function(knex, Promise) {
   		console.log(err);
   	}),
 
+    knex('Zu').insert({gid: 2, warning: 0})
+    .then(resul => {
+      console.log(JSON.stringify(resul));
+      return knex('User')
+           .insert({uid:"e0052755", name:"Xu Yiqing", email:"e0052755@u.nus.edu", groupid:2})
+           .then(inserted => {
+            console.log(inserted);
+           }, errr => {
+            console.log(errr);
+           })
+    }, err=> {
+      console.log(err);
+    }),
+
     knex('Room').insert({rid: 100}),
     knex('Room').insert({rid: 101}),
     knex('Room').insert({rid: 102}),

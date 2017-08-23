@@ -62,7 +62,10 @@
           <% } %>
 
         
-      </ul>      
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a>Hi, <%=profile.displayName %></a></li> 
+      </ul>        
     </div>
  </div>
   	<div class="container">
@@ -80,13 +83,13 @@
   						<tr>
   							<th>Room Number</th>
   							<% for (var i = 0; i < numberOfTimeslots - 1; i++) { %>
-  							<th><%= timeStringArray[i].slice(0, 5) %> %></th>
+  							<th style="text-align:center"><%= timeStringArray[i].slice(0, 5) %> %></th>
   							<% } %>
   						</tr>
 
   						<% for (var u = 0; u < allRoomNumber.length; u++) { %>
   						<tr>
-  							<td> <%= allRoomNumber[u].rid %> </td>
+  							<td style="text-align:center"> <%= allRoomNumber[u].rid %> </td>
   							<% for (var n = 0; n < numberOfTimeslots - 1; n++) { %>
   							<% if (booking[d][u][n].length == 1) { %>
   							<!-- the room on this day at this timeslot is booked by someone -->

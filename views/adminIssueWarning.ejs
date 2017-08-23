@@ -58,7 +58,10 @@
   				</li>
   				
   				<li class="active"><a href="/logout"> Logout <span class="sr-only">(current)</span></a></li>
-  			</ul>      
+  			</ul>  
+        <ul class="nav navbar-nav navbar-right">
+        <li><a>Hi, <%=profile.displayName %></a></li> 
+      </ul>      
   		</div>
   	</div>
   	<div class="container">
@@ -91,7 +94,7 @@
   					<br>Offender Group ID: <input type='text' name="offendergroupid" required><br/>
   					<br>Offender Name: <input type='text' name="offendername"><br/>
   					<br>Offender NUSNETS ID: <input type='text' name="offenderuserid"><br/>
-  					<br>Offence Date (in the form of 20YY-MM-DD): <input type='date' name="date" required><br/>
+  					<br>Offence Date (in the form of 20YY-MM-DD): <input type='text' name="date" required><br/>
   					<br>Timeslot start (in the form of hr:min:sec): <input type='text' name="start" required><br/>
   					<br>Timeslot end (in the form of hr:min:sec): <input type='text' name="end" required><br/>
   					<br/>
